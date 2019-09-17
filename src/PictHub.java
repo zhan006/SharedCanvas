@@ -2,7 +2,6 @@ import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -22,6 +21,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLayeredPane;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import java.awt.Component;
 
 public class PictHub {
 
@@ -59,13 +61,13 @@ public class PictHub {
 		frame.setBackground(SystemColor.desktop);
 		frame.setBounds(100, 100, 1200, 850);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(new File("./logo.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		frame.getContentPane().setLayout(null);
 		JLabel logo = new JLabel(new ImageIcon(image));
 		logo.setBounds(0, 26, 289, 94);
 		frame.getContentPane().add(logo);
@@ -74,24 +76,14 @@ public class PictHub {
 		file.setBounds(0, 0, 1182, 26);
 		frame.getContentPane().add(file);
 		
-		JPanel ChatWindow = new JPanel();
-		ChatWindow.setBackground(Color.GRAY);
-		ChatWindow.setBounds(0, 122, 283, 573);
-		frame.getContentPane().add(ChatWindow);
-		
-		Canvas canvas = new Canvas();
-		canvas.setBackground(Color.WHITE);
-		canvas.setBounds(289, 32, 888, 663);
-		frame.getContentPane().add(canvas);
-		
 		JTextArea ChatInput = new JTextArea();
 		ChatInput.setBounds(0, 697, 283, 58);
 		frame.getContentPane().add(ChatInput);
 		
 		JButton SendBtn = new JButton("SEND");
+		SendBtn.setBounds(168, 755, 113, 35);
 		SendBtn.setBackground(new Color(255, 153, 0));
 		SendBtn.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
-		SendBtn.setBounds(168, 755, 113, 35);
 		frame.getContentPane().add(SendBtn);
 		
 		JPanel toolPanel = new JPanel();
@@ -174,11 +166,11 @@ public class PictHub {
 		colors.add(orange);
 		
 		JLabel toolTag = new JLabel("Tool");
+		toolTag.setBounds(316, 701, 72, 98);
 		toolTag.setForeground(Color.LIGHT_GRAY);
 		toolTag.setBackground(Color.LIGHT_GRAY);
 		toolTag.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 		toolTag.setHorizontalAlignment(SwingConstants.CENTER);
-		toolTag.setBounds(316, 701, 72, 98);
 		frame.getContentPane().add(toolTag);
 		
 		JPanel panel = new JPanel();
@@ -207,18 +199,37 @@ public class PictHub {
 		rect.setIcon(new ImageIcon("./rect.png"));
 		
 		JLabel shapeTag = new JLabel("Shapes");
+		shapeTag.setBounds(544, 701, 92, 98);
 		shapeTag.setHorizontalAlignment(SwingConstants.CENTER);
 		shapeTag.setForeground(Color.LIGHT_GRAY);
 		shapeTag.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
-		shapeTag.setBounds(544, 701, 92, 98);
 		frame.getContentPane().add(shapeTag);
 		
 		JLabel colorTag = new JLabel("Colors");
+		colorTag.setBounds(831, 701, 86, 102);
 		colorTag.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 		colorTag.setHorizontalAlignment(SwingConstants.CENTER);
 		colorTag.setForeground(Color.LIGHT_GRAY);
-		colorTag.setBounds(831, 701, 86, 102);
 		frame.getContentPane().add(colorTag);
+		
+		JTextArea chattingArea = new JTextArea(28,20);
+		chattingArea.setSelectedTextColor(SystemColor.control);
+		chattingArea.setFont(new Font("Nirmala UI", Font.PLAIN, 15));
+		chattingArea.setForeground(SystemColor.control);
+		chattingArea.setText("hello \n hello hello \nhello \nhello \nhello \nhello \nhello \nhello \nhello \n \n  \n\n\n\n\n\n\n\n\nhello\n\\nnnn\n\n\n\n\n\n\n\n\n\nhellow\n");
+		chattingArea.setBackground(Color.DARK_GRAY);
+		JScrollPane ChatWindowContainer = new JScrollPane(chattingArea);
+		ChatWindowContainer.setAlignmentX(2.0f);
+		ChatWindowContainer.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		ChatWindowContainer.setBackground(Color.LIGHT_GRAY);
+		ChatWindowContainer.setBounds(0, 120, 287, 575);
+		frame.getContentPane().add(ChatWindowContainer);
+		
+		JPanel canvas = new JPanel();
+		canvas.setBackground(Color.WHITE);
+		canvas.setBounds(290, 26, 892, 669);
+		frame.getContentPane().add(canvas);
+
 		rect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
