@@ -1,0 +1,19 @@
+1- when draw shape: show the drawing in grey before acutally paint it(notebook)
+2- serveral size of eraser
+3- need 16 colors===(JcolorChoser?)
+4- colors supports 4 shapes too
+5- text functionality
+6- Graph class should have 1 more instance varaible: color-so that we can restore color when loading/saving file later
+optional:
+
+
+						图形:shapes=arraylist<Graph>-唯一，存在于server里
+Server: Synchronized:加graph. getShapes.【详细待定】
+	只要发现shapes这个arraylist的size变大了（说明有人画了东西)
+用户连接：
+	1：初始化本地画板.初始化getShapes, 从0开始paint这个arraylist.在本地存一个自己这边size的值.做完这件事才能创建线程
+	线程1：TimerTask,每0.05s【具体数值后期调整，不能太大也不能太小】, 从server来getShapes，检查一次本地存的size和最新的getShapes.size()，
+		加绘[size-newsize]（相当于是新的东西）之间的object到本地画板上，最后更新本地的存的size
+	线程2：自己画-不在这里画东西,只干一件事,call server的addGraph方法往server的唯一arraylist里面加进去自己想要新建的graph
+		
+		

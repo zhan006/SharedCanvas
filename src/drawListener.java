@@ -37,6 +37,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				graph.setColor(tool.getColor());
 				this.graph.drawLine(x1, y1, x2, y2);
 				shapes.add(new Graph(x1, y1, x2, y2, "line"));
+				
+				System.out.println(shapes.size());
+				
 				x1=x2;
 				y1=y2;
 				break;
