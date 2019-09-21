@@ -10,6 +10,8 @@ optional:
 						图形:shapes=arraylist<Graph>-唯一，存在于server里
 Server: Synchronized:加graph. getShapes.【详细待定】
 	只要发现shapes这个arraylist的size变大了（说明有人画了东西)
+第一次用户连接:初始化本地画板,初始化server的shapes[if shapes==null].
+
 用户连接：
 	1：初始化本地画板.初始化getShapes, 从0开始paint这个arraylist.在本地存一个自己这边size的值.做完这件事才能创建线程
 	线程1：
