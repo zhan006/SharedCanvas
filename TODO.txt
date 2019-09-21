@@ -12,7 +12,19 @@ Server: Synchronized:加graph. getShapes.【详细待定】
 	只要发现shapes这个arraylist的size变大了（说明有人画了东西)
 用户连接：
 	1：初始化本地画板.初始化getShapes, 从0开始paint这个arraylist.在本地存一个自己这边size的值.做完这件事才能创建线程
-	线程1：TimerTask,每0.05s【具体数值后期调整，不能太大也不能太小】, 从server来getShapes，检查一次本地存的size和最新的getShapes.size()，
+	线程1：
+public class ScheduledExecutorServiceTest {
+    public static void main(String[] args) {
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("run "+ System.currentTimeMillis());
+            }
+        }, 0, 100, TimeUnit.MILLISECONDS);
+    }
+}
+	每0.05s【具体数值后期调整，不能太大也不能太小】, 从server来getShapes，检查一次本地存的size和最新的getShapes.size()，
 		用过Switch loop来加绘[size-newsize]（相当于是新的东西）之间的object到本地画板上，最后更新本地的存的size
 	线程2：自己画-不在这里画东西,只干一件事,call server的addGraph方法往server的唯一arraylist里面加进去自己想要新建的graph
 		
