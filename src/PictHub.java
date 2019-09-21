@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JPanel;
@@ -23,6 +25,9 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLayeredPane;
@@ -75,7 +80,26 @@ public class PictHub {
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
 		frame.setBackground(SystemColor.desktop);
 		frame.setBounds(100, 100, 1200, 850);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//close window confirmation
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        WindowListener exitListener = new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(
+                     null, "Are You Sure to leave?", 
+                     "Exit Confirmation", JOptionPane.YES_NO_OPTION, 
+                     JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (confirm == 0) {
+                   System.exit(0);
+                }
+            }
+        };
+        frame.addWindowListener(exitListener);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //called system.exi(0)
+		
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(new File("./logo.png"));
