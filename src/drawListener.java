@@ -14,19 +14,38 @@ public class drawListener implements MouseListener,MouseMotionListener{
 	private Tool tool;
 	private int x1,y1,x2,y2; //starting point(x1,y1) ending point(x2,y2)
 	private ArrayList<Graph> shapes;
-	public drawListener(Graphics g) {
+	public drawListener(Graphics g,Tool tool) {
 		this.graph = (Graphics2D)g;
 		shapes = new ArrayList<Graph>();
+		this.tool=tool;
 	}
-	public drawListener(Graphics g,ArrayList<Graph> shapes) {
+	public drawListener(Graphics g,ArrayList<Graph> shapes,Tool tool) {
 		this.graph = (Graphics2D)g;
 		this.shapes = shapes;
+		this.tool = tool;
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-		
+		x2 = e.getX();
+		y2 = e.getY();
+		assert tool!=null;
+		assert graph!=null;
+		switch(tool.getType()) {
+			case "pencil":
+				graph.setStroke(new BasicStroke(tool.getThickness()));
+				graph.setColor(tool.getColor());
+				this.graph.drawLine(x1, y1, x2, y2);
+				shapes.add(new Graph(x1, y1, x2, y2, "line"));
+				x1=x2;
+				y1=y2;
+				break;
+			case "eraser":
+				graph.setStroke(new BasicStroke(tool.getThickness()));
+				graph.setColor(Color.WHITE);
+				this.graph.drawLine(x1, y1, x2, y2);
+				shapes.add(new Graph(x1,y1,x2,y2,"eraser"));
+		}
 	}
 
 	@Override
@@ -70,8 +89,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 			case "rect":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
 				graph.setColor(tool.getColor());
-				graph.drawOval(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
+				graph.drawRect(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
 				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"rect"));
+				break;
+			case "circle":
+				graph.setStroke(new BasicStroke(tool.getThickness()));
+				graph.setColor(tool.getColor());
+				graph.drawOval(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
+				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval"));
 				break;
 		}
 	}
