@@ -1,5 +1,6 @@
 import java.awt.Color;
-public class Tool {
+import java.io.Serializable;
+public class Tool implements Serializable {
 	private String type = "pencil"; //default tool
 	private Color color = Color.black; //default color
 	private int thickness = 3; //default thickness of tool is 1
