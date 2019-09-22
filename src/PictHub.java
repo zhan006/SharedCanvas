@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.Color;
@@ -147,13 +148,40 @@ public class PictHub {
 		eraser = new JButton("eraser");
 		eraser.setIcon(new ImageIcon("./eraser.png"));
 		eraser.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		//eraser popup menu
 		JPopupMenu menu = new JPopupMenu("Menu");
-//		menu.add("small");
-//        menu.add("medium");
-//        menu.add("large");
+		JMenuItem m1 = new JMenuItem("smallEraser");
+		m1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String type1 = m1.getText();
+				tool.setType(type1);
+				System.out.println("set to "+tool.getType());
+			}
+		});
+        JMenuItem m2 = new JMenuItem("midEraser"); 
+        m2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String type2 = m2.getText();
+				tool.setType(type2);
+				System.out.println("set to "+tool.getType());
+			}
+		});
+        JMenuItem m3 = new JMenuItem("largeEraser");
+        m3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String type3 = m3.getText();
+				tool.setType(type3);
+				System.out.println("set to "+tool.getType());
+			}
+		});
+        menu.add(m1);
+        menu.add(m2);
+        menu.add(m3);
+
 		eraser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				menu.show(eraser, eraser.getWidth()/2, eraser.getHeight()/2);
+				menu.show(eraser, eraser.getWidth()/2, eraser.getHeight()/2);
 			}
 		});
 		eraser.setBounds(14, 50, 44, 44);
