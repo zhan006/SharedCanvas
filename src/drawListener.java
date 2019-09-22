@@ -50,7 +50,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				Color c = tool.getColor();
 				graph.setColor(c);			
 				this.graph.drawLine(x1, y1, x2, y2);
-				shapes.add(new Graph(x1, y1, x2, y2, "line", c));
+				shapes.add(new Graph(x1, y1, x2, y2, "line", c, "not text"));
 				
 //				System.out.println(shapes.size());
 				
@@ -61,7 +61,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				graph.setStroke(new BasicStroke(tool.getThickness()));
 				graph.setColor(Color.WHITE);
 				this.graph.drawLine(x1, y1, x2, y2);
-				shapes.add(new Graph(x1,y1,x2,y2,"eraser",Color.WHITE));
+				shapes.add(new Graph(x1,y1,x2,y2,"eraser",Color.WHITE, "not text"));
 				
 				x1=x2;
 				y1=y2;
@@ -110,7 +110,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		             
 		             //g2.drawString(accStr, xLoc, yLoc);
 		             //so x2,y2 are irrelevant, just keep it
-		             shapes.add(new Graph(x1, y1, x2, y2, "text", c));
+		             shapes.add(new Graph(x1, y1, x2, y2, "text", c, text));
 				 }
 	             
 	             System.out.println("later shape size is:  "+shapes.size());
@@ -131,28 +131,28 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				Color c = tool.getColor();
 				graph.setColor(c);
 				graph.drawLine(x1,y1,x2,y2);
-				shapes.add(new Graph(x1,y1,x2,y2,"line",c));
+				shapes.add(new Graph(x1,y1,x2,y2,"line",c, "not text"));
 				break;
 			case "oval":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
 				Color c1 = tool.getColor();
 				graph.setColor(c1);
 				graph.drawOval(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
-				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval",c1));
+				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval",c1, "not text"));
 				break;
 			case "rect":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
 				Color c2 = tool.getColor();
 				graph.setColor(c2);
 				graph.drawRect(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
-				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"rect",c2));
+				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"rect",c2, "not text"));
 				break;
 			case "circle":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
 				Color c3 = tool.getColor();
 				graph.setColor(c3);
 				graph.drawOval(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
-				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval",c3));
+				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval",c3, "not text"));
 				break;
 		}
 	}
