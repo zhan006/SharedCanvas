@@ -176,19 +176,19 @@ public class PictHub {
 		colors.add(black);
 		toolBtn.add(black);
 		
-		JButton yellow = new JButton("");
-		yellow.setBackground(Color.YELLOW);
-		yellow.setContentAreaFilled(false);
-		yellow.setOpaque(true);
-		colors.add(yellow);
-		toolBtn.add(yellow);
+		JButton darkgray = new JButton("");
+		darkgray.setBackground(Color.DARK_GRAY);
+		darkgray.setContentAreaFilled(false);
+		darkgray.setOpaque(true);
+		colors.add(darkgray);
+		toolBtn.add(darkgray);
 		
-		JButton blue = new JButton("");
-		blue.setBackground(Color.BLUE);
-		blue.setContentAreaFilled(false);
-		blue.setOpaque(true);
-		colors.add(blue);
-		toolBtn.add(blue);
+		JButton lightGray = new JButton("");
+		lightGray.setBackground(Color.LIGHT_GRAY);
+		lightGray.setContentAreaFilled(false);
+		lightGray.setOpaque(true);
+		colors.add(lightGray);
+		toolBtn.add(lightGray);
 		
 		JButton white = new JButton("");
 		white.setBackground(Color.WHITE);
@@ -197,12 +197,12 @@ public class PictHub {
 		colors.add(white);
 		toolBtn.add(white);
 		
-		JButton green = new JButton("");
-		green.setBackground(Color.GREEN);
-		green.setContentAreaFilled(false);
-		green.setOpaque(true);
-		colors.add(green);
-		toolBtn.add(green);
+		JButton yellow = new JButton("");
+		yellow.setBackground(Color.YELLOW);
+		yellow.setContentAreaFilled(false);
+		yellow.setOpaque(true);
+		colors.add(yellow);
+		toolBtn.add(yellow);
 		
 		JButton orange = new JButton("");
 		orange.setBackground(Color.ORANGE);
@@ -210,6 +210,98 @@ public class PictHub {
 		orange.setOpaque(true);
 		colors.add(orange);
 		toolBtn.add(orange);
+		
+		JButton blue = new JButton("");
+		blue.setBackground(Color.BLUE);
+		blue.setContentAreaFilled(false);
+		blue.setOpaque(true);
+		colors.add(blue);
+		toolBtn.add(blue);
+		
+		JButton magenta = new JButton("");
+		magenta.setBackground(Color.MAGENTA);
+		magenta.setContentAreaFilled(false);
+		magenta.setOpaque(true);
+		colors.add(magenta);
+		toolBtn.add(magenta);
+		
+		JButton pink = new JButton("");
+		pink.setBackground(Color.PINK);
+		pink.setContentAreaFilled(false);
+		pink.setOpaque(true);
+		colors.add(pink);
+		toolBtn.add(pink);
+		
+		JButton red = new JButton("");
+		red.setBackground(Color.RED);
+		red.setContentAreaFilled(false);
+		red.setOpaque(true);
+		colors.add(red);
+		toolBtn.add(red);
+		
+		
+		JButton green = new JButton("");
+		green.setBackground(Color.GREEN);
+		green.setContentAreaFilled(false);
+		green.setOpaque(true);
+		colors.add(green);
+		toolBtn.add(green);
+				
+		JButton cyan = new JButton("");
+		cyan.setBackground(Color.CYAN);
+		cyan.setContentAreaFilled(false);
+		cyan.setOpaque(true);
+		colors.add(cyan);
+		toolBtn.add(cyan);
+		
+		JButton customized = new JButton("");
+		Color cus = new Color(123, 111, 222);
+		customized.setBackground(cus);
+		customized.setContentAreaFilled(false);
+		customized.setOpaque(true);
+		colors.add(customized);
+		toolBtn.add(customized);
+		
+		JButton customized1 = new JButton("");
+		Color cus1 = new Color(56, 135, 77);
+		customized1.setBackground(cus1);
+		customized1.setContentAreaFilled(false);
+		customized1.setOpaque(true);
+		colors.add(customized1);
+		toolBtn.add(customized1);
+		
+		JButton customized2 = new JButton("");
+		Color cus2 = new Color(231, 135, 77);
+		customized2.setBackground(cus2);
+		customized2.setContentAreaFilled(false);
+		customized2.setOpaque(true);
+		colors.add(customized2);
+		toolBtn.add(customized2);
+		
+		JButton customized3 = new JButton("");
+		Color cus3 = new Color(66, 115, 178);
+		customized3.setBackground(cus3);
+		customized3.setContentAreaFilled(false);
+		customized3.setOpaque(true);
+		colors.add(customized3);
+		toolBtn.add(customized3);
+		
+		JButton customized4 = new JButton("");
+		Color cus4 = new Color(108, 135, 155);
+		customized4.setBackground(cus4);
+		customized4.setContentAreaFilled(false);
+		customized4.setOpaque(true);
+		colors.add(customized4);
+		toolBtn.add(customized4);
+		
+		JButton customized5 = new JButton("");
+		Color cus5 = new Color(40, 145, 20);
+		customized5.setBackground(cus5);
+		customized5.setContentAreaFilled(false);
+		customized5.setOpaque(true);
+		colors.add(customized5);
+		toolBtn.add(customized5);
+		
 		
 		JLabel toolTag = new JLabel("Tool");
 		toolTag.setBounds(316, 701, 72, 98);
