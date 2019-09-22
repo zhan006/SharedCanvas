@@ -2,7 +2,7 @@ import java.awt.Color;
 public class Tool {
 	private String type = "pencil"; //default tool
 	private Color color = Color.black; //default color
-	private int thickness = 1; //default thickness of tool is 1
+	private int thickness = 3; //default thickness of tool is 1
 	public Tool() {
 		
 	}

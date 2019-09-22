@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
 import java.awt.Canvas;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -145,8 +147,13 @@ public class PictHub {
 		eraser = new JButton("eraser");
 		eraser.setIcon(new ImageIcon("./eraser.png"));
 		eraser.setHorizontalTextPosition(SwingConstants.CENTER);
+		JPopupMenu menu = new JPopupMenu("Menu");
+//		menu.add("small");
+//        menu.add("medium");
+//        menu.add("large");
 		eraser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				menu.show(eraser, eraser.getWidth()/2, eraser.getHeight()/2);
 			}
 		});
 		eraser.setBounds(14, 50, 44, 44);
