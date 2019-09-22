@@ -26,37 +26,7 @@ public class toolButtonListener implements ActionListener {
 		}
 		//if the button is a tool button
 		else {
-			if(type.equals("eraser")) {
-				JPopupMenu menu = new JPopupMenu("Menu");
-				JMenuItem m1 = new JMenuItem("smallEraser");
-				m1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String type1 = m1.getText();
-						tool.setType(type1);
-						System.out.println("set to "+tool.getType());
-					}
-				});
-		        JMenuItem m2 = new JMenuItem("midEraser"); 
-		        m2.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String type2 = m2.getText();
-						tool.setType(type2);
-						System.out.println("set to "+tool.getType());
-					}
-				});
-		        JMenuItem m3 = new JMenuItem("largeEraser");
-		        m3.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String type3 = m3.getText();
-						tool.setType(type3);
-						System.out.println("set to "+tool.getType());
-					}
-				});
-		        menu.add(m1);
-		        menu.add(m2);
-		        menu.add(m3);
-		        menu.show(source, source.getWidth()/2, source.getHeight()/2);	
-		        
+			if(type.equals("eraser")) {		        
 				tool.setType(type);
 				System.out.println("set to "+tool.getType());
 			}
