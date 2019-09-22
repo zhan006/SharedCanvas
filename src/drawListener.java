@@ -6,21 +6,29 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.BasicStroke;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 public class drawListener implements MouseListener,MouseMotionListener{
+	private JPanel canvas;
 	private Graphics2D graph;
 	private Color color = Color.black; //default color is black
 	private Tool tool;
 	private int x1,y1,x2,y2; //starting point(x1,y1) ending point(x2,y2)
 	private ArrayList<Graph> shapes;
-	public drawListener(Graphics g,Tool tool) {
+	public drawListener(JPanel canvas, Graphics g,Tool tool) {
+		this.canvas = canvas;
 		this.graph = (Graphics2D)g;
 		shapes = new ArrayList<Graph>();
 		this.tool=tool;
 	}
-	public drawListener(Graphics g,ArrayList<Graph> shapes,Tool tool) {
+	public drawListener(JPanel canvas,Graphics g,ArrayList<Graph> shapes,Tool tool) {
+		this.canvas = canvas;
 		this.graph = (Graphics2D)g;
 		this.shapes = shapes;
 		this.tool = tool;
@@ -76,7 +84,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		this.y1 = e.getY();	
 		switch(this.tool.getType()) {
 		case "text":
-			graph.drawString("ºìÉ«º¬Á¿Öµ",x1,y1);
+			 final JTextField textField = new JTextField(20);
+	         textField.setSize(textField.getPreferredSize());
+	         textField.setLocation(e.getPoint());
 		}
 	}
 
@@ -129,5 +139,6 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 }

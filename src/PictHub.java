@@ -294,7 +294,7 @@ public class PictHub {
 	    System.out.println(antialiasOn);
 	    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	    
-		drawListener dl = new drawListener(g,shapes,tool);
+		drawListener dl = new drawListener(canvas,g,shapes,tool);
 		canvas.addMouseListener(dl);
 		canvas.addMouseMotionListener(dl);
 		//add button listener to tool box
