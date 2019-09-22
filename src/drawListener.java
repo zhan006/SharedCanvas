@@ -2,6 +2,7 @@ import java.awt.event.MouseEvent;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.BasicStroke;
@@ -11,7 +12,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 public class drawListener implements MouseListener,MouseMotionListener{
@@ -84,9 +88,34 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		this.y1 = e.getY();	
 		switch(this.tool.getType()) {
 		case "text":
-			 final JTextField textField = new JTextField(20);
-	         textField.setSize(textField.getPreferredSize());
-	         textField.setLocation(e.getPoint());
+			 Map<Point, String> pointTextMap = new LinkedHashMap<>();
+			 String prompt = "Please add text to display";
+	         String input = JOptionPane.showInputDialog(canvas, prompt);
+	         pointTextMap.put(e.getPoint(), input);
+	         for (Point p : pointTextMap.keySet()) {
+	             String text = pointTextMap.get(p);
+	             
+//	             System.out.println("WHERE you type the text is at"+p);
+//	        	 System.out.println("the text you entered is:  "+text);
+//	             System.out.println();
+	             System.out.println("previous shape size is:  "+shapes.size());
+	             Color c = tool.getColor();
+				 graph.setColor(c);
+				 if (text!= null) {
+					 this.graph.drawString(text, p.x, p.y);
+//		             System.out.println(x1);
+//		             System.out.println(y1);
+//		             System.out.println(x2);
+//		             System.out.println(y2);
+		             
+		             //g2.drawString(accStr, xLoc, yLoc);
+		             //so x2,y2 are irrelevant, just keep it
+		             shapes.add(new Graph(x1, y1, x2, y2, "text", c));
+				 }
+	             
+	             System.out.println("later shape size is:  "+shapes.size());
+	          }
+	        
 		}
 	}
 
@@ -139,6 +168,5 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
 
 }

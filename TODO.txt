@@ -1,13 +1,12 @@
 2- serveral size of eraser
 3- need 16 colors===(JcolorChoser?)
-4- colors supports 4 shapes too
-5- text functionality
 
 
 
 DONE:
 1: ANTIALIASING
 2: Graph class has 1 more attribute: 'color'
+3- text functionality
 
 
 						图形:shapes=arraylist<Graph>-唯一，存在于server里
