@@ -1,13 +1,13 @@
-1- when draw shape: show the drawing in grey before acutally paint it(notebook)
 2- serveral size of eraser
 3- need 16 colors===(JcolorChoser?)
 4- colors supports 4 shapes too
 5- text functionality
-6- Graph class should have 1 more instance varaible: color-so that we can restore color when loading/saving file later
+
 
 
 DONE:
 1: ANTIALIASING
+2: Graph class has 1 more attribute: 'color'
 
 
 						图形:shapes=arraylist<Graph>-唯一，存在于server里

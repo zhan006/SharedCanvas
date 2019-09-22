@@ -35,11 +35,12 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		switch(tool.getType()) {
 			case "pencil":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());			
+				Color c = tool.getColor();
+				graph.setColor(c);			
 				this.graph.drawLine(x1, y1, x2, y2);
-				shapes.add(new Graph(x1, y1, x2, y2, "line"));
+				shapes.add(new Graph(x1, y1, x2, y2, "line", c));
 				
-				System.out.println(shapes.size());
+//				System.out.println(shapes.size());
 				
 				x1=x2;
 				y1=y2;
@@ -48,7 +49,11 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				graph.setStroke(new BasicStroke(tool.getThickness()));
 				graph.setColor(Color.WHITE);
 				this.graph.drawLine(x1, y1, x2, y2);
-				shapes.add(new Graph(x1,y1,x2,y2,"eraser"));
+				shapes.add(new Graph(x1,y1,x2,y2,"eraser",Color.WHITE));
+				
+				x1=x2;
+				y1=y2;
+				break;
 		}
 	}
 
@@ -68,7 +73,11 @@ public class drawListener implements MouseListener,MouseMotionListener{
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		this.x1 = e.getX();
-		this.y1 = e.getY();
+		this.y1 = e.getY();	
+		switch(this.tool.getType()) {
+		case "text":
+			graph.drawString("ºìÉ«º¬Á¿Öµ",x1,y1);
+		}
 	}
 
 	@Override
@@ -80,27 +89,31 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		switch(this.tool.getType()) {
 			case "line":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());
+				Color c = tool.getColor();
+				graph.setColor(c);
 				graph.drawLine(x1,y1,x2,y2);
-				shapes.add(new Graph(x1,y1,x2,y2,"line"));
+				shapes.add(new Graph(x1,y1,x2,y2,"line",c));
 				break;
 			case "oval":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());
+				Color c1 = tool.getColor();
+				graph.setColor(c1);
 				graph.drawOval(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
-				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval"));
+				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval",c1));
 				break;
 			case "rect":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());
+				Color c2 = tool.getColor();
+				graph.setColor(c2);
 				graph.drawRect(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
-				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"rect"));
+				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"rect",c2));
 				break;
 			case "circle":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());
+				Color c3 = tool.getColor();
+				graph.setColor(c3);
 				graph.drawOval(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
-				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval"));
+				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval",c3));
 				break;
 		}
 	}
