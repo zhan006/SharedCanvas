@@ -4,7 +4,10 @@
 4- colors supports 4 shapes too
 5- text functionality
 6- Graph class should have 1 more instance varaible: color-so that we can restore color when loading/saving file later
-optional:
+
+
+DONE:
+1: ANTIALIASING
 
 
 						图形:shapes=arraylist<Graph>-唯一，存在于server里

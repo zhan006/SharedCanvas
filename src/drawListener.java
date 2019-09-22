@@ -2,6 +2,7 @@ import java.awt.event.MouseEvent;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.BasicStroke;
 import java.awt.event.ActionListener;
@@ -34,7 +35,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		switch(tool.getType()) {
 			case "pencil":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());
+				graph.setColor(tool.getColor());			
 				this.graph.drawLine(x1, y1, x2, y2);
 				shapes.add(new Graph(x1, y1, x2, y2, "line"));
 				

@@ -35,6 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.RenderingHints;
 
 public class PictHub {
 
@@ -286,6 +287,13 @@ public class PictHub {
 		frame.setVisible(true);
 		//add mouse listener to canvas
 		Graphics g = canvas.getGraphics();
+		
+		//make the canvas antialiasing on
+		RenderingHints rhints = ((Graphics2D) g).getRenderingHints();
+	    boolean antialiasOn = rhints.containsValue(RenderingHints.VALUE_ANTIALIAS_ON);
+	    System.out.println(antialiasOn);
+	    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	    
 		drawListener dl = new drawListener(g,shapes,tool);
 		canvas.addMouseListener(dl);
 		canvas.addMouseMotionListener(dl);
