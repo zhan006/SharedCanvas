@@ -8,9 +8,9 @@ public class Manager {
 			public void run() {
 				try {
 					PictHub window = new PictHub();
-					window.login(window);
+					window.login("SharedCanvasManager");
 					Registry registry = LocateRegistry.getRegistry();
-		            registry.bind("SharedCanvas", window);
+		            registry.bind("SharedCanvasManager", window);
 					
 					
 				} catch (Exception e) {
