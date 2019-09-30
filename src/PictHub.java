@@ -2,6 +2,8 @@ import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -17,6 +19,7 @@ import java.awt.SystemColor;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import java.awt.BasicStroke;
 import java.awt.Canvas;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -40,16 +43,18 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
 
-public class PictHub {
+public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 	private JFrame frame;
 	private JMenuBar file;
+	private Graphics g;
 	private Tool tool = new Tool();
 	private JTextArea ChatInput;
 	private JButton SendBtn,pencil,eraser,text;
 	private JPanel toolPanel,colors,canvas;
 	private ArrayList<Graph> shapes = new ArrayList<Graph>();
 	private ArrayList<JButton> toolBtn = new ArrayList<JButton>();
+	private ArrayList<PictHub> users_List;
 	private Color[] Allcolor = new Color[] {Color.BLACK,Color.BLUE,Color.DARK_GRAY,Color.CYAN,Color.GREEN
 			,Color.ORANGE,Color.RED,Color.PINK,Color.WHITE,Color.YELLOW,Color.MAGENTA,Color.LIGHT_GRAY};
 	/**
@@ -72,7 +77,7 @@ public class PictHub {
 	/**
 	 * Create the application.
 	 */
-	public PictHub() {
+	public PictHub (){
 		initialize();
 	}
 
@@ -156,6 +161,8 @@ public class PictHub {
 			public void actionPerformed(ActionEvent e) {
 				String type1 = m1.getText();
 				tool.setType(type1);
+				tool.setThickness(5);
+				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 		});
@@ -164,6 +171,8 @@ public class PictHub {
 			public void actionPerformed(ActionEvent e) {
 				String type2 = m2.getText();
 				tool.setType(type2);
+				tool.setThickness(10);
+				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 		});
@@ -171,6 +180,8 @@ public class PictHub {
         m3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String type3 = m3.getText();
+				tool.setThickness(15);
+				tool.setColor(Color.WHITE);
 				tool.setType(type3);
 				System.out.println("set to "+tool.getType());
 			}
@@ -413,7 +424,7 @@ public class PictHub {
 		frame.getContentPane().add(canvas);
 		frame.setVisible(true);
 		//add mouse listener to canvas
-		Graphics g = canvas.getGraphics();
+		g = canvas.getGraphics();
 		
 		//make the canvas antialiasing on
 		RenderingHints rhints = ((Graphics2D) g).getRenderingHints();
@@ -428,5 +439,57 @@ public class PictHub {
 		for(int i=0;i<toolBtn.size();i++) {
 			toolBtn.get(i).addActionListener(new toolButtonListener(tool));
 		}
+	}
+
+	@Override
+	public void login(PictHub user) throws RemoteException {
+		// TODO Auto-generated method stub
+		this.users_List.add(user);
+	}
+	
+
+	@Override
+	public void drawLine(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(tool.getThickness()));
+		Color c = tool.getColor();
+		graph.setColor(c);			
+		graph.drawLine(x1, y1, x2, y2);
+		
+	}
+
+	@Override
+	public void drawOval(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(tool.getThickness()));
+		Color c1 = tool.getColor();
+		graph.setColor(c1);
+		graph.drawOval(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
+	}
+
+	@Override
+	public void drawString(String text, int x1, int y1, Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.drawString(text, x1, y1);
+		
+	}
+
+	@Override
+	public void drawRect(int x1, int y1, int x2, int y2,Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(tool.getThickness()));
+		Color c2 = tool.getColor();
+		graph.setColor(c2);
+		graph.drawRect(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
+	}
+
+	@Override
+	public ArrayList<PictHub> getUserList() throws RemoteException {
+		// TODO Auto-generated method stub
+		return this.users_List;
 	}
 }

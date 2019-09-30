@@ -24,9 +24,11 @@ public class drawListener implements MouseListener,MouseMotionListener{
 	private Color color = Color.black; //default color is black
 	private Tool tool;
 	private int x1,y1,x2,y2; //starting point(x1,y1) ending point(x2,y2)
+	private ArrayList<PictHub> usersList;
 	private ArrayList<Graph> shapes;
-	public drawListener(JPanel canvas, Graphics g,Tool tool) {
+	public drawListener(JPanel canvas, Graphics g,Tool tool,ArrayList<PictHub> usersList) {
 		this.canvas = canvas;
+		this.usersList = usersList;
 		this.graph = (Graphics2D)g;
 		shapes = new ArrayList<Graph>();
 		this.tool=tool;
@@ -58,8 +60,8 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				y1=y2;
 				break;
 			case "eraser":
-				graph.setStroke(new BasicStroke(3));
-				graph.setColor(Color.WHITE);
+				graph.setStroke(new BasicStroke(tool.getThickness()));
+				graph.setColor(tool.getColor());
 				this.graph.drawLine(x1, y1, x2, y2);
 				shapes.add(new Graph(x1,y1,x2,y2,"eraser",Color.WHITE, "not text"));
 				
@@ -67,8 +69,8 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				y1=y2;
 				break;
 			case "smallEraser":
-				graph.setStroke(new BasicStroke(5));
-				graph.setColor(Color.WHITE);
+				graph.setStroke(new BasicStroke(tool.getThickness()));
+				graph.setColor(tool.getColor());
 				this.graph.drawLine(x1, y1, x2, y2);
 				shapes.add(new Graph(x1,y1,x2,y2,"smallEraser",Color.WHITE, "not text"));
 				
@@ -76,8 +78,8 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				y1=y2;
 				break;
 			case "midEraser":
-				graph.setStroke(new BasicStroke(10));
-				graph.setColor(Color.WHITE);
+				graph.setStroke(new BasicStroke(tool.getThickness()));
+				graph.setColor(tool.getColor());
 				this.graph.drawLine(x1, y1, x2, y2);
 				shapes.add(new Graph(x1,y1,x2,y2,"midEraser",Color.WHITE, "not text"));
 				
@@ -85,8 +87,8 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				y1=y2;
 				break;
 			case "largeEraser":
-				graph.setStroke(new BasicStroke(15));
-				graph.setColor(Color.WHITE);
+				graph.setStroke(new BasicStroke(tool.getThickness()));
+				graph.setColor(tool.getColor());
 				this.graph.drawLine(x1, y1, x2, y2);
 				shapes.add(new Graph(x1,y1,x2,y2,"largeEraser",Color.WHITE, "not text"));
 				
