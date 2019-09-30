@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,18 +27,12 @@ public class drawListener implements MouseListener,MouseMotionListener{
 	private int x1,y1,x2,y2; //starting point(x1,y1) ending point(x2,y2)
 	private ArrayList<PictHub> usersList;
 	private ArrayList<Graph> shapes;
-	public drawListener(JPanel canvas, Graphics g,Tool tool,ArrayList<PictHub> usersList) {
+	public drawListener(JPanel canvas, Graphics g,ArrayList<Graph> shapes,Tool tool,ArrayList<PictHub> usersList) {
 		this.canvas = canvas;
 		this.usersList = usersList;
 		this.graph = (Graphics2D)g;
-		shapes = new ArrayList<Graph>();
-		this.tool=tool;
-	}
-	public drawListener(JPanel canvas,Graphics g,ArrayList<Graph> shapes,Tool tool) {
-		this.canvas = canvas;
-		this.graph = (Graphics2D)g;
 		this.shapes = shapes;
-		this.tool = tool;
+		this.tool=tool;
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -54,10 +49,19 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				this.graph.drawLine(x1, y1, x2, y2);
 				shapes.add(new Graph(x1, y1, x2, y2, "line", c, "not text"));
 				
+				
 //				System.out.println(shapes.size());
 				
 				x1=x2;
 				y1=y2;
+				for(PictHub user:usersList) {
+					try {
+						user.drawLine(x1, y1, x2, y2, tool);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 				break;
 			case "eraser":
 				graph.setStroke(new BasicStroke(tool.getThickness()));

@@ -54,31 +54,21 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	private JPanel toolPanel,colors,canvas;
 	private ArrayList<Graph> shapes = new ArrayList<Graph>();
 	private ArrayList<JButton> toolBtn = new ArrayList<JButton>();
-	private ArrayList<PictHub> users_List;
+	private ArrayList<PictHub> users_List = new ArrayList<PictHub>();
 	private Color[] Allcolor = new Color[] {Color.BLACK,Color.BLUE,Color.DARK_GRAY,Color.CYAN,Color.GREEN
 			,Color.ORANGE,Color.RED,Color.PINK,Color.WHITE,Color.YELLOW,Color.MAGENTA,Color.LIGHT_GRAY};
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PictHub window = new PictHub();
-					
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
+	 * @return 
 	 */
-	public PictHub (){
-		initialize();
+	public PictHub() throws RemoteException{
+		try {
+			initialize();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -183,6 +173,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				tool.setThickness(15);
 				tool.setColor(Color.WHITE);
 				tool.setType(type3);
+				tool.setThickness(15);
+				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 		});
@@ -432,7 +424,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	    System.out.println(antialiasOn);
 	    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	    
-		drawListener dl = new drawListener(canvas,g,shapes,tool);
+		drawListener dl = new drawListener(canvas,g,shapes,tool,this.users_List);
 		canvas.addMouseListener(dl);
 		canvas.addMouseMotionListener(dl);
 		//add button listener to tool box
