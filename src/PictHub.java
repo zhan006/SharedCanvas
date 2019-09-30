@@ -156,6 +156,8 @@ public class PictHub {
 			public void actionPerformed(ActionEvent e) {
 				String type1 = m1.getText();
 				tool.setType(type1);
+				tool.setThickness(5);
+				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 		});
@@ -164,6 +166,8 @@ public class PictHub {
 			public void actionPerformed(ActionEvent e) {
 				String type2 = m2.getText();
 				tool.setType(type2);
+				tool.setThickness(10);
+				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 		});
@@ -172,6 +176,8 @@ public class PictHub {
 			public void actionPerformed(ActionEvent e) {
 				String type3 = m3.getText();
 				tool.setType(type3);
+				tool.setThickness(15);
+				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 		});
