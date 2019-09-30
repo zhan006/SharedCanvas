@@ -13,6 +13,12 @@ public interface RemoteSharedCanvas extends Remote{
 	
 	public void setUserList(ArrayList<String> temp) throws RemoteException;
 	
+	public ArrayList<Graph> getShapes()throws RemoteException;
+	
+	public void AddShapes(Graph shape) throws RemoteException;
+	
+	public void setShapes(ArrayList<Graph> shapes)throws RemoteException; 
+	
 	public void drawLine(int x1,int y1, int x2, int y2,Tool tool) throws RemoteException;
 	//  draw a straight line
 	public void drawOval(int x1, int y1,int x2,int y2,Tool tool) throws RemoteException;

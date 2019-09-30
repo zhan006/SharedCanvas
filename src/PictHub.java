@@ -487,11 +487,28 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 	@Override
 	public void setUserList(ArrayList<String> temp) throws RemoteException {
+		System.out.println("setUserList thinks the input size is: "+shapes.size());
 		// TODO Auto-generated method stub
 		for(String username:temp) {
 			this.users_List.add(username);
-			}
+		}
 	}
-	
-	
+
+	@Override
+	public ArrayList<Graph> getShapes() throws RemoteException {
+		// TODO Auto-generated method stub
+//		System.out.println("getShapes size is: "+this.shapes.size());
+		return this.shapes;
+	}
+	public void setShapes(ArrayList<Graph> shapes) {
+		System.out.println("setShapes size is: "+this.shapes.size());
+		this.shapes = shapes;
+	}
+
+	@Override
+	public void AddShapes(Graph shape) throws RemoteException {
+		// TODO Auto-generated method stub
+		this.shapes.add(shape);
+		
+	}
 }

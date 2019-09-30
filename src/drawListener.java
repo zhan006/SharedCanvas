@@ -61,7 +61,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 //				y1=y2;
 				System.out.println("User list size is: "+usersList.size());
 				
-				shapes.add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+//				shapes.add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
 				for(String user:usersList) {
 					
 					RemoteSharedCanvas remoteHub;
@@ -73,7 +73,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 						remoteHub.drawLine(x1, y1, x2, y2, tool);
 						
-						System.out.println(shapes.size());
+						remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+						
+//						System.out.println(shapes.size());
 					} catch (RemoteException | NotBoundException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
@@ -83,6 +85,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						y1=y2;
 					}
 				}
+				
+				System.out.print("after add the shape size is: "+this.shapes.size());
+				
 				break;
 			case "eraser":
 				graph.setStroke(new BasicStroke(tool.getThickness()));
@@ -187,6 +192,8 @@ public class drawListener implements MouseListener,MouseMotionListener{
 //				graph.drawLine(x1,y1,x2,y2);
 //				shapes.add(new Graph(x1,y1,x2,y2,"line",c, "not text"));
 				
+//				shapes.add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+//				System.out.println(shapes.size());
 				for(String user:usersList) {
 					
 					RemoteSharedCanvas remoteHub;
@@ -197,13 +204,23 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						
 						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 						remoteHub.drawLine(x1, y1, x2, y2, tool);
-						shapes.add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
-						System.out.println(shapes.size());
+//						ArrayList<Graph> localshapes = remoteHub.getShapes();
+						remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+//						remoteHub.getShapes().add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+//						System.out.print("after add the shape size is: "+remoteHub.getShapes().size());
+						
+//						remoteHub.setShapes(localshapes);
+//						System.out.println("for that user shapes list complete size is: "+remoteHub.getShapes().size());
+						
+						
 					} catch (RemoteException | NotBoundException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
 				}
+				
+				System.out.print("after add the shape size is: "+this.shapes.size());
+				
 				
 				break;
 			case "oval":
