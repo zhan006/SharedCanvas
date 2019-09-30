@@ -130,6 +130,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		ChatInput = new JTextArea();
 		ChatInput.setBounds(0, 697, 283, 58);
 		frame.getContentPane().add(ChatInput);
+		ChatInput.setLineWrap(true);
+		ChatInput.setWrapStyleWord(true);
 
 
 
@@ -437,7 +439,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		ChatWindowContainer.setBackground(Color.LIGHT_GRAY);
 		ChatWindowContainer.setBounds(0, 120, 287, 575);
 		frame.getContentPane().add(ChatWindowContainer);
-		
+		chattingArea.setLineWrap(true);
+
+
+
+
 		canvas = new JPanel();
 		canvas.setBackground(Color.WHITE);
 		canvas.setBounds(290, 26, 892, 669);
