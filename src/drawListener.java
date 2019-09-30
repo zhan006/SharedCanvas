@@ -75,11 +75,11 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
-						finally {
-							x1=x2;
-							y1=y2;
-						}
+
+						
 					}
+					x1=x2;
+					y1=y2;
 				} catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -112,11 +112,10 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
-						finally {
-							x1=x2;
-							y1=y2;
-						}
 					}
+					
+					x1=x2;
+					y1=y2;
 				} catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -148,11 +147,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
-						finally {
-							x1=x2;
-							y1=y2;
-						}
 					}
+					x1=x2;
+					y1=y2;
 				} catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -184,11 +181,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
-						finally {
-							x1=x2;
-							y1=y2;
-						}
 					}
+					x1=x2;
+					y1=y2;
 				} catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -220,11 +215,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
-						finally {
-							x1=x2;
-							y1=y2;
-						}
 					}
+					x1=x2;
+					y1=y2;
 				} catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
