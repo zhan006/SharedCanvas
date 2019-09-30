@@ -61,30 +61,40 @@ public class drawListener implements MouseListener,MouseMotionListener{
 //				y1=y2;
 				System.out.println("User list size is: "+usersList.size());
 				
-//				shapes.add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
-				for(String user:usersList) {
+				Registry registry;
+				try {
+					registry = LocateRegistry.getRegistry();
+					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
+					ArrayList<String> temp = manager.getUserList();
 					
-					RemoteSharedCanvas remoteHub;
-					try {
-						Registry registry = LocateRegistry.getRegistry("localhost");
-//						System.out.print(registry.lookup(user).getClass());
-//						System.out.print(registry.lookup(user));
+					for(String user:temp) {
 						
-						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-						remoteHub.drawLine(x1, y1, x2, y2, tool);
-						
-						remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
-						
-//						System.out.println(shapes.size());
-					} catch (RemoteException | NotBoundException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
+						RemoteSharedCanvas remoteHub;
+						try {
+//							Registry registry = LocateRegistry.getRegistry("localhost");
+//							System.out.print(registry.lookup(user).getClass());
+//							System.out.print(registry.lookup(user));
+							
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+							remoteHub.drawLine(x1, y1, x2, y2, tool);
+							
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+							
+//							System.out.println(shapes.size());
+						} catch (RemoteException | NotBoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						finally {
+							x1=x2;
+							y1=y2;
+						}
 					}
-					finally {
-						x1=x2;
-						y1=y2;
-					}
+				} catch (RemoteException | NotBoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+				
 				
 				System.out.print("after add the shape size is: "+this.shapes.size());
 				
@@ -186,37 +196,37 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		assert this.tool!=null;
 		switch(this.tool.getType()) {
 			case "line":
-//				graph.setStroke(new BasicStroke(tool.getThickness()));
-//				Color c = tool.getColor();
-//				graph.setColor(c);
-//				graph.drawLine(x1,y1,x2,y2);
-//				shapes.add(new Graph(x1,y1,x2,y2,"line",c, "not text"));
-				
-//				shapes.add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
-//				System.out.println(shapes.size());
-				for(String user:usersList) {
+								
+				Registry registry;
+				try {
+					registry = LocateRegistry.getRegistry();
+					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
+					ArrayList<String> temp = manager.getUserList();
 					
-					RemoteSharedCanvas remoteHub;
-					try {
-						Registry registry = LocateRegistry.getRegistry("localhost");
-//						System.out.print(registry.lookup(user).getClass());
-//						System.out.print(registry.lookup(user));
+					System.out.println("User list size is: "+usersList.size());
+					
+					for(String user:temp) {
 						
-						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-						remoteHub.drawLine(x1, y1, x2, y2, tool);
-//						ArrayList<Graph> localshapes = remoteHub.getShapes();
-						remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
-//						remoteHub.getShapes().add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
-//						System.out.print("after add the shape size is: "+remoteHub.getShapes().size());
-						
-//						remoteHub.setShapes(localshapes);
-//						System.out.println("for that user shapes list complete size is: "+remoteHub.getShapes().size());
-						
-						
-					} catch (RemoteException | NotBoundException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
+						RemoteSharedCanvas remoteHub;
+						try {
+//							Registry registry = LocateRegistry.getRegistry("localhost");
+//							System.out.print(registry.lookup(user).getClass());
+//							System.out.print(registry.lookup(user));
+							
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+							remoteHub.drawLine(x1, y1, x2, y2, tool);
+							
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+							
+//							System.out.println(shapes.size());
+						} catch (RemoteException | NotBoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 					}
+				} catch (RemoteException | NotBoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				
 				System.out.print("after add the shape size is: "+this.shapes.size());
