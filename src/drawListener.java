@@ -46,26 +46,13 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		assert tool!=null;
 		assert graph!=null;
 		switch(tool.getType()) {
-			case "pencil":
-//				graph.setStroke(new BasicStroke(tool.getThickness()));
-//				Color c = tool.getColor();
-//				graph.setColor(c);			
-//				this.graph.drawLine(x1, y1, x2, y2);
-//				shapes.add(new Graph(x1, y1, x2, y2, "line", c, "not text"));
-//				System.out.println(shapes.size());
-				
-				
-//				System.out.println(shapes.size());
-				
-//				x1=x2;
-//				y1=y2;
-				System.out.println("User list size is: "+usersList.size());
-				
+			case "pencil":				
 				Registry registry;
 				try {
 					registry = LocateRegistry.getRegistry();
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
+					System.out.println("User list size is: "+usersList.size());
 					
 					for(String user:temp) {
 						
@@ -100,40 +87,149 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				
 				break;
 			case "eraser":
-				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());
-				this.graph.drawLine(x1, y1, x2, y2);
-				shapes.add(new Graph(x1,y1,x2,y2,"eraser",Color.WHITE, "not text"));
 				
-				x1=x2;
-				y1=y2;
+				try {
+					registry = LocateRegistry.getRegistry();
+					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
+					ArrayList<String> temp = manager.getUserList();
+					System.out.println("User list size is: "+usersList.size());
+					
+					for(String user:temp) {
+						
+						RemoteSharedCanvas remoteHub;
+						try {
+							
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+							remoteHub.drawEraser(x1, y1, x2, y2, tool);
+							
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "eraser",Color.WHITE, "not text"));
+							
+//							System.out.println(shapes.size());
+						} catch (RemoteException | NotBoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						finally {
+							x1=x2;
+							y1=y2;
+						}
+					}
+				} catch (RemoteException | NotBoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				System.out.print("after add the shape size is: "+this.shapes.size());
+				
 				break;
 			case "smallEraser":
-				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());
-				this.graph.drawLine(x1, y1, x2, y2);
-				shapes.add(new Graph(x1,y1,x2,y2,"smallEraser",Color.WHITE, "not text"));
+				try {
+					registry = LocateRegistry.getRegistry();
+					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
+					ArrayList<String> temp = manager.getUserList();
+					System.out.println("User list size is: "+usersList.size());
+					
+					for(String user:temp) {
+						
+						RemoteSharedCanvas remoteHub;
+						try {
+							
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+							remoteHub.drawSmallEraser(x1, y1, x2, y2, tool);
+							
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "smallEraser",Color.WHITE, "not text"));
+							
+//							System.out.println(shapes.size());
+						} catch (RemoteException | NotBoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						finally {
+							x1=x2;
+							y1=y2;
+						}
+					}
+				} catch (RemoteException | NotBoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
-				x1=x2;
-				y1=y2;
+				
+				System.out.print("after add the shape size is: "+this.shapes.size());
+				
 				break;
 			case "midEraser":
-				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());
-				this.graph.drawLine(x1, y1, x2, y2);
-				shapes.add(new Graph(x1,y1,x2,y2,"midEraser",Color.WHITE, "not text"));
+				try {
+					registry = LocateRegistry.getRegistry();
+					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
+					ArrayList<String> temp = manager.getUserList();
+					System.out.println("User list size is: "+usersList.size());
+					
+					for(String user:temp) {
+						
+						RemoteSharedCanvas remoteHub;
+						try {
+							
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+							remoteHub.drawMediumEraser(x1, y1, x2, y2, tool);
+							
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "midEraser",Color.WHITE, "not text"));
+							
+//							System.out.println(shapes.size());
+						} catch (RemoteException | NotBoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						finally {
+							x1=x2;
+							y1=y2;
+						}
+					}
+				} catch (RemoteException | NotBoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
-				x1=x2;
-				y1=y2;
+				
+				System.out.print("after add the shape size is: "+this.shapes.size());
+				
 				break;
 			case "largeEraser":
-				graph.setStroke(new BasicStroke(tool.getThickness()));
-				graph.setColor(tool.getColor());
-				this.graph.drawLine(x1, y1, x2, y2);
-				shapes.add(new Graph(x1,y1,x2,y2,"largeEraser",Color.WHITE, "not text"));
+				try {
+					registry = LocateRegistry.getRegistry();
+					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
+					ArrayList<String> temp = manager.getUserList();
+					System.out.println("User list size is: "+usersList.size());
+					
+					for(String user:temp) {
+						
+						RemoteSharedCanvas remoteHub;
+						try {
+							
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+							remoteHub.drawLargeEraser(x1, y1, x2, y2, tool);
+							
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "largeEraser",Color.WHITE, "not text"));
+							
+//							System.out.println(shapes.size());
+						} catch (RemoteException | NotBoundException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						finally {
+							x1=x2;
+							y1=y2;
+						}
+					}
+				} catch (RemoteException | NotBoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
-				x1=x2;
-				y1=y2;
+				
+				System.out.print("after add the shape size is: "+this.shapes.size());
+				
 				break;
 		}
 	}
@@ -182,8 +278,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		             shapes.add(new Graph(x1, y1, x2, y2, "text", c, text));
 				 }
 	             
-	             System.out.println("later shape size is:  "+shapes.size());
-	          }
+	         }
+	         System.out.println("later shape size is:  "+shapes.size());
+	         
 	        
 		}
 	}

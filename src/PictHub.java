@@ -151,8 +151,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			public void actionPerformed(ActionEvent e) {
 				String type1 = m1.getText();
 				tool.setType(type1);
-				tool.setThickness(5);
-				tool.setColor(Color.WHITE);
+//				tool.setThickness(5);
+//				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 		});
@@ -161,8 +161,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			public void actionPerformed(ActionEvent e) {
 				String type2 = m2.getText();
 				tool.setType(type2);
-				tool.setThickness(10);
-				tool.setColor(Color.WHITE);
+//				tool.setThickness(10);
+//				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 		});
@@ -170,11 +170,9 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
         m3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String type3 = m3.getText();
-				tool.setThickness(15);
-				tool.setColor(Color.WHITE);
+//				tool.setThickness(15);
+//				tool.setColor(Color.WHITE);
 				tool.setType(type3);
-				tool.setThickness(15);
-				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 		});
@@ -419,10 +417,10 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		g = canvas.getGraphics();
 		
 		//make the canvas antialiasing on
-		RenderingHints rhints = ((Graphics2D) g).getRenderingHints();
-	    boolean antialiasOn = rhints.containsValue(RenderingHints.VALUE_ANTIALIAS_ON);
-	    System.out.println(antialiasOn);
-	    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//		RenderingHints rhints = ((Graphics2D) g).getRenderingHints();
+//	    boolean antialiasOn = rhints.containsValue(RenderingHints.VALUE_ANTIALIAS_ON);
+//	    System.out.println(antialiasOn);
+//	    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	    
 		drawListener dl = new drawListener(canvas,g,shapes,tool,this.users_List);
 		canvas.addMouseListener(dl);
@@ -510,5 +508,41 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		// TODO Auto-generated method stub
 		this.shapes.add(shape);
 		
+	}
+
+	@Override
+	public void drawEraser(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(tool.getThickness()));
+		graph.setColor(Color.WHITE);			
+		graph.drawLine(x1, y1, x2, y2);
+	}
+
+	@Override
+	public void drawSmallEraser(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(5));
+		graph.setColor(Color.WHITE);			
+		graph.drawLine(x1, y1, x2, y2);
+	}
+
+	@Override
+	public void drawMediumEraser(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(10));
+		graph.setColor(Color.WHITE);			
+		graph.drawLine(x1, y1, x2, y2);
+	}
+
+	@Override
+	public void drawLargeEraser(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(15));
+		graph.setColor(Color.WHITE);			
+		graph.drawLine(x1, y1, x2, y2);
 	}
 }

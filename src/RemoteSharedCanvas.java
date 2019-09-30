@@ -28,5 +28,16 @@ public interface RemoteSharedCanvas extends Remote{
 	public void drawRect(int x1,int y1,int x2,int y2,Tool tool) throws RemoteException;
 	// draw Rectangle
 	
+	public void drawEraser(int x1,int y1, int x2, int y2,Tool tool) throws RemoteException;
+	//draw eraser
+	
+	public void drawSmallEraser(int x1,int y1, int x2, int y2,Tool tool) throws RemoteException;
+	//draw small eraser
+	
+	public void drawMediumEraser(int x1,int y1, int x2, int y2,Tool tool) throws RemoteException;
+	//draw medium eraser
+	
+	public void drawLargeEraser(int x1,int y1, int x2, int y2,Tool tool) throws RemoteException;
+	//draw large eraser
 	
 }
