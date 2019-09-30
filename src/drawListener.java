@@ -11,7 +11,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,15 +22,16 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 public class drawListener implements MouseListener,MouseMotionListener{
 	private JPanel canvas;
 	private Graphics2D graph;
 	private Color color = Color.black; //default color is black
 	private Tool tool;
 	private int x1,y1,x2,y2; //starting point(x1,y1) ending point(x2,y2)
-	private ArrayList<PictHub> usersList;
+	private ArrayList<String> usersList;
 	private ArrayList<Graph> shapes;
-	public drawListener(JPanel canvas, Graphics g,ArrayList<Graph> shapes,Tool tool,ArrayList<PictHub> usersList) {
+	public drawListener(JPanel canvas, Graphics g,ArrayList<Graph> shapes,Tool tool,ArrayList<String> usersList) {
 		this.canvas = canvas;
 		this.usersList = usersList;
 		this.graph = (Graphics2D)g;
@@ -43,23 +47,40 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		assert graph!=null;
 		switch(tool.getType()) {
 			case "pencil":
-				graph.setStroke(new BasicStroke(tool.getThickness()));
-				Color c = tool.getColor();
-				graph.setColor(c);			
-				this.graph.drawLine(x1, y1, x2, y2);
-				shapes.add(new Graph(x1, y1, x2, y2, "line", c, "not text"));
+//				graph.setStroke(new BasicStroke(tool.getThickness()));
+//				Color c = tool.getColor();
+//				graph.setColor(c);			
+//				this.graph.drawLine(x1, y1, x2, y2);
+//				shapes.add(new Graph(x1, y1, x2, y2, "line", c, "not text"));
+//				System.out.println(shapes.size());
 				
 				
 //				System.out.println(shapes.size());
 				
-				x1=x2;
-				y1=y2;
-				for(PictHub user:usersList) {
+//				x1=x2;
+//				y1=y2;
+				System.out.println("User list size is: "+usersList.size());
+				
+				shapes.add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+				for(String user:usersList) {
+					
+					RemoteSharedCanvas remoteHub;
 					try {
-						user.drawLine(x1, y1, x2, y2, tool);
-					} catch (RemoteException e1) {
+						Registry registry = LocateRegistry.getRegistry("localhost");
+//						System.out.print(registry.lookup(user).getClass());
+//						System.out.print(registry.lookup(user));
+						
+						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+						remoteHub.drawLine(x1, y1, x2, y2, tool);
+						
+						System.out.println(shapes.size());
+					} catch (RemoteException | NotBoundException e2) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						e2.printStackTrace();
+					}
+					finally {
+						x1=x2;
+						y1=y2;
 					}
 				}
 				break;
@@ -160,11 +181,30 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		assert this.tool!=null;
 		switch(this.tool.getType()) {
 			case "line":
-				graph.setStroke(new BasicStroke(tool.getThickness()));
-				Color c = tool.getColor();
-				graph.setColor(c);
-				graph.drawLine(x1,y1,x2,y2);
-				shapes.add(new Graph(x1,y1,x2,y2,"line",c, "not text"));
+//				graph.setStroke(new BasicStroke(tool.getThickness()));
+//				Color c = tool.getColor();
+//				graph.setColor(c);
+//				graph.drawLine(x1,y1,x2,y2);
+//				shapes.add(new Graph(x1,y1,x2,y2,"line",c, "not text"));
+				
+				for(String user:usersList) {
+					
+					RemoteSharedCanvas remoteHub;
+					try {
+						Registry registry = LocateRegistry.getRegistry("localhost");
+//						System.out.print(registry.lookup(user).getClass());
+//						System.out.print(registry.lookup(user));
+						
+						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+						remoteHub.drawLine(x1, y1, x2, y2, tool);
+						shapes.add(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+						System.out.println(shapes.size());
+					} catch (RemoteException | NotBoundException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+				
 				break;
 			case "oval":
 				graph.setStroke(new BasicStroke(tool.getThickness()));

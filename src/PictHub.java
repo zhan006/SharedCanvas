@@ -54,7 +54,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	private JPanel toolPanel,colors,canvas;
 	private ArrayList<Graph> shapes = new ArrayList<Graph>();
 	private ArrayList<JButton> toolBtn = new ArrayList<JButton>();
-	private ArrayList<PictHub> users_List = new ArrayList<PictHub>();
+	private ArrayList<String> users_List = new ArrayList<String>();
 	private Color[] Allcolor = new Color[] {Color.BLACK,Color.BLUE,Color.DARK_GRAY,Color.CYAN,Color.GREEN
 			,Color.ORANGE,Color.RED,Color.PINK,Color.WHITE,Color.YELLOW,Color.MAGENTA,Color.LIGHT_GRAY};
 
@@ -434,9 +434,9 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 
 	@Override
-	public void login(PictHub user) throws RemoteException {
+	public void login(String username) throws RemoteException {
 		// TODO Auto-generated method stub
-		this.users_List.add(user);
+		this.users_List.add(username);
 	}
 	
 
@@ -480,8 +480,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 
 	@Override
-	public ArrayList<PictHub> getUserList() throws RemoteException {
+	public ArrayList<String> getUserList() throws RemoteException {
 		// TODO Auto-generated method stub
 		return this.users_List;
 	}
+
+	@Override
+	public void setUserList(ArrayList<String> temp) throws RemoteException {
+		// TODO Auto-generated method stub
+		for(String username:temp) {
+			this.users_List.add(username);
+			}
+	}
+	
+	
 }
