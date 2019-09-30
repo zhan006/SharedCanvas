@@ -43,6 +43,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		// TODO Auto-generated method stub
 		x2 = e.getX();
 		y2 = e.getY();
+//		System.out.println("x1 is:"+ x1);System.out.println("y1 is:"+y1);System.out.println("x2 is:"+x2);System.out.println("y2 is:"+y2);
+//		x1=x2;
+//		y1=y2;
 		assert tool!=null;
 		assert graph!=null;
 		switch(tool.getType()) {
