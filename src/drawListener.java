@@ -72,7 +72,6 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						
 						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 						remoteHub.drawLine(x1, y1, x2, y2, tool);
-						
 						System.out.println(shapes.size());
 					} catch (RemoteException | NotBoundException e2) {
 						// TODO Auto-generated catch block

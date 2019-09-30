@@ -8,7 +8,8 @@ public class User {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PictHub window = new PictHub();
+					String username = "SharedCanvasUser";
+					PictHub window = new PictHub(username);
 					
 					Registry registry = LocateRegistry.getRegistry();
 		            registry.bind("SharedCanvasUser", window);

@@ -21,6 +21,8 @@ public interface RemoteSharedCanvas extends Remote{
 	// draw String
 	public void drawRect(int x1,int y1,int x2,int y2,Tool tool) throws RemoteException;
 	// draw Rectangle
-	
+
+	public void sendText() throws RemoteException;
+	public void setChattingArea(String text) throws RemoteException;
 	
 }
