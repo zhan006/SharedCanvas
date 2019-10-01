@@ -449,13 +449,6 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		frame.setVisible(true);
 		//add mouse listener to canvas
 		g = canvas.getGraphics();
-		
-		//make the canvas antialiasing on
-//		RenderingHints rhints = ((Graphics2D) g).getRenderingHints();
-//	    boolean antialiasOn = rhints.containsValue(RenderingHints.VALUE_ANTIALIAS_ON);
-//	    System.out.println(antialiasOn);
-//	    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	    
 		drawListener dl = new drawListener(canvas,g,shapes,tool,this.users_List);
 		canvas.addMouseListener(dl);
 		canvas.addMouseMotionListener(dl);

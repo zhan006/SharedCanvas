@@ -114,17 +114,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						remoteHub.drawLine(x1, y1, x2, y2, tool);
 						System.out.println(shapes.size());
 					}
+				}
+				
 					catch (RemoteException | NotBoundException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
-					x1=x2;
-					y1=y2;
-				} 
-				catch (RemoteException | NotBoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				x1=x2;
+				y1=y2;
 				
 				
 				System.out.print("after add the shape size is: "+this.shapes.size());
@@ -144,10 +141,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawSmallEraser(x1, y1, x2, y2, tool);
-							
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "smallEraser",Color.WHITE, "not text"));
-							
-//							System.out.println(shapes.size());
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -178,19 +172,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawMediumEraser(x1, y1, x2, y2, tool);
-							
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "midEraser",Color.WHITE, "not text"));
-							
-//							System.out.println(shapes.size());
 						} catch (RemoteException | NotBoundException e2) {
-							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 					}
 					x1=x2;
 					y1=y2;
 				} catch (RemoteException | NotBoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -211,13 +200,10 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						try {
 							
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-							remoteHub.drawLargeEraser(x1, y1, x2, y2, tool);
-							
+							remoteHub.drawLargeEraser(x1, y1, x2, y2, tool);					
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "largeEraser",Color.WHITE, "not text"));
 							
-//							System.out.println(shapes.size());
 						} catch (RemoteException | NotBoundException e2) {
-							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 					}
@@ -227,10 +213,6 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				
-				System.out.print("after add the shape size is: "+this.shapes.size());
-				
 				break;
 		}
 	}
@@ -275,32 +257,13 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						
 						for (Point p : pointTextMap.keySet()) {
 				             String text = pointTextMap.get(p);
-				             
-//				             System.out.println("WHERE you type the text is at"+p);
-//				        	 System.out.println("the text you entered is:  "+text);
-//				             System.out.println();
-//				             System.out.println("previous shape size is:  "+shapes.size());
-//				             Color c = tool.getColor();
-//							 graph.setColor(c);
 							 if (text!= null) {
 								 
 								 remoteHub.drawString(text, p.x, p.y, tool);
 								 remoteHub.AddShapes(new Graph(p.x, p.y, p.x, p.y, "text",tool.getColor(), "is text"));
-								 
-//								 this.graph.drawString(text, p.x, p.y);
-//					             System.out.println(x1);
-//					             System.out.println(y1);
-//					             System.out.println(x2);
-//					             System.out.println(y2);
-					             
-					             //g2.drawString(accStr, xLoc, yLoc);
-					             //so x2,y2 are irrelevant, just keep it
-//					             shapes.add(new Graph(x1, y1, x2, y2, "text", c, text));
 							 }
 				             
 				         }
-						
-//						System.out.println(shapes.size());
 					} catch (RemoteException | NotBoundException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
@@ -310,40 +273,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			
-			System.out.print("after add the shape size is: "+this.shapes.size());
+
 			
 			break;
-			
-//			 Map<Point, String> pointTextMap = new LinkedHashMap<>();
-//			 String prompt = "Please add text to display";
-//	         String input = JOptionPane.showInputDialog(canvas, prompt);
-//	         pointTextMap.put(e.getPoint(), input);
-//	         for (Point p : pointTextMap.keySet()) {
-//	             String text = pointTextMap.get(p);
-//	             
-////	             System.out.println("WHERE you type the text is at"+p);
-////	        	 System.out.println("the text you entered is:  "+text);
-////	             System.out.println();
-//	             System.out.println("previous shape size is:  "+shapes.size());
-//	             Color c = tool.getColor();
-//				 graph.setColor(c);
-//				 if (text!= null) {
-//					 this.graph.drawString(text, p.x, p.y);
-////		             System.out.println(x1);
-////		             System.out.println(y1);
-////		             System.out.println(x2);
-////		             System.out.println(y2);
-//		             
-//		             //g2.drawString(accStr, xLoc, yLoc);
-//		             //so x2,y2 are irrelevant, just keep it
-//		             shapes.add(new Graph(x1, y1, x2, y2, "text", c, text));
-//				 }
-//	             
-//	         }
-//	         System.out.println("later shape size is:  "+shapes.size());      
-	        
 		}
 	}
 
@@ -368,16 +300,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						
 						RemoteSharedCanvas remoteHub;
 						try {
-//							Registry registry = LocateRegistry.getRegistry("localhost");
-//							System.out.print(registry.lookup(user).getClass());
-//							System.out.print(registry.lookup(user));
-							
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawLine(x1, y1, x2, y2, tool);
-							
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
-							
-//							System.out.println(shapes.size());
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -403,17 +328,10 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					for(String user:temp) {
 						
 						RemoteSharedCanvas remoteHub;
-						try {
-//							Registry registry = LocateRegistry.getRegistry("localhost");
-//							System.out.print(registry.lookup(user).getClass());
-//							System.out.print(registry.lookup(user));
-							
-							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-							
+						try {							
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);				
 							remoteHub.drawOval(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "oval",tool.getColor(), "not text"));
-							
-//							System.out.println(shapes.size());
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -423,16 +341,6 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				System.out.print("after add the shape size is: "+this.shapes.size());
-				
-				
-				
-//				graph.setStroke(new BasicStroke(tool.getThickness()));
-//				Color c1 = tool.getColor();
-//				graph.setColor(c1);
-//				graph.drawOval(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2));
-//				shapes.add(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"oval",c1, "not text"));
 				break;
 			case "rect":
 				try {
@@ -446,16 +354,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						
 						RemoteSharedCanvas remoteHub;
 						try {
-//							Registry registry = LocateRegistry.getRegistry("localhost");
-//							System.out.print(registry.lookup(user).getClass());
-//							System.out.print(registry.lookup(user));
-							
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-							
 							remoteHub.drawRect(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"rect",tool.getColor(), "not text"));
-							
-//							System.out.println(shapes.size());
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -465,9 +366,6 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				System.out.print("after add the shape size is: "+this.shapes.size());
-				
 				break;
 			case "circle":
 				try {
@@ -481,16 +379,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						
 						RemoteSharedCanvas remoteHub;
 						try {
-//							Registry registry = LocateRegistry.getRegistry("localhost");
-//							System.out.print(registry.lookup(user).getClass());
-//							System.out.print(registry.lookup(user));
-							
-							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-							
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);	
 							remoteHub.drawCircle(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(Math.min(x1,x2),Math.min(y1,y2),(Math.abs(x1-x2)+Math.abs(x1-x2))/2,(Math.abs(x1-x2)+Math.abs(x1-x2))/2,"circle",tool.getColor(), "not text"));
-							
-//							System.out.println(shapes.size());
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
