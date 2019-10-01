@@ -96,9 +96,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
 					System.out.println("User list size is: "+usersList.size());
-					
 					for(String user:temp) {
-						
 						RemoteSharedCanvas remoteHub;
 						try {
 							
@@ -112,11 +110,18 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
+						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+						remoteHub.drawLine(x1, y1, x2, y2, tool);
+						System.out.println(shapes.size());
 					}
-					
+					catch (RemoteException | NotBoundException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
 					x1=x2;
 					y1=y2;
-				} catch (RemoteException | NotBoundException e1) {
+				} 
+				catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
