@@ -156,10 +156,17 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				newPicture();
-				//if the user is manager, clear all others board
-				remoteNewPicture();
+				
+				boolean check = checkManager();
+				if(check) {
+					newPicture();
+					//if the user is manager, clear all others board
+					remoteNewPicture();
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
+				}
+				
 			}
 			
 		});
@@ -171,8 +178,15 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("clicked save button");
-				savePict("./picture.his");
+				boolean check = checkManager();
+				if(check) {
+					System.out.println("clicked save button");
+					savePict("./picture.his");
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
+				}
+				
 			}
 			
 		});
@@ -184,8 +198,15 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String path = JOptionPane.showInputDialog("Input the new path");
-				savePict(path);
+				
+				boolean check = checkManager();
+				if(check) {
+					String path = JOptionPane.showInputDialog("Input the new path");
+					savePict(path);
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
+				}
 			}
 			
 		});
@@ -199,13 +220,19 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				try {
-					leave();
-				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				boolean check = checkManager();
+				if(check) {
+					try {
+						leave();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
+				else {
+					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
+				}
+				
 			}
 			
 		});
@@ -214,21 +241,27 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ArrayList<Graph> history = importPict("./picture.his");
-				
-				for(String user:users_List) {
-					RemoteSharedCanvas remoteHub;
-					try {
-						Registry registry = LocateRegistry.getRegistry("localhost");
-						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-						for(Graph g:history) {
-							remoteHub.AddShapes(g);
+				boolean check = checkManager();
+				if (check) {
+					ArrayList<Graph> history = importPict("./picture.his");
+					
+					for(String user:users_List) {
+						RemoteSharedCanvas remoteHub;
+						try {
+							Registry registry = LocateRegistry.getRegistry("localhost");
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+							for(Graph g:history) {
+								remoteHub.AddShapes(g);
+							}
+							remoteHub.repaintPicture(history);
+						} catch (Exception a) {
+							a.getStackTrace();
 						}
-						remoteHub.repaintPicture(history);
-					} catch (Exception a) {
-						a.getStackTrace();
 					}
 				}
+				else {
+					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
+				}			
 			}
 		});
 		
@@ -789,17 +822,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				remoteHub.leave();
 			} catch (NotBoundException e) {
 				// TODO Auto-generated catch block
-				JOptionPane.showOptionDialog(
-	                    null, "no user name found",
-	                    "Error", JOptionPane.ERROR_MESSAGE,
-	                    JOptionPane.ERROR_MESSAGE, null, null, null);
+				JOptionPane.showMessageDialog(this.frame, "No user found");
 			}
 		}
 		else {
-			JOptionPane.showOptionDialog(
-                    null, "you are user not manager, not allowed kicking",
-                    "Error", JOptionPane.ERROR_MESSAGE,
-                    JOptionPane.ERROR_MESSAGE, null, null, null);
+			JOptionPane.showMessageDialog(this.frame, "You are not allowed to do this");
 		}
 		
 		
@@ -915,6 +942,14 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			}
 		}
 	}
+	
+	public boolean checkManager() {
+		if(this.username.contentEquals("SharedCanvasManager")) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void repaintPicture(ArrayList<Graph> shapes) {
 		for(Graph graph:shapes) {
