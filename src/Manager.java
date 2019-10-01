@@ -12,7 +12,8 @@ public class Manager {
 //					PictHub window = new PictHub();
 					window.login("SharedCanvasManager");
 					Registry registry = LocateRegistry.getRegistry();
-		            registry.bind("SharedCanvasManager", window);
+					// change "bind" to "rebind"
+		            registry.rebind("SharedCanvasManager", window);
 					
 					
 				} catch (Exception e) {

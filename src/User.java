@@ -11,7 +11,17 @@ public class User {
 					String username = "SharedCanvasUser";
 					PictHub window = new PictHub(username);				
 					Registry registry = LocateRegistry.getRegistry();
-		            registry.bind("SharedCanvasUser", window);  
+					// check if the username is already in registry
+					String[] registerNames = registry.list();
+					for(String user:registerNames){
+						if(user.equals(username)){
+							System.out.println("\"" + username +
+									"\" has already exists, try other usernames.");
+							System.exit(0);
+						}
+					}
+		            registry.bind("SharedCanvasUser", window);
+
 		            RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 		            manager.login("SharedCanvasUser");
 		            ArrayList<String> temp = manager.getUserList();

@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -112,7 +113,17 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
                      "Exit Confirmation", JOptionPane.YES_NO_OPTION, 
                      JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (confirm == 0) {
-                   System.exit(0);
+                	// unbind the username when user quits
+                	try{
+						Registry registry = LocateRegistry.getRegistry();
+						registry.unbind(username);
+					} catch (RemoteException e1){
+                		e1.printStackTrace();
+					} catch (NotBoundException e1){
+                		e1.printStackTrace();
+					} finally {
+						System.exit(0);
+					}
                 }
             }
         };
