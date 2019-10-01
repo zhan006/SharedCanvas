@@ -1,7 +1,12 @@
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -144,15 +149,88 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 		JMenu mnFile = new JMenu("File");
 		file.add(mnFile);
+		
+		JMenuItem itemNew = new JMenuItem("New");
+		mnFile.add(itemNew);
+		itemNew.addActionListener(new ActionListener() {
 
-		JMenuItem mntmSavePicture = new JMenuItem("Save picture");
-		mnFile.add(mntmSavePicture);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				newPicture();
+				//if the user is manager, clear all others board
+				remoteNewPicture();
+			}
+			
+		});
+		
+		JMenuItem savePicture = new JMenuItem("Save picture");
+		mnFile.add(savePicture);
+		savePicture.addActionListener(new ActionListener() {
 
-		JMenuItem mntmImportPicture = new JMenuItem("Import picture");
-		mnFile.add(mntmImportPicture);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("clicked save button");
+				savePict("./picture.his");
+			}
+			
+		});
+		
+		JMenuItem saveAs = new JMenuItem("Save as");
+		mnFile.add(saveAs);
+		saveAs.addActionListener(new ActionListener() {
 
-		JMenu mnNewMenu = new JMenu("kick");
-		file.add(mnNewMenu);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String path = JOptionPane.showInputDialog("Input the new path");
+				savePict(path);
+			}
+			
+		});
+		
+		JMenuItem importPicture = new JMenuItem("Import picture");
+		mnFile.add(importPicture);
+		
+		JMenuItem itemClose = new JMenuItem("Close");
+		mnFile.add(itemClose);
+		itemClose.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					leave();
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		
+		importPicture.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ArrayList<Graph> history = importPict("./picture.his");
+				
+				for(String user:users_List) {
+					RemoteSharedCanvas remoteHub;
+					try {
+						Registry registry = LocateRegistry.getRegistry("localhost");
+						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+						for(Graph g:history) {
+							remoteHub.AddShapes(g);
+						}
+						remoteHub.repaintPicture(history);
+					} catch (Exception a) {
+						a.getStackTrace();
+					}
+				}
+			}
+		});
 		
 		
 		JButton btnLeave = new JButton("leave");
@@ -770,5 +848,156 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	public void removeFromDisplay(String username) throws RemoteException {
 		// TODO Auto-generated method stub
 		this.listModel.removeElement(username);
+	}
+	
+	// save current edit history of picture into a local path
+	public void savePict(String path) {
+		FileOutputStream file;
+		try {
+			file = new FileOutputStream(path);
+			ObjectOutputStream writer = new ObjectOutputStream(file);
+			writer.writeObject(this.shapes);
+			JOptionPane.showMessageDialog(this.frame, "Saved!");
+			
+		} 
+		catch(FileNotFoundException e1) {
+			JOptionPane.showMessageDialog(this.frame, "File Not Found!");
+			e1.printStackTrace();
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this.frame, "Error occured");
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Graph> importPict(String path) {
+		FileInputStream file;
+		ArrayList<Graph> shapes = null;
+		try {
+			file = new FileInputStream(path);
+			ObjectInputStream reader = new ObjectInputStream(file);
+			try {
+				shapes = (ArrayList<Graph>) reader.readObject();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
+		catch(FileNotFoundException e1) {
+			JOptionPane.showMessageDialog(this.frame, "File Not Found!");
+			e1.printStackTrace();
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this.frame, "Error occured");
+			e.printStackTrace();
+		}
+		return shapes;
+	}
+	
+	@Override
+	public void newPicture() {
+		this.canvas.repaint();
+		this.shapes.clear();
+	}
+	
+	public void remoteNewPicture() {
+		for(String user:users_List) {
+			RemoteSharedCanvas remoteHub;
+			try {
+				Registry registry = LocateRegistry.getRegistry("localhost");
+				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+				//		this.chattingArea.setText(newText);
+				remoteHub.newPicture();
+			} catch (Exception a) {
+				a.getStackTrace();
+			}
+		}
+	}
+	@Override
+	public void repaintPicture(ArrayList<Graph> shapes) {
+		for(Graph graph:shapes) {
+			Tool tool = graph.getTool();
+			int x1 = graph.getX1();
+			int y1 = graph.getY1();
+			int x2 = graph.getX2();
+			int y2 = graph.getY2();
+			switch(tool.getType()) {
+			case "pencil":
+				try {
+					this.drawLine(x1,y1,x2,y2,tool);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case "line":
+				try {
+					this.drawLine(x1, y1, x2, y2, tool);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case "text":
+				String text = graph.getText();
+				try {
+					this.drawString(text, x1, y1, tool);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case "circle":
+				try {
+					this.drawCircle(x1, y1, x2, y2, tool);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case "Oval":
+				try {
+					this.drawOval(x1, y1, x2, y2, tool);
+				} catch (RemoteException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				break;
+			case "eraser":
+				try {
+					this.drawEraser(x1, y1, x2, y2, tool);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case "smallEraser":
+				try {
+					this.drawSmallEraser(x1, y1, x2, y2, tool);
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
+			case "midEraser":
+				try {
+					this.drawMediumEraser(x1, y1, x2, y2, tool);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case "largeEraser":
+				try {
+					this.drawLargeEraser(x1, y1, x2, y2, tool);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
 	}
 }
