@@ -143,6 +143,20 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		JMenu mnFile = new JMenu("File");
 		file.add(mnFile);
 		
+		JMenuItem itemNew = new JMenuItem("New");
+		mnFile.add(itemNew);
+		itemNew.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				newPicture();
+				//if the user is manager, clear all others board
+				remoteNewPicture();
+			}
+			
+		});
+		
 		JMenuItem savePicture = new JMenuItem("Save picture");
 		mnFile.add(savePicture);
 		savePicture.addActionListener(new ActionListener() {
@@ -156,8 +170,33 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			
 		});
 		
+		JMenuItem saveAs = new JMenuItem("Save as");
+		mnFile.add(saveAs);
+		saveAs.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String path = JOptionPane.showInputDialog("Input the new path");
+				savePict(path);
+			}
+			
+		});
+		
 		JMenuItem importPicture = new JMenuItem("Import picture");
 		mnFile.add(importPicture);
+		
+		JMenuItem itemClose = new JMenuItem("Close");
+		mnFile.add(itemClose);
+		itemClose.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				//leave();
+			}
+			
+		});
 		importPicture.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -700,6 +739,24 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			e.printStackTrace();
 		}
 		return shapes;
+	}
+	@Override
+	public void newPicture() {
+		this.canvas.repaint();
+		this.shapes.clear();
+	}
+	public void remoteNewPicture() {
+		for(String user:users_List) {
+			RemoteSharedCanvas remoteHub;
+			try {
+				Registry registry = LocateRegistry.getRegistry("localhost");
+				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+				//		this.chattingArea.setText(newText);
+				remoteHub.newPicture();
+			} catch (Exception a) {
+				a.getStackTrace();
+			}
+		}
 	}
 	public void repaintPicture(ArrayList<Graph> shapes) {
 		for(Graph graph:shapes) {
