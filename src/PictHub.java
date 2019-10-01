@@ -7,7 +7,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -44,6 +43,9 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
+import javax.swing.JMenu;
+import javax.swing.JTable;
+import javax.swing.JList;
 
 public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
@@ -59,13 +61,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	private ArrayList<String> users_List = new ArrayList<String>();
 	private Color[] Allcolor = new Color[] {Color.BLACK,Color.BLUE,Color.DARK_GRAY,Color.CYAN,Color.GREEN
 			,Color.ORANGE,Color.RED,Color.PINK,Color.WHITE,Color.YELLOW,Color.MAGENTA,Color.LIGHT_GRAY};
-
+	private JList list;
 	private String username;
 	/**
 	 * Create the application.
 	 * @return 
 	 */
+	/**
+	 * @wbp.parser.constructor
+	 */
+
 	public PictHub() throws RemoteException{
+		
 		try {
 			initialize();
 		}
@@ -126,6 +133,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		file = new JMenuBar();
 		file.setBounds(0, 0, 1182, 26);
 		frame.getContentPane().add(file);
+		
+		JMenu mnFile = new JMenu("File");
+		file.add(mnFile);
+		
+		JMenuItem mntmSavePicture = new JMenuItem("Save picture");
+		mnFile.add(mntmSavePicture);
+		
+		JMenuItem mntmImportPicture = new JMenuItem("Import picture");
+		mnFile.add(mntmImportPicture);
+		
+		JMenu mnNewMenu = new JMenu("New menu");
+		file.add(mnNewMenu);
 		
 		ChatInput = new JTextArea();
 		ChatInput.setBounds(0, 697, 283, 58);
@@ -435,13 +454,9 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		ChatWindowContainer.setAlignmentX(2.0f);
 		ChatWindowContainer.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		ChatWindowContainer.setBackground(Color.LIGHT_GRAY);
-		ChatWindowContainer.setBounds(0, 120, 287, 575);
+		ChatWindowContainer.setBounds(0, 242, 287, 453);
 		frame.getContentPane().add(ChatWindowContainer);
 		chattingArea.setLineWrap(true);
-
-
-
-
 		canvas = new JPanel();
 		canvas.setBackground(Color.WHITE);
 		canvas.setBounds(290, 26, 892, 669);
@@ -450,6 +465,14 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		//add mouse listener to canvas
 		g = canvas.getGraphics();
 		drawListener dl = new drawListener(canvas,g,shapes,tool,this.users_List);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 121, 289, 114);
+		frame.getContentPane().add(scrollPane);
+		
+		list = new JList();
+		list.setBackground(Color.DARK_GRAY);
+		scrollPane.setViewportView(list);
 		canvas.addMouseListener(dl);
 		canvas.addMouseMotionListener(dl);
 		//add button listener to tool box
