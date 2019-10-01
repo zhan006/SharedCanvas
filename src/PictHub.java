@@ -115,7 +115,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
                      "Exit Confirmation", JOptionPane.YES_NO_OPTION,
                      JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (confirm == 0) {
-                   System.exit(0);
+                   try {
+					leave();
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 }
             }
         };
@@ -167,10 +172,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		btnKick.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
-					String prompt = "Please enter the username of the user you want to kick";
-			        String input = JOptionPane.showInputDialog(canvas, prompt);
-			        System.out.println(input);
-			        kickUser(input);
+			        kickUser();
 				}catch (Exception a){
 					a.getStackTrace();
 				}
@@ -695,8 +697,33 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 
 	@Override
-	public void kickUser(String username) throws RemoteException {
+	public void kickUser() throws RemoteException {
 		// TODO Auto-generated method stub
+		if(this.username.contentEquals("SharedCanvasManager")) {
+			try {
+				String prompt = "Please enter the username of the user you want to kick";
+		        String input = JOptionPane.showInputDialog(canvas, prompt);
+		        System.out.println(input);
+		        
+				Registry registry = LocateRegistry.getRegistry("localhost");
+				RemoteSharedCanvas remoteHub = (RemoteSharedCanvas) registry.lookup(input);
+				
+				remoteHub.leave();
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showOptionDialog(
+	                    null, "no user name found",
+	                    "Error", JOptionPane.ERROR_MESSAGE,
+	                    JOptionPane.ERROR_MESSAGE, null, null, null);
+			}
+		}
+		else {
+			JOptionPane.showOptionDialog(
+                    null, "you are user not manager, not allowed kicking",
+                    "Error", JOptionPane.ERROR_MESSAGE,
+                    JOptionPane.ERROR_MESSAGE, null, null, null);
+		}
+		
 		
 		
 	}

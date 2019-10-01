@@ -51,7 +51,7 @@ public interface RemoteSharedCanvas extends Remote{
 	public void addUser(String laterUser) throws RemoteException;
 	public void removeFromDisplay(String username) throws RemoteException;
 	
-	public void kickUser(String username) throws RemoteException;
+	public void kickUser() throws RemoteException;
 	public void deleteUser(String username) throws RemoteException;
 	
 	public void leave() throws RemoteException;
