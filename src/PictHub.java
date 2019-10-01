@@ -2,12 +2,14 @@ import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,7 +63,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	private ArrayList<String> users_List = new ArrayList<String>();
 	private Color[] Allcolor = new Color[] {Color.BLACK,Color.BLUE,Color.DARK_GRAY,Color.CYAN,Color.GREEN
 			,Color.ORANGE,Color.RED,Color.PINK,Color.WHITE,Color.YELLOW,Color.MAGENTA,Color.LIGHT_GRAY};
-	private JList list;
+	private JList<String> list;
+	DefaultListModel<String> listModel;
 	private String username;
 	/**
 	 * Create the application.
@@ -143,8 +146,36 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		JMenuItem mntmImportPicture = new JMenuItem("Import picture");
 		mnFile.add(mntmImportPicture);
 
-		JMenu mnNewMenu = new JMenu("New menu");
+		JMenu mnNewMenu = new JMenu("kick");
 		file.add(mnNewMenu);
+		
+		
+		JButton btnLeave = new JButton("leave");
+		file.add(btnLeave);
+		btnLeave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					leave();
+				}catch (Exception a){
+					a.getStackTrace();
+				}
+			}
+		});
+		
+		JButton btnKick = new JButton("kick");
+		file.add(btnKick);
+		btnKick.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					String prompt = "Please enter the username of the user you want to kick";
+			        String input = JOptionPane.showInputDialog(canvas, prompt);
+			        System.out.println(input);
+			        kickUser(input);
+				}catch (Exception a){
+					a.getStackTrace();
+				}
+			}
+		});
 
 		ChatInput = new JTextArea();
 		ChatInput.setBounds(0, 697, 283, 58);
@@ -469,10 +500,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 121, 289, 114);
 		frame.getContentPane().add(scrollPane);
+		
+		
+		listModel = new DefaultListModel<>();
+//		listModel.addElement("USA");
+//		listModel.addElement("India");
+//		listModel.removeElement("USA");
+//		JList<String> countryList = new JList<>(listModel);
 
-		list = new JList();
-		list.setBackground(Color.DARK_GRAY);
+		
+		list = new JList<>(listModel);
 		scrollPane.setViewportView(list);
+		
 		canvas.addMouseListener(dl);
 		canvas.addMouseMotionListener(dl);
 		//add button listener to tool box
@@ -485,6 +524,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	public void login(String username) throws RemoteException {
 		// TODO Auto-generated method stub
 		this.users_List.add(username);
+		this.listModel.addElement(username);
 	}
 
 
@@ -631,5 +671,77 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 	public void setChattingArea(String text) throws RemoteException{
 		this.chattingArea.append(text);
+	}
+
+	@Override
+	public void syncUserlist(String username) throws RemoteException {
+		// TODO Auto-generated method stub
+		this.listModel.addElement(username);
+		
+	}
+
+	@Override
+	public void initializeUserList(ArrayList<String> managerList) throws RemoteException {
+		// TODO Auto-generated method stub
+		for(String user:managerList) {
+			this.listModel.addElement(user);
+		}
+	}
+
+	@Override
+	public void addUser(String laterUser) throws RemoteException {
+		// TODO Auto-generated method stub
+		this.users_List.add(laterUser);
+	}
+
+	@Override
+	public void kickUser(String username) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+		
+	}
+	
+
+	@Override
+	public void leave() throws RemoteException {
+		// TODO Auto-generated method stub
+		this.deleteUser(this.username);
+		this.removeFromDisplay(username);
+		
+		for(String user:users_List) {
+			RemoteSharedCanvas remoteHub;
+			try {
+				Registry registry = LocateRegistry.getRegistry("localhost");
+				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+				//		this.chattingArea.setText(newText);
+				remoteHub.removeFromDisplay(this.username);
+				remoteHub.deleteUser(this.username);
+			} catch (Exception a) {
+				a.getStackTrace();
+			}
+		}
+		
+		try {
+			Registry registry1 = LocateRegistry.getRegistry("localhost");
+			registry1.unbind(this.username);
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		System.exit(0);
+	}
+
+	@Override
+	public void deleteUser(String username) throws RemoteException {
+		// TODO Auto-generated method stub
+		this.users_List.remove(username);
+	}
+
+	@Override
+	public void removeFromDisplay(String username) throws RemoteException {
+		// TODO Auto-generated method stub
+		this.listModel.removeElement(username);
 	}
 }

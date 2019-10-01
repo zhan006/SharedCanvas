@@ -8,14 +8,25 @@ public class User {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					String username = "SharedCanvasUser";
+					String username = "user1";
 					PictHub window = new PictHub(username);				
 					Registry registry = LocateRegistry.getRegistry();
-		            registry.bind("SharedCanvasUser", window);  
+		            registry.bind(username, window);  
 		            RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
-		            manager.login("SharedCanvasUser");
+		            manager.login(username);
 		            ArrayList<String> temp = manager.getUserList();
 		            window.setUserList(temp);
+		            
+		            // add myself to those non-manager-notme user
+		            for (String user:temp) {
+		            	if (!user.equals("SharedCanvasManager") && !user.equals(username)) {
+		            		RemoteSharedCanvas buffer = (RemoteSharedCanvas)registry.lookup(user);
+		            		buffer.syncUserlist(username);
+		            		buffer.addUser(username);
+		            		System.out.println("after adding my userlist size is: "+buffer.getUserList().size());
+		            	}
+		            }
+		            window.initializeUserList(temp);
 					
 				} catch (Exception e) {
 					e.printStackTrace();

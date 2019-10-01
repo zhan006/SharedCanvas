@@ -3,12 +3,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
-public class user2 {
+public class User3 {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					String username = "user2";
+					String username = "user3";
 					PictHub window = new PictHub(username);				
 					Registry registry = LocateRegistry.getRegistry();
 		            registry.bind(username, window);  
