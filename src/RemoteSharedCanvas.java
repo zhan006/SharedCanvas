@@ -41,5 +41,7 @@ public interface RemoteSharedCanvas extends Remote{
 	
 	public void drawLargeEraser(int x1,int y1, int x2, int y2,Tool tool) throws RemoteException;
 	//draw large eraser
+	public void sendText() throws RemoteException;
+	public void setChattingArea(String text) throws RemoteException;
 	
 }

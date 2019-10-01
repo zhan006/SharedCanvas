@@ -7,7 +7,9 @@ public class Manager {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PictHub window = new PictHub();
+					String username = "SharedCanvasManager";
+					PictHub window = new PictHub(username);
+//					PictHub window = new PictHub();
 					window.login("SharedCanvasManager");
 					Registry registry = LocateRegistry.getRegistry();
 		            registry.bind("SharedCanvasManager", window);
