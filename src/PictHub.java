@@ -463,6 +463,9 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	public void drawString(String text, int x1, int y1, Tool tool) throws RemoteException {
 		// TODO Auto-generated method stub
 		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(tool.getThickness()));
+		Color c1 = tool.getColor();
+		graph.setColor(c1);
 		graph.drawString(text, x1, y1);
 		
 	}
@@ -544,5 +547,15 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		graph.setStroke(new BasicStroke(15));
 		graph.setColor(Color.WHITE);			
 		graph.drawLine(x1, y1, x2, y2);
+	}
+
+	@Override
+	public void drawCircle(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(tool.getThickness()));
+		Color c1 = tool.getColor();
+		graph.setColor(c1);
+		graph.drawOval(Math.min(x1,x2),Math.min(y1,y2),(Math.abs(x1-x2)+Math.abs(x1-x2))/2,(Math.abs(x1-x2)+Math.abs(x1-x2))/2);
 	}
 }

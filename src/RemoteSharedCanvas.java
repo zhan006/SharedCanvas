@@ -23,6 +23,8 @@ public interface RemoteSharedCanvas extends Remote{
 	//  draw a straight line
 	public void drawOval(int x1, int y1,int x2,int y2,Tool tool) throws RemoteException;
 	//  draw an Oval
+	public void drawCircle(int x1, int y1,int x2,int y2,Tool tool) throws RemoteException;
+	//  draw a circle
 	public void drawString(String text,int x1,int y1,Tool tool) throws RemoteException;
 	// draw String
 	public void drawRect(int x1,int y1,int x2,int y2,Tool tool) throws RemoteException;
