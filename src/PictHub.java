@@ -7,7 +7,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -44,6 +43,9 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
+import javax.swing.JMenu;
+import javax.swing.JTable;
+import javax.swing.JList;
 
 public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
@@ -59,13 +61,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	private ArrayList<String> users_List = new ArrayList<String>();
 	private Color[] Allcolor = new Color[] {Color.BLACK,Color.BLUE,Color.DARK_GRAY,Color.CYAN,Color.GREEN
 			,Color.ORANGE,Color.RED,Color.PINK,Color.WHITE,Color.YELLOW,Color.MAGENTA,Color.LIGHT_GRAY};
-
+	private JList list;
 	private String username;
 	/**
 	 * Create the application.
-	 * @return 
+	 * @return
 	 */
+	/**
+	 * @wbp.parser.constructor
+	 */
+
 	public PictHub() throws RemoteException{
+
 		try {
 			initialize();
 		}
@@ -93,7 +100,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		frame.setBackground(SystemColor.desktop);
 		frame.setBounds(100, 100, 1200, 850);
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		//close window confirmation
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         WindowListener exitListener = new WindowAdapter() {
@@ -101,8 +108,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
             @Override
             public void windowClosing(WindowEvent e) {
                 int confirm = JOptionPane.showOptionDialog(
-                     null, "Are You Sure to leave?", 
-                     "Exit Confirmation", JOptionPane.YES_NO_OPTION, 
+                     null, "Are You Sure to leave?",
+                     "Exit Confirmation", JOptionPane.YES_NO_OPTION,
                      JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (confirm == 0) {
                    System.exit(0);
@@ -111,7 +118,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
         };
         frame.addWindowListener(exitListener);
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //called system.exi(0)
-		
+
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(new File("./logo.png"));
@@ -122,11 +129,23 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		JLabel logo = new JLabel(new ImageIcon(image));
 		logo.setBounds(0, 26, 289, 94);
 		frame.getContentPane().add(logo);
-		
+
 		file = new JMenuBar();
 		file.setBounds(0, 0, 1182, 26);
 		frame.getContentPane().add(file);
-		
+
+		JMenu mnFile = new JMenu("File");
+		file.add(mnFile);
+
+		JMenuItem mntmSavePicture = new JMenuItem("Save picture");
+		mnFile.add(mntmSavePicture);
+
+		JMenuItem mntmImportPicture = new JMenuItem("Import picture");
+		mnFile.add(mntmImportPicture);
+
+		JMenu mnNewMenu = new JMenu("New menu");
+		file.add(mnNewMenu);
+
 		ChatInput = new JTextArea();
 		ChatInput.setBounds(0, 697, 283, 58);
 		frame.getContentPane().add(ChatInput);
@@ -135,7 +154,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 
 
-		
+
 		SendBtn = new JButton("SEND");
 		SendBtn.setBounds(168, 755, 113, 35);
 		SendBtn.setBackground(new Color(255, 153, 0));
@@ -154,12 +173,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 
 
-		
+
 		toolPanel = new JPanel();
 		toolPanel.setBounds(402, 701, 125, 98);
 		frame.getContentPane().add(toolPanel);
 		toolPanel.setLayout(null);
-		
+
 		pencil = new JButton("pencil");
 		pencil.setIcon(new ImageIcon("./pencil.png"));
 		pencil.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -170,11 +189,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		pencil.setBounds(14, 0, 44, 44);
 		toolPanel.add(pencil);
 		toolBtn.add(pencil);
-		
+
 		eraser = new JButton("eraser");
 		eraser.setIcon(new ImageIcon("./eraser.png"));
 		eraser.setHorizontalTextPosition(SwingConstants.CENTER);
-		
+
 		//eraser popup menu
 		JPopupMenu menu = new JPopupMenu("Menu");
 		JMenuItem m1 = new JMenuItem("smallEraser");
@@ -187,7 +206,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				System.out.println("set to "+tool.getType());
 			}
 		});
-        JMenuItem m2 = new JMenuItem("midEraser"); 
+        JMenuItem m2 = new JMenuItem("midEraser");
         m2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String type2 = m2.getText();
@@ -219,7 +238,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		eraser.setBounds(14, 50, 44, 44);
 		toolPanel.add(eraser);
 		toolBtn.add(eraser);
-		
+
 		text = new JButton("text");
 		text.setBounds(61, 0, 44, 44);
 		text.setIcon(new ImageIcon("./text.png"));
@@ -230,97 +249,97 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		});
 		toolPanel.add(text);
 		toolBtn.add(text);
-		
+
 		colors = new JPanel();
 		colors.setBounds(931, 701, 175, 98);
 		frame.getContentPane().add(colors);
 		colors.setLayout(new GridLayout(0, 3, 0, 0));
-		
+
 		JButton black = new JButton("");
 		black.setBackground(Color.BLACK);
 		black.setContentAreaFilled(false);
 		black.setOpaque(true);
 		colors.add(black);
 		toolBtn.add(black);
-		
+
 		JButton darkgray = new JButton("");
 		darkgray.setBackground(Color.DARK_GRAY);
 		darkgray.setContentAreaFilled(false);
 		darkgray.setOpaque(true);
 		colors.add(darkgray);
 		toolBtn.add(darkgray);
-		
+
 		JButton lightGray = new JButton("");
 		lightGray.setBackground(Color.LIGHT_GRAY);
 		lightGray.setContentAreaFilled(false);
 		lightGray.setOpaque(true);
 		colors.add(lightGray);
 		toolBtn.add(lightGray);
-		
+
 		JButton white = new JButton("");
 		white.setBackground(Color.WHITE);
 		white.setContentAreaFilled(false);
 		white.setOpaque(true);
 		colors.add(white);
 		toolBtn.add(white);
-		
+
 		JButton yellow = new JButton("");
 		yellow.setBackground(Color.YELLOW);
 		yellow.setContentAreaFilled(false);
 		yellow.setOpaque(true);
 		colors.add(yellow);
 		toolBtn.add(yellow);
-		
+
 		JButton orange = new JButton("");
 		orange.setBackground(Color.ORANGE);
 		orange.setContentAreaFilled(false);
 		orange.setOpaque(true);
 		colors.add(orange);
 		toolBtn.add(orange);
-		
+
 		JButton blue = new JButton("");
 		blue.setBackground(Color.BLUE);
 		blue.setContentAreaFilled(false);
 		blue.setOpaque(true);
 		colors.add(blue);
 		toolBtn.add(blue);
-		
+
 		JButton magenta = new JButton("");
 		magenta.setBackground(Color.MAGENTA);
 		magenta.setContentAreaFilled(false);
 		magenta.setOpaque(true);
 		colors.add(magenta);
 		toolBtn.add(magenta);
-		
+
 		JButton pink = new JButton("");
 		pink.setBackground(Color.PINK);
 		pink.setContentAreaFilled(false);
 		pink.setOpaque(true);
 		colors.add(pink);
 		toolBtn.add(pink);
-		
+
 		JButton red = new JButton("");
 		red.setBackground(Color.RED);
 		red.setContentAreaFilled(false);
 		red.setOpaque(true);
 		colors.add(red);
 		toolBtn.add(red);
-		
-		
+
+
 		JButton green = new JButton("");
 		green.setBackground(Color.GREEN);
 		green.setContentAreaFilled(false);
 		green.setOpaque(true);
 		colors.add(green);
 		toolBtn.add(green);
-				
+
 		JButton cyan = new JButton("");
 		cyan.setBackground(Color.CYAN);
 		cyan.setContentAreaFilled(false);
 		cyan.setOpaque(true);
 		colors.add(cyan);
 		toolBtn.add(cyan);
-		
+
 		JButton customized = new JButton("");
 		Color cus = new Color(123, 111, 222);
 		customized.setBackground(cus);
@@ -328,7 +347,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		customized.setOpaque(true);
 		colors.add(customized);
 		toolBtn.add(customized);
-		
+
 		JButton customized1 = new JButton("");
 		Color cus1 = new Color(56, 135, 77);
 		customized1.setBackground(cus1);
@@ -336,7 +355,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		customized1.setOpaque(true);
 		colors.add(customized1);
 		toolBtn.add(customized1);
-		
+
 		JButton customized2 = new JButton("");
 		Color cus2 = new Color(231, 135, 77);
 		customized2.setBackground(cus2);
@@ -344,7 +363,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		customized2.setOpaque(true);
 		colors.add(customized2);
 		toolBtn.add(customized2);
-		
+
 		JButton customized3 = new JButton("");
 		Color cus3 = new Color(66, 115, 178);
 		customized3.setBackground(cus3);
@@ -352,7 +371,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		customized3.setOpaque(true);
 		colors.add(customized3);
 		toolBtn.add(customized3);
-		
+
 		JButton customized4 = new JButton("");
 		Color cus4 = new Color(108, 135, 155);
 		customized4.setBackground(cus4);
@@ -360,7 +379,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		customized4.setOpaque(true);
 		colors.add(customized4);
 		toolBtn.add(customized4);
-		
+
 		JButton customized5 = new JButton("");
 		Color cus5 = new Color(40, 145, 20);
 		customized5.setBackground(cus5);
@@ -368,8 +387,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		customized5.setOpaque(true);
 		colors.add(customized5);
 		toolBtn.add(customized5);
-		
-		
+
+
 		JLabel toolTag = new JLabel("Tool");
 		toolTag.setBounds(316, 701, 72, 98);
 		toolTag.setForeground(Color.LIGHT_GRAY);
@@ -377,19 +396,19 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		toolTag.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 		toolTag.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(toolTag);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBounds(661, 701, 156, 98);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
-		
+
 		JButton circle = new JButton("circle");
 		circle.setBounds(30, 0, 44, 44);
 		circle.setHorizontalTextPosition(SwingConstants.CENTER);
 		panel.add(circle);
 		circle.setIcon(new ImageIcon("./circle.png"));
 		toolBtn.add(circle);
-		
+
 		JButton line = new JButton("line");
 		line.setHorizontalTextPosition(SwingConstants.CENTER);
 		line.setBounds(88, 0, 44, 44);
@@ -397,35 +416,35 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		panel.add(line);
 		toolBtn.add(line);
 
-		
+
 		JButton oval = new JButton("oval");
 		oval.setBounds(30, 54, 44, 44);
 		oval.setHorizontalTextPosition(SwingConstants.CENTER);
 		panel.add(oval);
 		oval.setIcon(new ImageIcon("./oval.png"));
 		toolBtn.add(oval);
-		
+
 		JButton rect = new JButton("rect");
 		rect.setBounds(88, 54, 44, 44);
 		rect.setHorizontalTextPosition(SwingConstants.CENTER);
 		panel.add(rect);
 		rect.setIcon(new ImageIcon("./rect.png"));
 		toolBtn.add(rect);
-		
+
 		JLabel shapeTag = new JLabel("Shapes");
 		shapeTag.setBounds(544, 701, 92, 98);
 		shapeTag.setHorizontalAlignment(SwingConstants.CENTER);
 		shapeTag.setForeground(Color.LIGHT_GRAY);
 		shapeTag.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 		frame.getContentPane().add(shapeTag);
-		
+
 		JLabel colorTag = new JLabel("Colors");
 		colorTag.setBounds(831, 701, 86, 102);
 		colorTag.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 		colorTag.setHorizontalAlignment(SwingConstants.CENTER);
 		colorTag.setForeground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(colorTag);
-		
+
 		chattingArea = new JTextArea(28,20);
 		chattingArea.setSelectedTextColor(SystemColor.control);
 		chattingArea.setFont(new Font("Nirmala UI", Font.PLAIN, 15));
@@ -435,13 +454,9 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		ChatWindowContainer.setAlignmentX(2.0f);
 		ChatWindowContainer.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		ChatWindowContainer.setBackground(Color.LIGHT_GRAY);
-		ChatWindowContainer.setBounds(0, 120, 287, 575);
+		ChatWindowContainer.setBounds(0, 242, 287, 453);
 		frame.getContentPane().add(ChatWindowContainer);
 		chattingArea.setLineWrap(true);
-
-
-
-
 		canvas = new JPanel();
 		canvas.setBackground(Color.WHITE);
 		canvas.setBounds(290, 26, 892, 669);
@@ -450,6 +465,14 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		//add mouse listener to canvas
 		g = canvas.getGraphics();
 		drawListener dl = new drawListener(canvas,g,shapes,tool,this.users_List);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 121, 289, 114);
+		frame.getContentPane().add(scrollPane);
+
+		list = new JList();
+		list.setBackground(Color.DARK_GRAY);
+		scrollPane.setViewportView(list);
 		canvas.addMouseListener(dl);
 		canvas.addMouseMotionListener(dl);
 		//add button listener to tool box
@@ -463,7 +486,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		// TODO Auto-generated method stub
 		this.users_List.add(username);
 	}
-	
+
 
 	@Override
 	public void drawLine(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
@@ -471,9 +494,9 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		Graphics2D graph = (Graphics2D)this.g;
 		graph.setStroke(new BasicStroke(tool.getThickness()));
 		Color c = tool.getColor();
-		graph.setColor(c);			
+		graph.setColor(c);
 		graph.drawLine(x1, y1, x2, y2);
-		
+
 	}
 
 	@Override
@@ -494,7 +517,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		Color c1 = tool.getColor();
 		graph.setColor(c1);
 		graph.drawString(text, x1, y1);
-		
+
 	}
 
 	@Override
@@ -537,7 +560,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	public void AddShapes(Graph shape) throws RemoteException {
 		// TODO Auto-generated method stub
 		this.shapes.add(shape);
-		
+
 	}
 
 	@Override
@@ -545,7 +568,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		// TODO Auto-generated method stub
 		Graphics2D graph = (Graphics2D)this.g;
 		graph.setStroke(new BasicStroke(tool.getThickness()));
-		graph.setColor(Color.WHITE);			
+		graph.setColor(Color.WHITE);
 		graph.drawLine(x1, y1, x2, y2);
 	}
 
@@ -554,7 +577,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		// TODO Auto-generated method stub
 		Graphics2D graph = (Graphics2D)this.g;
 		graph.setStroke(new BasicStroke(5));
-		graph.setColor(Color.WHITE);			
+		graph.setColor(Color.WHITE);
 		graph.drawLine(x1, y1, x2, y2);
 	}
 
@@ -563,7 +586,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		// TODO Auto-generated method stub
 		Graphics2D graph = (Graphics2D)this.g;
 		graph.setStroke(new BasicStroke(10));
-		graph.setColor(Color.WHITE);			
+		graph.setColor(Color.WHITE);
 		graph.drawLine(x1, y1, x2, y2);
 	}
 
@@ -572,7 +595,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		// TODO Auto-generated method stub
 		Graphics2D graph = (Graphics2D)this.g;
 		graph.setStroke(new BasicStroke(15));
-		graph.setColor(Color.WHITE);			
+		graph.setColor(Color.WHITE);
 		graph.drawLine(x1, y1, x2, y2);
 	}
 
