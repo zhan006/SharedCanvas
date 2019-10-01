@@ -9,16 +9,12 @@ public class User {
 			public void run() {
 				try {
 					String username = "SharedCanvasUser";
-					PictHub window = new PictHub(username);
-					
+					PictHub window = new PictHub(username);				
 					Registry registry = LocateRegistry.getRegistry();
-		            registry.bind("SharedCanvasUser", window);
-		            
+		            registry.bind("SharedCanvasUser", window);  
 		            RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 		            manager.login("SharedCanvasUser");
 		            ArrayList<String> temp = manager.getUserList();
-		            System.out.println(temp.size());
-		            
 		            window.setUserList(temp);
 					
 				} catch (Exception e) {

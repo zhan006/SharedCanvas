@@ -16,9 +16,10 @@ public class user2 {
 		            RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 		            manager.login("SharedCanvasUser2");
 		            ArrayList<String> temp = manager.getUserList();
-		            System.out.println(temp.size());
+//		            System.out.println(temp.size());
 		            
 		            window.setUserList(temp);
+//		            window.setShapes(manager.getShapes());
 					
 				} catch (Exception e) {
 					e.printStackTrace();

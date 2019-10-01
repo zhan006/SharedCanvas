@@ -28,8 +28,8 @@ public class toolButtonListener implements ActionListener {
 		else {
 			if(type.equals("eraser")) {		        
 				tool.setType(type);
-				tool.setThickness(3);
-				tool.setColor(Color.WHITE);
+//				tool.setThickness(3);
+//				tool.setColor(Color.WHITE);
 				System.out.println("set to "+tool.getType());
 			}
 			else {
