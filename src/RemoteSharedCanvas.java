@@ -4,6 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
+
 //interfaces for remote users to access the canvas board
 public interface RemoteSharedCanvas extends Remote{
 	
@@ -44,4 +46,16 @@ public interface RemoteSharedCanvas extends Remote{
 	public void sendText() throws RemoteException;
 	public void setChattingArea(String text) throws RemoteException;
 	
+	public void syncUserlist(String managerList)throws RemoteException;
+	public void initializeUserList(ArrayList<String> managerList)throws RemoteException;
+	public void addUser(String laterUser) throws RemoteException;
+	public void removeFromDisplay(String username) throws RemoteException;
+	
+	public void kickUser() throws RemoteException;
+	public void deleteUser(String username) throws RemoteException;
+	
+	public void leave() throws RemoteException;
+	
+	public void newPicture() throws RemoteException;
+	public void repaintPicture(ArrayList<Graph> shapes) throws RemoteException;
 }

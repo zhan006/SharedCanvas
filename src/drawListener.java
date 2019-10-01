@@ -68,7 +68,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawLine(x1, y1, x2, y2, tool);
 							
-							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(),tool.getThickness(), "not text"));
 							
 //							System.out.println(shapes.size());
 						} catch (RemoteException | NotBoundException e2) {
@@ -103,7 +103,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawEraser(x1, y1, x2, y2, tool);
 							
-							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "eraser",Color.WHITE, "not text"));
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "eraser",Color.WHITE,tool.getThickness(), "not text"));
 							
 //							System.out.println(shapes.size());
 						} catch (RemoteException | NotBoundException e2) {
@@ -141,7 +141,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawSmallEraser(x1, y1, x2, y2, tool);
-							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "smallEraser",Color.WHITE, "not text"));
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "smallEraser",Color.WHITE,tool.getThickness(), "not text"));
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -172,7 +172,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawMediumEraser(x1, y1, x2, y2, tool);
-							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "midEraser",Color.WHITE, "not text"));
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "midEraser",Color.WHITE,tool.getThickness(), "not text"));
 						} catch (RemoteException | NotBoundException e2) {
 							e2.printStackTrace();
 						}
@@ -201,7 +201,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawLargeEraser(x1, y1, x2, y2, tool);					
-							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "largeEraser",Color.WHITE, "not text"));
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "largeEraser",Color.WHITE,tool.getThickness(), "not text"));
 							
 						} catch (RemoteException | NotBoundException e2) {
 							e2.printStackTrace();
@@ -260,7 +260,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							 if (text!= null) {
 								 
 								 remoteHub.drawString(text, p.x, p.y, tool);
-								 remoteHub.AddShapes(new Graph(p.x, p.y, p.x, p.y, "text",tool.getColor(), "is text"));
+								 remoteHub.AddShapes(new Graph(p.x, p.y, p.x, p.y, "text",tool.getColor(),tool.getThickness(), text));
 							 }
 				             
 				         }
@@ -302,7 +302,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						try {
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawLine(x1, y1, x2, y2, tool);
-							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(), "not text"));
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(),tool.getThickness(), "not text"));
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -331,7 +331,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						try {							
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);				
 							remoteHub.drawOval(x1, y1, x2, y2, tool);
-							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "oval",tool.getColor(), "not text"));
+							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "oval",tool.getColor(),tool.getThickness(), "not text"));
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -356,7 +356,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						try {
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawRect(x1, y1, x2, y2, tool);
-							remoteHub.AddShapes(new Graph(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x1-x2),Math.abs(y1-y2),"rect",tool.getColor(), "not text"));
+							remoteHub.AddShapes(new Graph(x1,y1,x2,y2,"rect",tool.getColor(), tool.getThickness(),"not text"));
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -381,7 +381,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						try {
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);	
 							remoteHub.drawCircle(x1, y1, x2, y2, tool);
-							remoteHub.AddShapes(new Graph(Math.min(x1,x2),Math.min(y1,y2),(Math.abs(x1-x2)+Math.abs(x1-x2))/2,(Math.abs(x1-x2)+Math.abs(x1-x2))/2,"circle",tool.getColor(), "not text"));
+							remoteHub.AddShapes(new Graph(x1,y1,x2,y2,"circle",tool.getColor(),tool.getThickness(), "not text"));
 						} catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();

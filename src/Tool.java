@@ -10,6 +10,11 @@ public class Tool implements Serializable {
 	public Tool(String type) {
 		this.type = type;
 	}
+	public Tool(String type,Color color,int thickness) {
+		this.type = type;
+		this.color = color;
+		this.thickness = thickness;
+	}
 	public String getType(){
 		return type;
 	}
