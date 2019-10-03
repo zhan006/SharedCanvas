@@ -103,7 +103,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame("Picthub");
+		frame = new JFrame("Picthub") {
+			public void paintComponent(Graphics g) {
+		        // your stuff
+		        g.drawLine(1, 2, 3, 3);
+		      }
+		};
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
 		frame.setBackground(SystemColor.desktop);
 		frame.setBounds(100, 100, 1200, 850);
@@ -1083,38 +1088,6 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				break;
 			}
 		}
-	}
-
-	@Override
-	public void initializeCanvas(ArrayList<Graph> shapes) throws RemoteException {
-		// TODO Auto-generated method stub
-		for(Graph graph:shapes) {
-			Tool tool = graph.getTool();
-			int x1 = graph.getX1();
-			int y1 = graph.getY1();
-			int x2 = graph.getX2();
-			int y2 = graph.getY2();
-			switch(tool.getType()) {
-			case "line":
-				try {
-					this.drawLine(x1, y1, x2, y2, tool);
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-		}
-		}
-	}
-
-	@Override
-	public void iniLine(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
-		// TODO Auto-generated method stub
-		Graphics2D graph = (Graphics2D)this.g;
-		graph.setStroke(new BasicStroke(tool.getThickness()));
-		graph.setColor(tool.getColor());
-		graph.drawLine(x1, y1, x2, y2);
-		System.out.print(x1);System.out.print(y1);System.out.print(x2);System.out.print(y2);
 	}
 		
 		
