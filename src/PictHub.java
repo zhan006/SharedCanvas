@@ -1089,6 +1089,29 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			}
 		}
 	}
+
+	@Override
+	public void sendHello(String name) throws RemoteException {
+		// TODO Auto-generated method stub
+		String text = this.ChatInput.getText();
+		String newText = this.username + ":\n" + "Hello, I'm "+name+"\n";
+		this.ChatInput.setText("");
+
+
+		for(String user:users_List) {
+			RemoteSharedCanvas remoteHub;
+			try {
+				Registry registry = LocateRegistry.getRegistry("localhost");
+				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+				//		this.chattingArea.setText(newText);
+				remoteHub.setChattingArea(newText);
+			} catch (Exception a) {
+				a.getStackTrace();
+			}
+		}
+	}
+
+	
 		
 		
 }

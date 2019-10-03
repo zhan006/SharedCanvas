@@ -47,22 +47,17 @@ public class User3 {
 	            window.initializeUserList(temp);
 	            
 	            ArrayList<Graph> drawing = manager.getShapes();
-	        
-	            
-	            ArrayList<Graph> local = new ArrayList<Graph>();;
-	            for(Graph g:drawing) {
-	            	local.add(g);
-	            }
 	            ArrayList<Graph> myshapes = window.getShapes();
-	            System.out.println("windows previous size is: "+window.getShapes().size());
-	            for(Graph g:local) {
+	            
+	            
+	            for(Graph g:drawing) {
 	            	myshapes.add(g);
 	            }
-	            System.out.println("windows shapes size is: "+window.getShapes().size());
-	            window.repaintPicture(window.getShapes());
 	            
 	            window.repaintPicture(window.getShapes());
-	            System.out.println(local.size());
+	            System.out.println("the window shape size is: "+window.getShapes().size());
+	            
+	            window.sendHello(username);
 			} catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("something wrong with the remote object");
