@@ -61,5 +61,7 @@ public interface RemoteSharedCanvas extends Remote{
 	
 	public void sendHello(String name) throws RemoteException;
 	
+	public boolean getApproval(String username)throws RemoteException;
+	
 	
 }

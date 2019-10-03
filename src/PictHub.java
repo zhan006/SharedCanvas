@@ -1111,6 +1111,19 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		}
 	}
 
+	@Override
+	public boolean getApproval(String username) throws RemoteException {
+		// TODO Auto-generated method stub
+		int result = JOptionPane.showConfirmDialog(frame,
+	            username+"Wants to join the whiteboard. Do you allow him to join?");
+	    if (result == JOptionPane.YES_OPTION) {
+	    	return true;
+	    } else if (result == JOptionPane.NO_OPTION) {
+	       return false;
+	        }
+		return false;
+	}
+
 	
 		
 		
