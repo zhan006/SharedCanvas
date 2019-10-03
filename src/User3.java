@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 import java.rmi.AlreadyBoundException;
+import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -67,7 +68,10 @@ public class User3 {
 				else {
 					System.out.println("my join request is refused ;(");
 				}   
-			} catch (RemoteException e1) {
+			} 
+			catch (ConnectException e5) {
+				System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+			}catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("something wrong with the remote object");
 			} catch (AlreadyBoundException e1) {
@@ -81,6 +85,9 @@ public class User3 {
 //		catch (AlreadyBoundException abe) {
 //	        System.out.println("The address is already bounded");
 //	    }
+		catch (ConnectException e) {
+			System.out.println("Seems like you failed to connect to the RMI register or your manager.");
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
