@@ -837,32 +837,81 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	@Override
 	public void leave() throws RemoteException {
 		// TODO Auto-generated method stub
-		this.deleteUser(this.username);
-		this.removeFromDisplay(username);
-		
-		for(String user:users_List) {
-			RemoteSharedCanvas remoteHub;
-			try {
-				Registry registry = LocateRegistry.getRegistry("localhost");
-				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-				//		this.chattingArea.setText(newText);
-				remoteHub.removeFromDisplay(this.username);
-				remoteHub.deleteUser(this.username);
-			} catch (Exception a) {
-				a.getStackTrace();
+		if(this.username.contentEquals("SharedCanvasManager")) {
+			this.deleteUser(this.username);
+			this.removeFromDisplay(username);
+			
+			for(String user:users_List) {
+				RemoteSharedCanvas remoteHub;
+				try {
+					Registry registry = LocateRegistry.getRegistry("localhost");
+					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+					//		this.chattingArea.setText(newText);
+					remoteHub.removeFromDisplay(this.username);
+					remoteHub.deleteUser(this.username);
+					
+					
+				} catch (Exception a) {
+					a.getStackTrace();
+				}
 			}
+			
+			for(String user:users_List) {
+				RemoteSharedCanvas remoteHub;
+				try {
+					Registry registry = LocateRegistry.getRegistry("localhost");
+					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+					//		this.chattingArea.setText(newText);
+					remoteHub.leave();
+					
+					
+				} catch (Exception a) {
+					a.getStackTrace();
+				}
+			}
+			
+			try {
+				Registry registry1 = LocateRegistry.getRegistry("localhost");
+				registry1.unbind(this.username);
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			System.exit(0);
+			
 		}
-		
-		try {
-			Registry registry1 = LocateRegistry.getRegistry("localhost");
-			registry1.unbind(this.username);
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		else {
+			this.deleteUser(this.username);
+			this.removeFromDisplay(username);
+			
+			JOptionPane.showMessageDialog(this.frame, "manager kicks you out or manager left. Or you leave in your free will");
+			
+			for(String user:users_List) {
+				RemoteSharedCanvas remoteHub;
+				try {
+					Registry registry = LocateRegistry.getRegistry("localhost");
+					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+					//		this.chattingArea.setText(newText);
+					remoteHub.removeFromDisplay(this.username);
+					remoteHub.deleteUser(this.username);
+				} catch (Exception a) {
+					a.getStackTrace();
+				}
+			}
+			
+			try {
+				Registry registry1 = LocateRegistry.getRegistry("localhost");
+				registry1.unbind(this.username);
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			System.exit(0);
 		}
-		
-		
-		System.exit(0);
 	}
 
 	@Override
@@ -1035,4 +1084,38 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			}
 		}
 	}
+
+	@Override
+	public void initializeCanvas(ArrayList<Graph> shapes) throws RemoteException {
+		// TODO Auto-generated method stub
+		for(Graph graph:shapes) {
+			Tool tool = graph.getTool();
+			int x1 = graph.getX1();
+			int y1 = graph.getY1();
+			int x2 = graph.getX2();
+			int y2 = graph.getY2();
+			switch(tool.getType()) {
+			case "line":
+				try {
+					this.drawLine(x1, y1, x2, y2, tool);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+		}
+		}
+	}
+
+	@Override
+	public void iniLine(int x1, int y1, int x2, int y2, Tool tool) throws RemoteException {
+		// TODO Auto-generated method stub
+		Graphics2D graph = (Graphics2D)this.g;
+		graph.setStroke(new BasicStroke(tool.getThickness()));
+		graph.setColor(tool.getColor());
+		graph.drawLine(x1, y1, x2, y2);
+		System.out.print(x1);System.out.print(y1);System.out.print(x2);System.out.print(y2);
+	}
+		
+		
 }

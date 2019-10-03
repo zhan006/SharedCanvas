@@ -27,6 +27,16 @@ public class User {
 		            	}
 		            }
 		            window.initializeUserList(temp);
+		            
+		            ArrayList<Graph> drawing = manager.getShapes();
+		        
+		            
+		            ArrayList<Graph> local = new ArrayList<Graph>();;
+		            for(Graph g:drawing) {
+		            	local.add(g);
+		            }
+		            window.repaintPicture(local);
+		            System.out.println(local.size());
 					
 				} catch (Exception e) {
 					e.printStackTrace();
