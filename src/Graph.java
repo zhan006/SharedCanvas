@@ -33,6 +33,19 @@ public class Graph implements Serializable {
 	public int getY2() {
 		return this.y2;
 	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public Color getColor() {
+		return this.c;
+	}
+	
+	public int getThinkness() {
+		return this.thickness;
+	}
+	
 	public String getText() {
 		return this.text;
 	}

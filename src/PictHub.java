@@ -103,7 +103,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame("Picthub");
+		frame = new JFrame("Picthub") {
+			public void paintComponent(Graphics g) {
+		        // your stuff
+		        g.drawLine(1, 2, 3, 3);
+		      }
+		};
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
 		frame.setBackground(SystemColor.desktop);
 		frame.setBounds(100, 100, 1200, 850);
@@ -837,32 +842,83 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	@Override
 	public void leave() throws RemoteException {
 		// TODO Auto-generated method stub
-		this.deleteUser(this.username);
-		this.removeFromDisplay(username);
-		
-		for(String user:users_List) {
-			RemoteSharedCanvas remoteHub;
-			try {
-				Registry registry = LocateRegistry.getRegistry("localhost");
-				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-				//		this.chattingArea.setText(newText);
-				remoteHub.removeFromDisplay(this.username);
-				remoteHub.deleteUser(this.username);
-			} catch (Exception a) {
-				a.getStackTrace();
+		if(this.username.contentEquals("SharedCanvasManager")) {
+			this.deleteUser(this.username);
+			this.removeFromDisplay(username);
+			
+			for(String user:users_List) {
+				RemoteSharedCanvas remoteHub;
+				try {
+					Registry registry = LocateRegistry.getRegistry("localhost");
+					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+					//		this.chattingArea.setText(newText);
+					remoteHub.removeFromDisplay(this.username);
+					remoteHub.deleteUser(this.username);
+					
+					
+				} catch (Exception a) {
+					a.getStackTrace();
+				}
 			}
+			
+			JOptionPane.showMessageDialog(frame, "Wait till all users checked you r leaving, this can take a few secs");
+			
+			for(String user:users_List) {
+				RemoteSharedCanvas remoteHub;
+				try {
+					Registry registry = LocateRegistry.getRegistry("localhost");
+					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+					//		this.chattingArea.setText(newText);
+					remoteHub.leave();
+					
+					
+				} catch (Exception a) {
+					a.getStackTrace();
+				}
+			}
+			
+			try {
+				Registry registry1 = LocateRegistry.getRegistry("localhost");
+				registry1.unbind(this.username);
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			System.exit(0);
+			
 		}
-		
-		try {
-			Registry registry1 = LocateRegistry.getRegistry("localhost");
-			registry1.unbind(this.username);
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		else {
+			this.deleteUser(this.username);
+			this.removeFromDisplay(username);
+			
+			JOptionPane.showMessageDialog(this.frame, "manager kicks you out or manager left. Or you leave in your free will");
+			
+			for(String user:users_List) {
+				RemoteSharedCanvas remoteHub;
+				try {
+					Registry registry = LocateRegistry.getRegistry("localhost");
+					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+					//		this.chattingArea.setText(newText);
+					remoteHub.removeFromDisplay(this.username);
+					remoteHub.deleteUser(this.username);
+				} catch (Exception a) {
+					a.getStackTrace();
+				}
+			}
+			
+			try {
+				Registry registry1 = LocateRegistry.getRegistry("localhost");
+				registry1.unbind(this.username);
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			System.exit(0);
 		}
-		
-		
-		System.exit(0);
 	}
 
 	@Override
@@ -1035,4 +1091,42 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			}
 		}
 	}
+
+	@Override
+	public void sendHello(String name) throws RemoteException {
+		// TODO Auto-generated method stub
+		String text = this.ChatInput.getText();
+		String newText = this.username + ":\n" + "Hello, I'm "+name+"\n";
+		this.ChatInput.setText("");
+
+
+		for(String user:users_List) {
+			RemoteSharedCanvas remoteHub;
+			try {
+				Registry registry = LocateRegistry.getRegistry("localhost");
+				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
+				//		this.chattingArea.setText(newText);
+				remoteHub.setChattingArea(newText);
+			} catch (Exception a) {
+				a.getStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public boolean getApproval(String username) throws RemoteException {
+		// TODO Auto-generated method stub
+		int result = JOptionPane.showConfirmDialog(frame,
+	            username+"Wants to join the whiteboard. Do you allow him to join?");
+	    if (result == JOptionPane.YES_OPTION) {
+	    	return true;
+	    } else if (result == JOptionPane.NO_OPTION) {
+	       return false;
+	        }
+		return false;
+	}
+
+	
+		
+		
 }

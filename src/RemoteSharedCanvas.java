@@ -58,4 +58,10 @@ public interface RemoteSharedCanvas extends Remote{
 	
 	public void newPicture() throws RemoteException;
 	public void repaintPicture(ArrayList<Graph> shapes) throws RemoteException;
+	
+	public void sendHello(String name) throws RemoteException;
+	
+	public boolean getApproval(String username)throws RemoteException;
+	
+	
 }
