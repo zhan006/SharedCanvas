@@ -12,7 +12,7 @@ public class user2 {
 			Registry registry = LocateRegistry.getRegistry();
 			String username = "user2";
 			
-			System.out.print(registry.lookup(username));
+			registry.lookup(username);
 			
 			System.out.print("the name you entered is already bounded");
 			
@@ -76,7 +76,7 @@ public class user2 {
 				System.out.println("the name is already registered");
 			} catch (NotBoundException e1) {
 				// TODO Auto-generated catch block
-				System.out.println("the name is not bounded yet!");
+				System.out.println("No manager found");
 			}
 		}
 //		catch (AlreadyBoundException abe) {

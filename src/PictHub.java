@@ -861,6 +861,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				}
 			}
 			
+			JOptionPane.showMessageDialog(frame, "Wait till all users checked you r leaving, this can take a few secs");
+			
 			for(String user:users_List) {
 				RemoteSharedCanvas remoteHub;
 				try {
