@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -71,7 +72,13 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(),tool.getThickness(), "not text"));
 							
 //							System.out.println(shapes.size());
-						} catch (RemoteException | NotBoundException e2) {
+						} 
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
@@ -80,7 +87,13 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					}
 					x1=x2;
 					y1=y2;
-				} catch (RemoteException | NotBoundException e1) {
+				} 
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -106,7 +119,13 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "eraser",Color.WHITE,tool.getThickness(), "not text"));
 							
 //							System.out.println(shapes.size());
-						} catch (RemoteException | NotBoundException e2) {
+						} 
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
@@ -114,6 +133,11 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						remoteHub.drawLine(x1, y1, x2, y2, tool);
 						System.out.println(shapes.size());
 					}
+				}
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
 				}
 				
 					catch (RemoteException | NotBoundException e2) {
@@ -142,14 +166,26 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawSmallEraser(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "smallEraser",Color.WHITE,tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						} 
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 					}
 					x1=x2;
 					y1=y2;
-				} catch (RemoteException | NotBoundException e1) {
+				} 
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -173,13 +209,25 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawMediumEraser(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "midEraser",Color.WHITE,tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						} 
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							e2.printStackTrace();
 						}
 					}
 					x1=x2;
 					y1=y2;
-				} catch (RemoteException | NotBoundException e1) {
+				} 
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (RemoteException | NotBoundException e1) {
 					e1.printStackTrace();
 				}
 				
@@ -203,13 +251,25 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub.drawLargeEraser(x1, y1, x2, y2, tool);					
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "largeEraser",Color.WHITE,tool.getThickness(), "not text"));
 							
-						} catch (RemoteException | NotBoundException e2) {
+						} 
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							e2.printStackTrace();
 						}
 					}
 					x1=x2;
 					y1=y2;
-				} catch (RemoteException | NotBoundException e1) {
+				} 
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -264,12 +324,24 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							 }
 				             
 				         }
-					} catch (RemoteException | NotBoundException e2) {
+					} 
+					catch (ConnectException e5) {
+//						System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+						JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//						System.exit(0);
+					}
+					catch (RemoteException | NotBoundException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
 				}
-			} catch (RemoteException | NotBoundException e1) {
+			} 
+			catch (ConnectException e5) {
+				System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+				JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+				System.exit(0);
+			}
+			catch (RemoteException | NotBoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -303,12 +375,24 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawLine(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(),tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						} 
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 					}
-				} catch (RemoteException | NotBoundException e1) {
+				} 
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -332,12 +416,24 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);				
 							remoteHub.drawOval(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "oval",tool.getColor(),tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						} 
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 					}
-				} catch (RemoteException | NotBoundException e1) {
+				} 
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -357,12 +453,24 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawRect(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1,y1,x2,y2,"rect",tool.getColor(), tool.getThickness(),"not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						} 
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 					}
-				} catch (RemoteException | NotBoundException e1) {
+				} 
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -382,12 +490,24 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);	
 							remoteHub.drawCircle(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1,y1,x2,y2,"circle",tool.getColor(),tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						} 
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 					}
-				} catch (RemoteException | NotBoundException e1) {
+				} 
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (RemoteException | NotBoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
