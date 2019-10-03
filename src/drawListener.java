@@ -78,9 +78,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
 //							System.exit(0);
 						}
-						catch (RemoteException | NotBoundException e2) {
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 
 						
@@ -93,9 +98,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 					System.exit(0);
 				}
-				catch (RemoteException | NotBoundException e1) {
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				
 				
@@ -139,11 +149,15 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 					System.exit(0);
 				}
-				
-					catch (RemoteException | NotBoundException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
+					// TODO Auto-generated catch block
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
 				x1=x2;
 				y1=y2;
 				
@@ -172,9 +186,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
 //							System.exit(0);
 						}
-						catch (RemoteException | NotBoundException e2) {
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 					x1=x2;
@@ -185,9 +204,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 					System.exit(0);
 				}
-				catch (RemoteException | NotBoundException e1) {
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				
 				
@@ -215,8 +239,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
 //							System.exit(0);
 						}
-						catch (RemoteException | NotBoundException e2) {
-							e2.printStackTrace();
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
+							// TODO Auto-generated catch block
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 					x1=x2;
@@ -227,10 +257,15 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 					System.exit(0);
 				}
-				catch (RemoteException | NotBoundException e1) {
-					e1.printStackTrace();
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
-				
+				catch (RemoteException k) {
+					// TODO Auto-generated catch block
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
 				
 				System.out.print("after add the shape size is: "+this.shapes.size());
 				
@@ -257,8 +292,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
 //							System.exit(0);
 						}
-						catch (RemoteException | NotBoundException e2) {
-							e2.printStackTrace();
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
+							// TODO Auto-generated catch block
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 					x1=x2;
@@ -269,9 +310,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 					System.exit(0);
 				}
-				catch (RemoteException | NotBoundException e1) {
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				break;
 		}
@@ -330,9 +376,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 						JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
 //						System.exit(0);
 					}
-					catch (RemoteException | NotBoundException e2) {
+					catch (NotBoundException e2) {
+						System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+						JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+					}
+					catch (RemoteException k) {
 						// TODO Auto-generated catch block
-						e2.printStackTrace();
+						System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+						JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 					}
 				}
 			} 
@@ -341,9 +392,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 				System.exit(0);
 			}
-			catch (RemoteException | NotBoundException e1) {
+			catch (NotBoundException e2) {
+				System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+				JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+			}
+			catch (RemoteException k) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+				JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 			}
 
 			
@@ -381,9 +437,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
 //							System.exit(0);
 						}
-						catch (RemoteException | NotBoundException e2) {
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 				} 
@@ -392,9 +453,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 					System.exit(0);
 				}
-				catch (RemoteException | NotBoundException e1) {
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				
 				System.out.print("after add the shape size is: "+this.shapes.size());
@@ -422,9 +488,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
 //							System.exit(0);
 						}
-						catch (RemoteException | NotBoundException e2) {
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 				} 
@@ -433,9 +504,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 					System.exit(0);
 				}
-				catch (RemoteException | NotBoundException e1) {
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				break;
 			case "rect":
@@ -459,9 +535,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
 //							System.exit(0);
 						}
-						catch (RemoteException | NotBoundException e2) {
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 				} 
@@ -470,9 +551,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 					System.exit(0);
 				}
-				catch (RemoteException | NotBoundException e1) {
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				break;
 			case "circle":
@@ -496,9 +582,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
 //							System.exit(0);
 						}
-						catch (RemoteException | NotBoundException e2) {
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 				} 
@@ -507,9 +598,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
 					System.exit(0);
 				}
-				catch (RemoteException | NotBoundException e1) {
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				
 				System.out.print("after add the shape size is: "+this.shapes.size());

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -780,7 +781,13 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 				//		this.chattingArea.setText(newText);
 				remoteHub.setChattingArea(newText);
-			} catch (Exception a) {
+			} 
+			catch (ConnectException e5) {
+//				System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+				JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to send message");
+//				System.exit(0);
+			}
+			catch (Exception a) {
 				a.getStackTrace();
 			}
 		}
@@ -825,7 +832,13 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				RemoteSharedCanvas remoteHub = (RemoteSharedCanvas) registry.lookup(input);
 				
 				remoteHub.leave();
-			} catch (NotBoundException e) {
+			} 
+			catch (ConnectException e5) {
+//				System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+				JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to kick that user by force him to leave");
+//				System.exit(0);
+			}
+			catch (NotBoundException e) {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(this.frame, "No user found");
 			}
@@ -856,7 +869,13 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					remoteHub.deleteUser(this.username);
 					
 					
-				} catch (Exception a) {
+				} 
+				catch (ConnectException e5) {
+//					System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+					JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to remove your name from their list and then leave");
+					System.exit(0);
+				}
+				catch (Exception a) {
 					a.getStackTrace();
 				}
 			}
@@ -880,9 +899,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			try {
 				Registry registry1 = LocateRegistry.getRegistry("localhost");
 				registry1.unbind(this.username);
-			} catch (NotBoundException e) {
+			} 
+			catch (ConnectException e5) {
+//				System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+				JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to leave regularly");
+				System.exit(0);
+			}
+			catch (NotBoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("RMI Crashed Already. I'm tring to leave");
+			}
+			catch (Exception a) {
+				a.getStackTrace();
 			}
 			
 			
@@ -903,7 +931,13 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					//		this.chattingArea.setText(newText);
 					remoteHub.removeFromDisplay(this.username);
 					remoteHub.deleteUser(this.username);
-				} catch (Exception a) {
+				} 
+				catch (ConnectException e5) {
+//					System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+					JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to remove your name from their list and then leave");
+					System.exit(0);
+				}
+				catch (Exception a) {
 					a.getStackTrace();
 				}
 			}
@@ -911,9 +945,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			try {
 				Registry registry1 = LocateRegistry.getRegistry("localhost");
 				registry1.unbind(this.username);
-			} catch (NotBoundException e) {
+			} 
+			catch (ConnectException e5) {
+//				System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+				JOptionPane.showMessageDialog(null, "RMI crashed. So you failed to unbind your name");
+				System.exit(0);
+			}
+			catch (NotBoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("RMI Crashed Already. I'm tring to leave");
+			}
+			catch (Exception a) {
+				a.getStackTrace();
 			}
 			
 			
@@ -1048,9 +1091,17 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					e.printStackTrace();
 				}
 				break;
-			case "Oval":
+			case "oval":
 				try {
 					this.drawOval(x1, y1, x2, y2, tool);
+				} catch (RemoteException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				break;
+			case "rect":
+				try {
+					this.drawRect(x1, y1, x2, y2, tool);
 				} catch (RemoteException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
