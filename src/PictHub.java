@@ -1036,7 +1036,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 				//		this.chattingArea.setText(newText);
 				remoteHub.newPicture();
-			} catch (Exception a) {
+			} 
+			catch (ConnectException e5) {
+				System.out.println("connection error occured, please leave and restart");
+			}
+			catch (Exception a) {
 				a.getStackTrace();
 			}
 		}
@@ -1063,7 +1067,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawLine(x1,y1,x2,y2,tool);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			case "line":
@@ -1071,7 +1075,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawLine(x1, y1, x2, y2, tool);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			case "text":
@@ -1080,7 +1084,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawString(text, x1, y1, tool);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			case "circle":
@@ -1088,7 +1092,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawCircle(x1, y1, x2, y2, tool);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			case "oval":
@@ -1096,7 +1100,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawOval(x1, y1, x2, y2, tool);
 				} catch (RemoteException e2) {
 					// TODO Auto-generated catch block
-					e2.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			case "rect":
@@ -1104,7 +1108,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawRect(x1, y1, x2, y2, tool);
 				} catch (RemoteException e2) {
 					// TODO Auto-generated catch block
-					e2.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			case "eraser":
@@ -1112,7 +1116,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawEraser(x1, y1, x2, y2, tool);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			case "smallEraser":
@@ -1120,7 +1124,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawSmallEraser(x1, y1, x2, y2, tool);
 				} catch (RemoteException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			case "midEraser":
@@ -1128,7 +1132,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawMediumEraser(x1, y1, x2, y2, tool);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			case "largeEraser":
@@ -1136,7 +1140,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					this.drawLargeEraser(x1, y1, x2, y2, tool);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Somethingwrong with the remote object so you failed to load the whiteboard. Please leave and restart");
 				}
 				break;
 			}
@@ -1158,7 +1162,15 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 				//		this.chattingArea.setText(newText);
 				remoteHub.setChattingArea(newText);
-			} catch (Exception a) {
+			} 
+			catch (ConnectException e5) {
+				System.out.println("Seems like there is a connection problem");
+			}
+			catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				System.out.println("RMI Crashed Already. So you are no bound");
+			}
+			catch (Exception a) {
 				a.getStackTrace();
 			}
 		}
