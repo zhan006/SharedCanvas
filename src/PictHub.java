@@ -295,6 +295,20 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				}
 			}
 		});
+		
+		JButton btnRefresh = new JButton("refresh");
+		file.add(btnRefresh);
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					refresh(shapes);
+				}catch (Exception a){
+					a.getStackTrace();
+				}
+			}
+		});
+		
+		
 
 		ChatInput = new JTextArea();
 		ChatInput.setBounds(0, 697, 283, 58);
@@ -638,7 +652,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			toolBtn.get(i).addActionListener(new toolButtonListener(tool));
 		}
 	}
-
+	
+	public void refresh(ArrayList<Graph> shapes) {
+		this.repaintPicture(shapes);
+	}
+	
 	@Override
 	public void login(String username) throws RemoteException {
 		// TODO Auto-generated method stub
@@ -1188,8 +1206,4 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	        }
 		return false;
 	}
-
-	
-		
-		
 }
