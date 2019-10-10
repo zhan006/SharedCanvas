@@ -6,7 +6,7 @@ CODE TODO:
 1: 命令行输入Manager-CreateRegistry(port);
 2: 命令行输入User-GetRegistry(hostname, port)
 3: 命令行输入username
-4：更改所有跟getRegistry相关的方法，因为都要getRegistry（xxxx）
+4：更改所有跟getRegistry相关的方法，因为都要getRegistry（xxxx）[drawlistener, picthub]
 -----------------------
 4:import picture选取用户输入的picture+完善的exception handling
 
