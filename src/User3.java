@@ -7,11 +7,11 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
-public class User {
+public class User3 {
 	public static void main(String[] args) {	
 		try {
 			Registry registry = LocateRegistry.getRegistry();
-			String username = "user1";
+			String username = "user3";
 			
 			registry.lookup(username);
 			
@@ -24,11 +24,11 @@ public class User {
 			Registry registry;
 			try {
 				registry = LocateRegistry.getRegistry();
-				String username = "user1";
+				String username = "user3";
 				
 				RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
-				
 				boolean flag = manager.getApproval(username);
+				
 				
 				/*
 				 * where I place the check approval, only execute pictub if receives approval
@@ -68,11 +68,10 @@ public class User {
 				else {
 					System.out.println("my join request is refused ;(");
 				}   
-			}
+			} 
 			catch (ConnectException e5) {
 				System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
-			}
-			catch (RemoteException e1) {
+			}catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("something wrong with the remote object");
 			} catch (AlreadyBoundException e1) {

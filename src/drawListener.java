@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -49,48 +50,70 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		assert tool!=null;
 		assert graph!=null;
 		switch(tool.getType()) {
-			case "pencil":				
+			case "pencil":
 				Registry registry;
 				try {
 					registry = LocateRegistry.getRegistry();
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
 					System.out.println("User list size is: "+usersList.size());
-					
+
 					for(String user:temp) {
-						
+
 						RemoteSharedCanvas remoteHub;
 						try {
 //							Registry registry = LocateRegistry.getRegistry("localhost");
 //							System.out.print(registry.lookup(user).getClass());
 //							System.out.print(registry.lookup(user));
-							
+
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawLine(x1, y1, x2, y2, tool);
-							
+
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(),tool.getThickness(), "not text"));
-							
+
 //							System.out.println(shapes.size());
-						} catch (RemoteException | NotBoundException e2) {
+						}
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 
-						
+
 					}
 					x1=x2;
 					y1=y2;
-				} catch (RemoteException | NotBoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
-				
-				
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
+					// TODO Auto-generated catch block
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+
+
 				System.out.print("after add the shape size is: "+this.shapes.size());
-				
+
 				break;
 			case "eraser":
-				
+
 				try {
 					registry = LocateRegistry.getRegistry();
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
@@ -99,33 +122,45 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					for(String user:temp) {
 						RemoteSharedCanvas remoteHub;
 						try {
-							
+
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawEraser(x1, y1, x2, y2, tool);
-							
+
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "eraser",Color.WHITE,tool.getThickness(), "not text"));
-							
+
 //							System.out.println(shapes.size());
-						} catch (RemoteException | NotBoundException e2) {
+						}
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (RemoteException | NotBoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
-						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-						remoteHub.drawLine(x1, y1, x2, y2, tool);
-						System.out.println(shapes.size());
 					}
 				}
-				
-					catch (RemoteException | NotBoundException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
+					// TODO Auto-generated catch block
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
 				x1=x2;
 				y1=y2;
-				
-				
+
+
 				System.out.print("after add the shape size is: "+this.shapes.size());
-				
+
 				break;
 			case "smallEraser":
 				try {
@@ -133,30 +168,52 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
 					System.out.println("User list size is: "+usersList.size());
-					
+
 					for(String user:temp) {
-						
+
 						RemoteSharedCanvas remoteHub;
 						try {
-							
+
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawSmallEraser(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "smallEraser",Color.WHITE,tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						}
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 					x1=x2;
 					y1=y2;
-				} catch (RemoteException | NotBoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
-				
-				
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
+					// TODO Auto-generated catch block
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+
+
 				System.out.print("after add the shape size is: "+this.shapes.size());
-				
+
 				break;
 			case "midEraser":
 				try {
@@ -164,28 +221,51 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
 					System.out.println("User list size is: "+usersList.size());
-					
+
 					for(String user:temp) {
-						
+
 						RemoteSharedCanvas remoteHub;
 						try {
-							
+
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawMediumEraser(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "midEraser",Color.WHITE,tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
-							e2.printStackTrace();
+						}
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
+							// TODO Auto-generated catch block
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 					x1=x2;
 					y1=y2;
-				} catch (RemoteException | NotBoundException e1) {
-					e1.printStackTrace();
 				}
-				
-				
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
+					// TODO Auto-generated catch block
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+
 				System.out.print("after add the shape size is: "+this.shapes.size());
-				
+
 				break;
 			case "largeEraser":
 				try {
@@ -193,25 +273,48 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
 					System.out.println("User list size is: "+usersList.size());
-					
+
 					for(String user:temp) {
-						
+
 						RemoteSharedCanvas remoteHub;
 						try {
-							
+
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-							remoteHub.drawLargeEraser(x1, y1, x2, y2, tool);					
+							remoteHub.drawLargeEraser(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "largeEraser",Color.WHITE,tool.getThickness(), "not text"));
-							
-						} catch (RemoteException | NotBoundException e2) {
-							e2.printStackTrace();
+
+						}
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
+							// TODO Auto-generated catch block
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
 					x1=x2;
 					y1=y2;
-				} catch (RemoteException | NotBoundException e1) {
+				}
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				break;
 		}
@@ -220,20 +323,20 @@ public class drawListener implements MouseListener,MouseMotionListener{
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		this.x1 = e.getX();
-		this.y1 = e.getY();	
+		this.y1 = e.getY();
 		switch(this.tool.getType()) {
 		case "text":
 			Registry registry;
@@ -242,39 +345,61 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 				ArrayList<String> temp = manager.getUserList();
 				System.out.println("User list size is: "+usersList.size());
-				
+
 				Map<Point, String> pointTextMap = new LinkedHashMap<>();
 				String prompt = "Please add text to display";
 		        String input = JOptionPane.showInputDialog(canvas, prompt);
 		        pointTextMap.put(e.getPoint(), input);
-		        
+
 				for(String user:temp) {
-					
+
 					RemoteSharedCanvas remoteHub;
 					try {
-						
+
 						remoteHub = (RemoteSharedCanvas) registry.lookup(user);
-						
+
 						for (Point p : pointTextMap.keySet()) {
 				             String text = pointTextMap.get(p);
 							 if (text!= null) {
-								 
+
 								 remoteHub.drawString(text, p.x, p.y, tool);
 								 remoteHub.AddShapes(new Graph(p.x, p.y, p.x, p.y, "text",tool.getColor(),tool.getThickness(), text));
 							 }
-				             
+
 				         }
-					} catch (RemoteException | NotBoundException e2) {
+					}
+					catch (ConnectException e5) {
+//						System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+						JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//						System.exit(0);
+					}
+					catch (NotBoundException e2) {
+						System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+						JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+					}
+					catch (RemoteException k) {
 						// TODO Auto-generated catch block
-						e2.printStackTrace();
+						System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+						JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 					}
 				}
-			} catch (RemoteException | NotBoundException e1) {
+			}
+			catch (ConnectException e5) {
+				System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+				JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+				System.exit(0);
+			}
+			catch (NotBoundException e2) {
+				System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+				JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+			}
+			catch (RemoteException k) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+				JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 			}
 
-			
+
 			break;
 		}
 	}
@@ -287,59 +412,103 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		assert this.tool!=null;
 		switch(this.tool.getType()) {
 			case "line":
-								
+
 				Registry registry;
 				try {
 					registry = LocateRegistry.getRegistry();
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
-					
+
 					System.out.println("User list size is: "+usersList.size());
-					
+
 					for(String user:temp) {
-						
+
 						RemoteSharedCanvas remoteHub;
 						try {
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawLine(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "line",tool.getColor(),tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						}
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
-				} catch (RemoteException | NotBoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
-				
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
+					// TODO Auto-generated catch block
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+
 				System.out.print("after add the shape size is: "+this.shapes.size());
-				
-				
+
+
 				break;
 			case "oval":
 				try {
 					registry = LocateRegistry.getRegistry();
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
-					
+
 					System.out.println("User list size is: "+usersList.size());
-					
+
 					for(String user:temp) {
-						
+
 						RemoteSharedCanvas remoteHub;
-						try {							
-							remoteHub = (RemoteSharedCanvas) registry.lookup(user);				
+						try {
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawOval(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1, y1, x2, y2, "oval",tool.getColor(),tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						}
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
-				} catch (RemoteException | NotBoundException e1) {
+				}
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				break;
 			case "rect":
@@ -347,24 +516,46 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					registry = LocateRegistry.getRegistry();
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
-					
+
 					System.out.println("User list size is: "+usersList.size());
-					
+
 					for(String user:temp) {
-						
+
 						RemoteSharedCanvas remoteHub;
 						try {
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawRect(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1,y1,x2,y2,"rect",tool.getColor(), tool.getThickness(),"not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						}
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
-				} catch (RemoteException | NotBoundException e1) {
+				}
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 				break;
 			case "circle":
@@ -372,28 +563,50 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					registry = LocateRegistry.getRegistry();
 					RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 					ArrayList<String> temp = manager.getUserList();
-					
+
 					System.out.println("User list size is: "+usersList.size());
-					
+
 					for(String user:temp) {
-						
+
 						RemoteSharedCanvas remoteHub;
 						try {
-							remoteHub = (RemoteSharedCanvas) registry.lookup(user);	
+							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							remoteHub.drawCircle(x1, y1, x2, y2, tool);
 							remoteHub.AddShapes(new Graph(x1,y1,x2,y2,"circle",tool.getColor(),tool.getThickness(), "not text"));
-						} catch (RemoteException | NotBoundException e2) {
+						}
+						catch (ConnectException e5) {
+//							System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
+							JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident. So you failed to draw");
+//							System.exit(0);
+						}
+						catch (NotBoundException e2) {
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+						}
+						catch (RemoteException k) {
 							// TODO Auto-generated catch block
-							e2.printStackTrace();
+							System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+							JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 						}
 					}
-				} catch (RemoteException | NotBoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
-				
+				catch (ConnectException e5) {
+					System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+					JOptionPane.showMessageDialog(null, "Seems like you failed to connect to the RMI register. You window will be closed");
+					System.exit(0);
+				}
+				catch (NotBoundException e2) {
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+				catch (RemoteException k) {
+					// TODO Auto-generated catch block
+					System.out.println("RMI Crashed already. Please stop drawing and close the useless window");
+					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
+				}
+
 				System.out.print("after add the shape size is: "+this.shapes.size());
-				
+
 				break;
 		}
 	}
@@ -401,13 +614,13 @@ public class drawListener implements MouseListener,MouseMotionListener{
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
