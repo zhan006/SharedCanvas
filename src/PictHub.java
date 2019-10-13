@@ -14,6 +14,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -70,9 +72,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	private JPanel toolPanel,colors,canvas;
 	private ArrayList<Graph> shapes = new ArrayList<Graph>();
 	private ArrayList<JButton> toolBtn = new ArrayList<JButton>();
-	private ArrayList<String> users_List = new ArrayList<String>();
-	private Color[] Allcolor = new Color[] {Color.BLACK,Color.BLUE,Color.DARK_GRAY,Color.CYAN,Color.GREEN
-			,Color.ORANGE,Color.RED,Color.PINK,Color.WHITE,Color.YELLOW,Color.MAGENTA,Color.LIGHT_GRAY};
+	private HashMap<String,ArrayList<String>> users_List = new HashMap<String,ArrayList<String>>();
 	private JList<String> list;
 	DefaultListModel<String> listModel;
 	private String username;
@@ -255,10 +255,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				if (check) {
 					ArrayList<Graph> history = importPict("./picture.his");
 
-					for(String user:users_List) {
+					for(String user:users_List.keySet()) {
 						RemoteSharedCanvas remoteHub;
+						String host = users_List.get(user).get(0);
+						int port = Integer.parseInt(users_List.get(user).get(1));
 						try {
-							Registry registry = LocateRegistry.getRegistry("localhost");
+							Registry registry = LocateRegistry.getRegistry(host,port);
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							for(Graph g:history) {
 								remoteHub.AddShapes(g);
@@ -662,9 +664,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 
 	@Override
-	public void login(String username) throws RemoteException {
+	public void login(String username,String host,String port) throws RemoteException {
 		// TODO Auto-generated method stub
-		this.users_List.add(username);
+		ArrayList<String> destination = new ArrayList<String>();
+		destination.add(host);
+		destination.add(port);
+		this.users_List.put(username, destination);
 		this.listModel.addElement(username);
 	}
 
@@ -712,19 +717,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 
 	@Override
-	public ArrayList<String> getUserList() throws RemoteException {
+	public HashMap<String, ArrayList<String>> getUserList() throws RemoteException {
 		// TODO Auto-generated method stub
 		return this.users_List;
 	}
 
-	@Override
-	public void setUserList(ArrayList<String> temp) throws RemoteException {
-		System.out.println("setUserList thinks the input size is: "+shapes.size());
-		// TODO Auto-generated method stub
-		for(String username:temp) {
-			this.users_List.add(username);
-		}
-	}
 
 	@Override
 	public ArrayList<Graph> getShapes() throws RemoteException {
@@ -796,10 +793,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		this.ChatInput.setText("");
 
 
-		for(String user:users_List) {
+		for(String user:this.users_List.keySet()) {
 			RemoteSharedCanvas remoteHub;
+			String host = users_List.get(user).get(0);
+			int port = Integer.parseInt(users_List.get(user).get(1));
 			try {
-				Registry registry = LocateRegistry.getRegistry("localhost");
+				Registry registry = LocateRegistry.getRegistry(host,port);
 				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 				//		this.chattingArea.setText(newText);
 				remoteHub.setChattingArea(newText);
@@ -834,11 +833,20 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 
 	@Override
-	public void addUser(String laterUser) throws RemoteException {
+	public void addUser(String username,String host, String port) throws RemoteException {
 		// TODO Auto-generated method stub
-		this.users_List.add(laterUser);
+		ArrayList<String> destination = new ArrayList<String>();
+		destination.add(host);
+		destination.add(port);
+		this.users_List.put(username,destination);
 	}
-
+	private Registry getUserRegistry(String name) throws RemoteException {
+		ArrayList<String> userhost = this.users_List.get(name);
+        String host = userhost.get(0);
+        int port = Integer.parseInt(userhost.get(1));
+		Registry registry = LocateRegistry.getRegistry(host,port);
+		return registry;
+	}
 	@Override
 	public void kickUser() throws RemoteException {
 		// TODO Auto-generated method stub
@@ -847,8 +855,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				String prompt = "Please enter the username of the user you want to kick";
 		        String input = JOptionPane.showInputDialog(canvas, prompt);
 		        System.out.println(input);
-
-				Registry registry = LocateRegistry.getRegistry("localhost");
+		        Registry registry = this.getUserRegistry(input);
 				RemoteSharedCanvas remoteHub = (RemoteSharedCanvas) registry.lookup(input);
 
 				remoteHub.leave();
@@ -879,10 +886,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			this.deleteUser(this.username);
 			this.removeFromDisplay(username);
 
-			for(String user:users_List) {
+			for(String user:this.users_List.keySet()) {
 				RemoteSharedCanvas remoteHub;
+				String host = users_List.get(user).get(0);
+				int port = Integer.parseInt(users_List.get(user).get(1));
 				try {
-					Registry registry = LocateRegistry.getRegistry("localhost");
+					Registry registry = LocateRegistry.getRegistry(host,port);
 					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 					//		this.chattingArea.setText(newText);
 					remoteHub.removeFromDisplay(this.username);
@@ -902,10 +911,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 			JOptionPane.showMessageDialog(frame, "Wait till all users checked you r leaving, this can take a few secs");
 
-			for(String user:users_List) {
+			for(String user:this.users_List.keySet()) {
 				RemoteSharedCanvas remoteHub;
+				String host = users_List.get(user).get(0);
+				int port = Integer.parseInt(users_List.get(user).get(1));
 				try {
-					Registry registry = LocateRegistry.getRegistry("localhost");
+					Registry registry = LocateRegistry.getRegistry(host,port);
 					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 					//		this.chattingArea.setText(newText);
 					remoteHub.leave();
@@ -917,7 +928,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			}
 
 			try {
-				Registry registry1 = LocateRegistry.getRegistry("localhost");
+				Registry registry1 = this.getUserRegistry(this.username);
 				registry1.unbind(this.username);
 			}
 			catch (ConnectException e5) {
@@ -943,10 +954,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 			JOptionPane.showMessageDialog(this.frame, "manager kicks you out or manager left. Or you leave in your free will");
 
-			for(String user:users_List) {
+			for(String user:this.users_List.keySet()) {
 				RemoteSharedCanvas remoteHub;
+				String host = users_List.get(user).get(0);
+				int port = Integer.parseInt(users_List.get(user).get(1));
 				try {
-					Registry registry = LocateRegistry.getRegistry("localhost");
+					Registry registry = LocateRegistry.getRegistry(host,port);
 					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 					//		this.chattingArea.setText(newText);
 					remoteHub.removeFromDisplay(this.username);
@@ -963,7 +976,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			}
 
 			try {
-				Registry registry1 = LocateRegistry.getRegistry("localhost");
+				Registry registry1 = this.getUserRegistry(this.username);
 				registry1.unbind(this.username);
 			}
 			catch (ConnectException e5) {
@@ -1049,10 +1062,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 
 	public void remoteNewPicture() {
-		for(String user:users_List) {
+		for(String user:users_List.keySet()) {
 			RemoteSharedCanvas remoteHub;
+			String host = users_List.get(user).get(0);
+			int port = Integer.parseInt(users_List.get(user).get(1));
 			try {
-				Registry registry = LocateRegistry.getRegistry("localhost");
+				Registry registry = LocateRegistry.getRegistry(host,port);
 				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 				//		this.chattingArea.setText(newText);
 				remoteHub.newPicture();
@@ -1175,10 +1190,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		this.ChatInput.setText("");
 
 
-		for(String user:users_List) {
+		for(String user:users_List.keySet()) {
 			RemoteSharedCanvas remoteHub;
+			String host = users_List.get(user).get(0);
+			int port = Integer.parseInt(users_List.get(user).get(1));
 			try {
-				Registry registry = LocateRegistry.getRegistry("localhost");
+				Registry registry = LocateRegistry.getRegistry(host,port);
 				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 				//		this.chattingArea.setText(newText);
 				remoteHub.setChattingArea(newText);
@@ -1207,5 +1224,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	       return false;
 	        }
 		return false;
+	}
+
+	@Override
+	public void setUserList(HashMap<String, ArrayList<String>> temp) throws RemoteException {
+		// TODO Auto-generated method stub
+		this.users_List = temp;
+		
 	}
 }
