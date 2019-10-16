@@ -1036,16 +1036,16 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		}
 		catch(NullPointerException e1) {
 			JOptionPane.showMessageDialog(this.frame, "Pressed Cancel, current picture is not saved");
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		catch(FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(this.frame, "File Not Found!");
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(this.frame, "Error occured");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this.frame, "failed to write or read");
+//			e.printStackTrace();
 		}
 	}
 
@@ -1071,8 +1071,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(this.frame, "Error occured");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this.frame, "Failed to write or read");
+//			e.printStackTrace();
 		}
 		return shapes;
 	}
