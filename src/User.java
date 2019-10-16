@@ -112,6 +112,9 @@ public class User {
 //			// TODO Auto-generated catch block
 //			System.out.println("Please check the ip address or port number again");
 //		}
+		catch (NumberFormatException e5) {
+			System.out.println("Please enter integer for port number");
+		}
 		catch (Exception e) {
 			System.out.println();
 			System.out.println("Seems like you failed to connect to the RMI register or your manager.");
