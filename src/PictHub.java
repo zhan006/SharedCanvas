@@ -169,7 +169,19 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 				boolean check = checkManager();
 				if(check) {
-					newPicture();
+					int option = JOptionPane.showConfirmDialog(frame, "do you want to save current picture?");
+					switch(option) {
+					case 0:
+						String path = JOptionPane.showInputDialog("Input the new path");
+						savePict(path);
+						break;
+					case 1:
+						newPicture();
+						break;
+					case 2:
+						break;
+					}
+					
 					//if the user is manager, clear all others board
 					remoteNewPicture();
 				}
@@ -253,7 +265,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				// TODO Auto-generated method stub
 				boolean check = checkManager();
 				if (check) {
-					ArrayList<Graph> history = importPict("./picture.his");
+					String path = JOptionPane.showInputDialog(frame,"input the file path:");
+					ArrayList<Graph> history = importPict(path);
 
 					for(String user:users_List.keySet()) {
 						RemoteSharedCanvas remoteHub;
