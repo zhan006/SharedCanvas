@@ -967,7 +967,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			this.deleteUser(this.username);
 			this.removeFromDisplay(username);
 
-			JOptionPane.showMessageDialog(this.frame, "manager kicks you out or manager left. Or you leave in your free will");
+//			JOptionPane.showMessageDialog(this.frame, "manager kicks you out or manager left. Or you leave in your free will");
 
 			for(String user:this.users_List.keySet()) {
 				RemoteSharedCanvas remoteHub;
@@ -1007,7 +1007,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				a.getStackTrace();
 			}
 
-
+			JOptionPane.showMessageDialog(this.frame, "manager kicks you out or manager left. Or you leave in your free will");
 			System.exit(0);
 		}
 	}
