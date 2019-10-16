@@ -21,9 +21,8 @@ public class User {
 			remoteport = args[2];
 		}
 		System.out.println("remoteip: "+remoteip+" remoteport: "+remoteport);
-//		int pt = Integer.parseInt(remoteport);
+		int pt = Integer.parseInt(remoteport);
 		try {
-			int pt = Integer.parseInt(remoteport);
 			Registry registry = LocateRegistry.getRegistry(remoteip,pt);
 			registry.lookup(username);
 			System.out.print("the name you entered is already bounded");
@@ -34,14 +33,8 @@ public class User {
 			
 			Registry registry;
 			try {
-				int pt = Integer.parseInt(remoteport);
 				registry = LocateRegistry.getRegistry(remoteip,pt);
 				RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
-				
-				if (manager.getUserList().containsKey(username)) {
-					System.out.println("user already exists");
-					System.exit(0);
-				}
 				
 				boolean flag = manager.getApproval(username);
 				
@@ -50,33 +43,18 @@ public class User {
 				 */
 				if (flag) {
 					PictHub window = new PictHub(username);
-					try {
-						LocateRegistry.createRegistry(1099);}
-					catch(RemoteException a){
-						System.out.println("resgistry already created!");
-					}
+					LocateRegistry.createRegistry(1099);
 					Registry localregistry = LocateRegistry.getRegistry();
 					String host = InetAddress.getLocalHost().getHostAddress();
-					localregistry.bind(username, window); 
-					
-//					if (manager.getUserList().containsKey(username)) {
-//						System.out.println("user already exists");
-//						System.exit(0);
-//					}
-					
+		            localregistry.bind(username, window);  
 		            manager.login(username,host,"1099");
 		            HashMap<String,ArrayList<String>> temp = manager.getUserList();
-		            System.out.println(temp);
 		            window.setUserList(temp);
 		            
 		            // add myself to those non-manager-notme user
 		            for (String user:temp.keySet()) {
 		            	if (!user.equals("SharedCanvasManager") && !user.equals(username)) {
-		            		Registry remote;
-		            		String ip = temp.get(user).get(0);
-		            		String port = temp.get(user).get(1);
-		            		remote = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
-		            		RemoteSharedCanvas buffer = (RemoteSharedCanvas)remote.lookup(user);
+		            		RemoteSharedCanvas buffer = (RemoteSharedCanvas)registry.lookup(user);
 		            		buffer.syncUserlist(username);
 		            		buffer.addUser(username,host,"1099");
 		            		System.out.println("after adding my userlist size is: "+buffer.getUserList().size());
@@ -104,37 +82,29 @@ public class User {
 				}   
 			}
 			catch (ConnectException e5) {
-				System.out.println("Seems like you failed to connect. Using <username> <hostIP> <host port number>");
-				System.out.println("Please check your input.");
+				System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
 			}
 			catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("something wrong with the remote object");
-//				e1.printStackTrace();
 			} catch (AlreadyBoundException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("the name is already registered");
 			} catch (NotBoundException e1) {
 				// TODO Auto-generated catch block
-//				e1.printStackTrace();
 				System.out.println("No manager found");
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
-				System.out.println("host is unknown. Using <username> <hostIP> <host port number>");
-//				e1.printStackTrace();
+				System.out.println("NPlease chec the ip address or port number again");
 			}
 		}
-//		catch (AlreadyBoundException abe) {
-//	        System.out.println("The address is already bounded");
-//	    }
 		catch (ConnectException e) {
 			System.out.println("Seems like you failed to connect to the RMI register or your manager.");
-			System.out.println("Check your input:  <username> <hostIP> <host port number>");
-//			e.printStackTrace();
 		}
-		catch (NumberFormatException e5) {
-			System.out.println("Please enter integer for port number");
-		}
+//		catch (UnknownHostException e2) {
+//			// TODO Auto-generated catch block
+//			System.out.println("Please check the ip address or port number again");
+//		}
 		catch (Exception e) {
 			System.out.println();
 			System.out.println("Seems like you failed to connect to the RMI register or your manager.");

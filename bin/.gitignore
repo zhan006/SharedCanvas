@@ -1,5 +1,4 @@
 /Graph.class
-/Manager$1.class
 /Manager.class
 /PictHub$1.class
 /PictHub$10.class
@@ -8,6 +7,8 @@
 /PictHub$13.class
 /PictHub$14.class
 /PictHub$15.class
+/PictHub$16.class
+/PictHub$17.class
 /PictHub$2.class
 /PictHub$3.class
 /PictHub$4.class
@@ -19,14 +20,6 @@
 /PictHub.class
 /RemoteSharedCanvas.class
 /Tool.class
-/User$1.class
 /User.class
-/User3$1.class
-/User3.class
 /drawListener.class
 /toolButtonListener.class
-/user2$1.class
-/user2.class
-/PictHub$16.class
-/user3.class
-/PictHub$17.class

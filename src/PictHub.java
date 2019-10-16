@@ -147,7 +147,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		try {
 			image = ImageIO.read(new File("./logo.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("The image source"+"-logo-"+"is missing in the jar directory");
+			System.exit(0);
 		}
 		frame.getContentPane().setLayout(null);
 		JLabel logo = new JLabel(new ImageIcon(image));
