@@ -91,23 +91,24 @@ public class User {
 				}   
 			}
 			catch (ConnectException e5) {
-				System.out.println("Seems like you failed to connect to the RMI register. Did you start it?");
+				System.out.println("Seems like you failed to connect. Using <username> <hostIP> <host port number>");
+				System.out.println("Please check your input.");
 			}
 			catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("something wrong with the remote object");
-				e1.printStackTrace();
+//				e1.printStackTrace();
 			} catch (AlreadyBoundException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("the name is already registered");
 			} catch (NotBoundException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+//				e1.printStackTrace();
 				System.out.println("No manager found");
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
-				
-				e1.printStackTrace();
+				System.out.println("host is unknown. Using <username> <hostIP> <host port number>");
+//				e1.printStackTrace();
 			}
 		}
 //		catch (AlreadyBoundException abe) {
@@ -115,7 +116,8 @@ public class User {
 //	    }
 		catch (ConnectException e) {
 			System.out.println("Seems like you failed to connect to the RMI register or your manager.");
-			e.printStackTrace();
+			System.out.println("Check your input:  <username> <hostIP> <host port number>");
+//			e.printStackTrace();
 		}
 		catch (Exception e) {
 			System.out.println();
