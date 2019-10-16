@@ -51,6 +51,7 @@ public class Manager {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				System.out.print("The host ip address is: "+host);
 				String pt = String.valueOf(port);
 				window.login(username, host, pt);
 	            registry.bind("SharedCanvasManager", window);
