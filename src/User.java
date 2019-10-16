@@ -57,10 +57,10 @@ public class User {
 					String host = InetAddress.getLocalHost().getHostAddress();
 					localregistry.bind(username, window); 
 					
-					if (manager.getUserList().containsKey(username)) {
-						System.out.println("user already exists");
-						System.exit(0);
-					}
+//					if (manager.getUserList().containsKey(username)) {
+//						System.out.println("user already exists");
+//						System.exit(0);
+//					}
 					
 		            manager.login(username,host,"1099");
 		            HashMap<String,ArrayList<String>> temp = manager.getUserList();
