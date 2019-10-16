@@ -36,6 +36,11 @@ public class User {
 				registry = LocateRegistry.getRegistry(remoteip,pt);
 				RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 				
+				if (manager.getUserList().containsKey(username)) {
+					System.out.println("user already exists");
+					System.exit(0);
+				}
+				
 				boolean flag = manager.getApproval(username);
 				
 				/*
