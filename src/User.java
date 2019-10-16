@@ -118,7 +118,9 @@ public class User {
 			e.printStackTrace();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			System.out.println();
+			System.out.println("Seems like you failed to connect to the RMI register or your manager.");
+			System.out.println("Using <username> <hostIP> <host port number>");
 		}
 		
 	}

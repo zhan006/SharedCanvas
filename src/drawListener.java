@@ -118,14 +118,14 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				}
 
 
-				System.out.print("after add the shape size is: "+this.shapes.size());
+//				System.out.print("after add the shape size is: "+this.shapes.size());
 
 				break;
 			case "eraser":
 
 				try {
 					HashMap<String,ArrayList<String>> temp = this.getUserList();
-					System.out.println("User list size is: "+usersList.size());
+//					System.out.println("User list size is: "+usersList.size());
 					for(String user:temp.keySet()) {
 						RemoteSharedCanvas remoteHub;
 						try {
@@ -166,13 +166,13 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				y1=y2;
 
 
-				System.out.print("after add the shape size is: "+this.shapes.size());
+//				System.out.print("after add the shape size is: "+this.shapes.size());
 
 				break;
 			case "smallEraser":
 				try {
 					HashMap<String,ArrayList<String>> temp = this.getUserList();
-					System.out.println("User list size is: "+usersList.size());
+//					System.out.println("User list size is: "+usersList.size());
 
 					for(String user:temp.keySet()) {
 
@@ -217,7 +217,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				}
 
 
-				System.out.print("after add the shape size is: "+this.shapes.size());
+//				System.out.print("after add the shape size is: "+this.shapes.size());
 
 				break;
 			case "midEraser":
@@ -264,13 +264,13 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 
-				System.out.print("after add the shape size is: "+this.shapes.size());
+//				System.out.print("after add the shape size is: "+this.shapes.size());
 
 				break;
 			case "largeEraser":
 				try {
 					HashMap<String,ArrayList<String>> temp = this.getUserList();
-					System.out.println("User list size is: "+usersList.size());
+//					System.out.println("User list size is: "+usersList.size());
 
 					for(String user:temp.keySet()) {
 
@@ -339,7 +339,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		case "text":
 			try {
 				HashMap<String,ArrayList<String>> temp = this.getUserList();
-				System.out.println("User list size is: "+usersList.size());
+//				System.out.println("User list size is: "+usersList.size());
 
 				Map<Point, String> pointTextMap = new LinkedHashMap<>();
 				String prompt = "Please add text to display";
@@ -410,7 +410,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				try {
 					HashMap<String,ArrayList<String>> temp =this.getUserList();
 
-					System.out.println("User list size is: "+usersList.size());
+//					System.out.println("User list size is: "+usersList.size());
 
 					for(String user:temp.keySet()) {
 						Registry registry = this.getUserRegistry(temp, user);
@@ -451,7 +451,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 
-				System.out.print("after add the shape size is: "+this.shapes.size());
+//				System.out.print("after add the shape size is: "+this.shapes.size());
 
 
 				break;
@@ -459,7 +459,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				try {
 					HashMap<String,ArrayList<String>> temp = this.getUserList();
 
-					System.out.println("User list size is: "+usersList.size());
+//					System.out.println("User list size is: "+usersList.size());
 
 					for(String user:temp.keySet()) {
 						
@@ -506,7 +506,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				try {
 					HashMap<String,ArrayList<String>> temp =this.getUserList();
 
-					System.out.println("User list size is: "+usersList.size());
+//					System.out.println("User list size is: "+usersList.size());
 
 					for(String user:temp.keySet()) {
 
@@ -552,7 +552,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 				try {
 					HashMap<String,ArrayList<String>> temp = this.getUserList();
 
-					System.out.println("User list size is: "+usersList.size());
+//					System.out.println("User list size is: "+usersList.size());
 
 					for(String user:temp.keySet()) {
 						Registry registry = this.getUserRegistry(temp, user);
@@ -593,7 +593,7 @@ public class drawListener implements MouseListener,MouseMotionListener{
 					JOptionPane.showMessageDialog(null, "RMI Crashed already. Please stop drawing and close the useless window");
 				}
 
-				System.out.print("after add the shape size is: "+this.shapes.size());
+//				System.out.print("after add the shape size is: "+this.shapes.size());
 
 				break;
 		}

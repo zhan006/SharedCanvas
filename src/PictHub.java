@@ -173,7 +173,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					int option = JOptionPane.showConfirmDialog(frame, "do you want to save current picture?");
 					switch(option) {
 					case 0:
-						String path = JOptionPane.showInputDialog("Input the new path");
+						String path = JOptionPane.showInputDialog("Input the new name");
 						savePict(path);
 						break;
 					case 1:
@@ -194,7 +194,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 		});
 
-		JMenuItem savePicture = new JMenuItem("Save picture");
+		JMenuItem savePicture = new JMenuItem("Save picture as: picture.his");
 		mnFile.add(savePicture);
 		savePicture.addActionListener(new ActionListener() {
 
@@ -266,7 +266,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				// TODO Auto-generated method stub
 				boolean check = checkManager();
 				if (check) {
-					String path = JOptionPane.showInputDialog(frame,"input the file path:");
+					String path = JOptionPane.showInputDialog(frame,"input the file path(default name is: picture.his):");
 					ArrayList<Graph> history = importPict(path);
 
 					for(String user:users_List.keySet()) {
@@ -1034,6 +1034,10 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			JOptionPane.showMessageDialog(this.frame, "Saved!");
 
 		}
+		catch(NullPointerException e1) {
+			JOptionPane.showMessageDialog(this.frame, "Pressed Cancel, current picture is not saved");
+			e1.printStackTrace();
+		}
 		catch(FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(this.frame, "File Not Found!");
 			e1.printStackTrace();
@@ -1058,9 +1062,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				e.printStackTrace();
 			}
 		}
+		catch (NullPointerException e5) {
+			System.out.println("You presses <Cancel>, so nothing should happend");
+		}
 		catch(FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(this.frame, "File Not Found!");
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1089,6 +1096,9 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			}
 			catch (ConnectException e5) {
 				System.out.println("connection error occured, please leave and restart");
+			}
+			catch (NullPointerException e5) {
+				System.out.println("You presses <Cancel>, so nothing should happend");
 			}
 			catch (Exception a) {
 				a.getStackTrace();
