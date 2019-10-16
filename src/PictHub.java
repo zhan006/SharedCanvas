@@ -980,6 +980,9 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					//		this.chattingArea.setText(newText);
 					remoteHub.removeFromDisplay(this.username);
 					remoteHub.deleteUser(this.username);
+					
+					
+					registry.unbind(this.username);
 				}
 				catch (ConnectException e5) {
 //					System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");

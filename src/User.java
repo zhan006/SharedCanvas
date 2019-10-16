@@ -49,13 +49,10 @@ public class User {
 						System.out.println("resgistry already created!");
 					}
 					Registry localregistry = LocateRegistry.getRegistry();
-					
-					
 					String host = InetAddress.getLocalHost().getHostAddress();
-		            localregistry.bind(username, window);
-//		            registry.bind(username, window);  
+					localregistry.bind(username, window); 
+					
 		            manager.login(username,host,"1099");
-		            
 		            HashMap<String,ArrayList<String>> temp = manager.getUserList();
 		            System.out.println(temp);
 		            window.setUserList(temp);
