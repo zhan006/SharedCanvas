@@ -130,6 +130,9 @@ public class User {
 			System.out.println("Check your input:  <username> <hostIP> <host port number>");
 //			e.printStackTrace();
 		}
+		catch (NumberFormatException e5) {
+			System.out.println("Please enter integer for port number");
+		}
 		catch (Exception e) {
 			System.out.println();
 			System.out.println("Seems like you failed to connect to the RMI register or your manager.");
