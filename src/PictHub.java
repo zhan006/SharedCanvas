@@ -74,6 +74,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	private ArrayList<JButton> toolBtn = new ArrayList<JButton>();
 	private HashMap<String,ArrayList<String>> users_List = new HashMap<String,ArrayList<String>>();
 	private JList<String> list;
+	private drawListener dl;
 	DefaultListModel<String> listModel;
 	private String username;
 	/**
@@ -647,7 +648,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		frame.setVisible(true);
 		//add mouse listener to canvas
 		g = canvas.getGraphics();
-		drawListener dl = new drawListener(canvas,g,shapes,tool,this.users_List);
+		System.out.println("now userlist is "+this.users_List);
+		dl = new drawListener(canvas,g,shapes,tool,this.users_List);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 121, 289, 114);
@@ -1243,6 +1245,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	public void setUserList(HashMap<String, ArrayList<String>> temp) throws RemoteException {
 		// TODO Auto-generated method stub
 		this.users_List = temp;
+		this.dl.setUserList(temp);
 		
 	}
 }

@@ -43,18 +43,27 @@ public class User {
 				 */
 				if (flag) {
 					PictHub window = new PictHub(username);
-					LocateRegistry.createRegistry(1099);
+					try {
+						LocateRegistry.createRegistry(1099);}
+					catch(RemoteException a){
+						System.out.println("resgistry already created!");
+					}
 					Registry localregistry = LocateRegistry.getRegistry();
 					String host = InetAddress.getLocalHost().getHostAddress();
 		            localregistry.bind(username, window);  
 		            manager.login(username,host,"1099");
 		            HashMap<String,ArrayList<String>> temp = manager.getUserList();
+		            System.out.println(temp);
 		            window.setUserList(temp);
 		            
 		            // add myself to those non-manager-notme user
 		            for (String user:temp.keySet()) {
 		            	if (!user.equals("SharedCanvasManager") && !user.equals(username)) {
-		            		RemoteSharedCanvas buffer = (RemoteSharedCanvas)registry.lookup(user);
+		            		Registry remote;
+		            		String ip = temp.get(user).get(0);
+		            		String port = temp.get(user).get(1);
+		            		remote = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
+		            		RemoteSharedCanvas buffer = (RemoteSharedCanvas)remote.lookup(user);
 		            		buffer.syncUserlist(username);
 		            		buffer.addUser(username,host,"1099");
 		            		System.out.println("after adding my userlist size is: "+buffer.getUserList().size());
@@ -87,14 +96,17 @@ public class User {
 			catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("something wrong with the remote object");
+				e1.printStackTrace();
 			} catch (AlreadyBoundException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("the name is already registered");
 			} catch (NotBoundException e1) {
 				// TODO Auto-generated catch block
+				e1.printStackTrace();
 				System.out.println("No manager found");
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 		}
@@ -103,6 +115,7 @@ public class User {
 //	    }
 		catch (ConnectException e) {
 			System.out.println("Seems like you failed to connect to the RMI register or your manager.");
+			e.printStackTrace();
 		}
 		catch (Exception e) {
 			e.printStackTrace();

@@ -40,6 +40,9 @@ public class drawListener implements MouseListener,MouseMotionListener{
 		this.shapes = shapes;
 		this.tool=tool;
 	}
+	public void setUserList(HashMap<String,ArrayList<String>> list) {
+		this.usersList = list;
+	}
 	private Registry getUserRegistry(HashMap<String,ArrayList<String>> temp,String username) throws RemoteException {
 		String userhost = temp.get(username).get(0);
 		int userport = Integer.parseInt(temp.get(username).get(1));
