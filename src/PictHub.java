@@ -855,6 +855,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		destination.add(port);
 		this.users_List.put(username,destination);
 	}
+	
 	private Registry getUserRegistry(String name) throws RemoteException {
 		ArrayList<String> userhost = this.users_List.get(name);
         String host = userhost.get(0);
