@@ -5,12 +5,32 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class Manager {
 	public static void main(String[] args) {
+		int port = 1099;
+
+		if(args.length != 0) {
+			try {
+				port = Integer.parseInt(args[0]);
+			}
+			catch(Exception e) {
+				System.out.println("invalid port number, using default port of 1099 instead");
+			}
+		}
 		try {
+			LocateRegistry.createRegistry(port);
+		} catch (RemoteException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		try {
+			
 			String username = "SharedCanvasManager";
-			Registry registry = LocateRegistry.getRegistry();
+			Registry registry = LocateRegistry.getRegistry(port);
 			
 			registry.lookup(username);
 			
@@ -21,10 +41,18 @@ public class Manager {
 			String username = "SharedCanvasManager";
 			Registry registry;
 			try {
-				registry = LocateRegistry.getRegistry();
+				
+				registry = LocateRegistry.getRegistry(port);
 				PictHub window = new PictHub(username);
-//				PictHub window = new PictHub();
-				window.login("SharedCanvasManager");
+				String host = "localhost";
+				try {
+					host = InetAddress.getLocalHost().getHostAddress();
+				} catch (UnknownHostException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				String pt = String.valueOf(port);
+				window.login(username, host, pt);
 	            registry.bind("SharedCanvasManager", window);
 			}
 			catch (ConnectException e5) {

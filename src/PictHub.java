@@ -14,6 +14,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -22,6 +24,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -38,6 +43,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
+import javax.swing.event.MenuListener;
 
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -66,9 +72,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	private JPanel toolPanel,colors,canvas;
 	private ArrayList<Graph> shapes = new ArrayList<Graph>();
 	private ArrayList<JButton> toolBtn = new ArrayList<JButton>();
-	private ArrayList<String> users_List = new ArrayList<String>();
-	private Color[] Allcolor = new Color[] {Color.BLACK,Color.BLUE,Color.DARK_GRAY,Color.CYAN,Color.GREEN
-			,Color.ORANGE,Color.RED,Color.PINK,Color.WHITE,Color.YELLOW,Color.MAGENTA,Color.LIGHT_GRAY};
+	private HashMap<String,ArrayList<String>> users_List = new HashMap<String,ArrayList<String>>();
 	private JList<String> list;
 	DefaultListModel<String> listModel;
 	private String username;
@@ -155,14 +159,14 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 
 		JMenu mnFile = new JMenu("File");
 		file.add(mnFile);
-		
+
 		JMenuItem itemNew = new JMenuItem("New");
 		mnFile.add(itemNew);
 		itemNew.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				boolean check = checkManager();
 				if(check) {
 					int option = JOptionPane.showConfirmDialog(frame, "do you want to save this picture?");
@@ -178,18 +182,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					case 3:
 						break;
 					}
-					
+
 					//if the user is manager, clear all others board
 					remoteNewPicture();
 				}
 				else {
 					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
 				}
-				
+
 			}
-			
+
 		});
-		
+
 		JMenuItem savePicture = new JMenuItem("Save picture");
 		mnFile.add(savePicture);
 		savePicture.addActionListener(new ActionListener() {
@@ -205,11 +209,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				else {
 					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
 				}
-				
+
 			}
-			
+
 		});
-		
+
 		JMenuItem saveAs = new JMenuItem("Save as");
 		mnFile.add(saveAs);
 		saveAs.addActionListener(new ActionListener() {
@@ -217,7 +221,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+
 				boolean check = checkManager();
 				if(check) {
 					String path = JOptionPane.showInputDialog("Input the new path");
@@ -227,12 +231,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
 				}
 			}
-			
+
 		});
-		
+
 		JMenuItem importPicture = new JMenuItem("Import picture");
 		mnFile.add(importPicture);
-		
+
 		JMenuItem itemClose = new JMenuItem("Close");
 		mnFile.add(itemClose);
 		itemClose.addActionListener(new ActionListener() {
@@ -251,30 +255,30 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				else {
 					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
 				}
-				
+
 			}
-			
+
 		});
-		
+
 		importPicture.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				boolean check = checkManager();
 				if (check) {
-<<<<<<< Updated upstream
-					ArrayList<Graph> history = importPict("./picture.his");
-					
-					for(String user:users_List) {
-=======
 					String path = JOptionPane.showInputDialog(frame, "Input the path of saving file:");
 					ArrayList<Graph> history = importPict(path);
 
 					for(String user:users_List.keySet()) {
->>>>>>> Stashed changes
+=======
+
+					for(String user:users_List.keySet()) {
+>>>>>>> zhanwang
 						RemoteSharedCanvas remoteHub;
+						String host = users_List.get(user).get(0);
+						int port = Integer.parseInt(users_List.get(user).get(1));
 						try {
-							Registry registry = LocateRegistry.getRegistry("localhost");
+							Registry registry = LocateRegistry.getRegistry(host,port);
 							remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 							for(Graph g:history) {
 								remoteHub.AddShapes(g);
@@ -287,11 +291,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				}
 				else {
 					JOptionPane.showMessageDialog(frame, "You are not manager. Cannot do this!");
-				}			
+				}
 			}
 		});
-		
-		
+
+
 		JButton btnLeave = new JButton("leave");
 		file.add(btnLeave);
 		btnLeave.addActionListener(new ActionListener() {
@@ -303,7 +307,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				}
 			}
 		});
-		
+
 		JButton btnKick = new JButton("kick");
 		file.add(btnKick);
 		btnKick.addActionListener(new ActionListener() {
@@ -315,7 +319,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				}
 			}
 		});
-		
+
 		JButton btnRefresh = new JButton("refresh");
 		file.add(btnRefresh);
 		btnRefresh.addActionListener(new ActionListener() {
@@ -327,8 +331,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				}
 			}
 		});
-		
-		
+
+
 
 		ChatInput = new JTextArea();
 		ChatInput.setBounds(0, 697, 283, 58);
@@ -653,18 +657,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 121, 289, 114);
 		frame.getContentPane().add(scrollPane);
-		
-		
+
+
 		listModel = new DefaultListModel<>();
 //		listModel.addElement("USA");
 //		listModel.addElement("India");
 //		listModel.removeElement("USA");
 //		JList<String> countryList = new JList<>(listModel);
 
-		
+
 		list = new JList<>(listModel);
 		scrollPane.setViewportView(list);
-		
+
 		canvas.addMouseListener(dl);
 		canvas.addMouseMotionListener(dl);
 		//add button listener to tool box
@@ -672,15 +676,18 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			toolBtn.get(i).addActionListener(new toolButtonListener(tool));
 		}
 	}
-	
+
 	public void refresh(ArrayList<Graph> shapes) {
 		this.repaintPicture(shapes);
 	}
-	
+
 	@Override
-	public void login(String username) throws RemoteException {
+	public void login(String username,String host,String port) throws RemoteException {
 		// TODO Auto-generated method stub
-		this.users_List.add(username);
+		ArrayList<String> destination = new ArrayList<String>();
+		destination.add(host);
+		destination.add(port);
+		this.users_List.put(username, destination);
 		this.listModel.addElement(username);
 	}
 
@@ -728,19 +735,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 
 	@Override
-	public ArrayList<String> getUserList() throws RemoteException {
+	public HashMap<String, ArrayList<String>> getUserList() throws RemoteException {
 		// TODO Auto-generated method stub
 		return this.users_List;
 	}
 
-	@Override
-	public void setUserList(ArrayList<String> temp) throws RemoteException {
-		System.out.println("setUserList thinks the input size is: "+shapes.size());
-		// TODO Auto-generated method stub
-		for(String username:temp) {
-			this.users_List.add(username);
-		}
-	}
 
 	@Override
 	public ArrayList<Graph> getShapes() throws RemoteException {
@@ -812,14 +811,16 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		this.ChatInput.setText("");
 
 
-		for(String user:users_List) {
+		for(String user:this.users_List.keySet()) {
 			RemoteSharedCanvas remoteHub;
+			String host = users_List.get(user).get(0);
+			int port = Integer.parseInt(users_List.get(user).get(1));
 			try {
-				Registry registry = LocateRegistry.getRegistry("localhost");
+				Registry registry = LocateRegistry.getRegistry(host,port);
 				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 				//		this.chattingArea.setText(newText);
 				remoteHub.setChattingArea(newText);
-			} 
+			}
 			catch (ConnectException e5) {
 //				System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
 				JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to send message");
@@ -829,8 +830,6 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				a.getStackTrace();
 			}
 		}
-
-
 	}
 	public void setChattingArea(String text) throws RemoteException{
 		this.chattingArea.append(text);
@@ -840,7 +839,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	public void syncUserlist(String username) throws RemoteException {
 		// TODO Auto-generated method stub
 		this.listModel.addElement(username);
-		
+
 	}
 
 	@Override
@@ -852,11 +851,20 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	}
 
 	@Override
-	public void addUser(String laterUser) throws RemoteException {
+	public void addUser(String username,String host, String port) throws RemoteException {
 		// TODO Auto-generated method stub
-		this.users_List.add(laterUser);
+		ArrayList<String> destination = new ArrayList<String>();
+		destination.add(host);
+		destination.add(port);
+		this.users_List.put(username,destination);
 	}
-
+	private Registry getUserRegistry(String name) throws RemoteException {
+		ArrayList<String> userhost = this.users_List.get(name);
+        String host = userhost.get(0);
+        int port = Integer.parseInt(userhost.get(1));
+		Registry registry = LocateRegistry.getRegistry(host,port);
+		return registry;
+	}
 	@Override
 	public void kickUser() throws RemoteException {
 		// TODO Auto-generated method stub
@@ -865,12 +873,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				String prompt = "Please enter the username of the user you want to kick";
 		        String input = JOptionPane.showInputDialog(canvas, prompt);
 		        System.out.println(input);
-		        
-				Registry registry = LocateRegistry.getRegistry("localhost");
+		        Registry registry = this.getUserRegistry(input);
 				RemoteSharedCanvas remoteHub = (RemoteSharedCanvas) registry.lookup(input);
-				
+
 				remoteHub.leave();
-			} 
+			}
 			catch (ConnectException e5) {
 //				System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
 				JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to kick that user by force him to leave");
@@ -884,11 +891,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		else {
 			JOptionPane.showMessageDialog(this.frame, "You are not allowed to do this");
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 
 	@Override
 	public void leave() throws RemoteException {
@@ -896,18 +903,20 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		if(this.username.contentEquals("SharedCanvasManager")) {
 			this.deleteUser(this.username);
 			this.removeFromDisplay(username);
-			
-			for(String user:users_List) {
+
+			for(String user:this.users_List.keySet()) {
 				RemoteSharedCanvas remoteHub;
+				String host = users_List.get(user).get(0);
+				int port = Integer.parseInt(users_List.get(user).get(1));
 				try {
-					Registry registry = LocateRegistry.getRegistry("localhost");
+					Registry registry = LocateRegistry.getRegistry(host,port);
 					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 					//		this.chattingArea.setText(newText);
 					remoteHub.removeFromDisplay(this.username);
 					remoteHub.deleteUser(this.username);
-					
-					
-				} 
+
+
+				}
 				catch (ConnectException e5) {
 //					System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
 					JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to remove your name from their list and then leave");
@@ -917,27 +926,29 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					a.getStackTrace();
 				}
 			}
-			
+
 			JOptionPane.showMessageDialog(frame, "Wait till all users checked you r leaving, this can take a few secs");
-			
-			for(String user:users_List) {
+
+			for(String user:this.users_List.keySet()) {
 				RemoteSharedCanvas remoteHub;
+				String host = users_List.get(user).get(0);
+				int port = Integer.parseInt(users_List.get(user).get(1));
 				try {
-					Registry registry = LocateRegistry.getRegistry("localhost");
+					Registry registry = LocateRegistry.getRegistry(host,port);
 					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 					//		this.chattingArea.setText(newText);
 					remoteHub.leave();
-					
-					
+
+
 				} catch (Exception a) {
 					a.getStackTrace();
 				}
 			}
-			
+
 			try {
-				Registry registry1 = LocateRegistry.getRegistry("localhost");
+				Registry registry1 = this.getUserRegistry(this.username);
 				registry1.unbind(this.username);
-			} 
+			}
 			catch (ConnectException e5) {
 //				System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
 				JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to leave regularly");
@@ -950,26 +961,28 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			catch (Exception a) {
 				a.getStackTrace();
 			}
-			
-			
+
+
 			System.exit(0);
-			
+
 		}
 		else {
 			this.deleteUser(this.username);
 			this.removeFromDisplay(username);
-			
+
 			JOptionPane.showMessageDialog(this.frame, "manager kicks you out or manager left. Or you leave in your free will");
-			
-			for(String user:users_List) {
+
+			for(String user:this.users_List.keySet()) {
 				RemoteSharedCanvas remoteHub;
+				String host = users_List.get(user).get(0);
+				int port = Integer.parseInt(users_List.get(user).get(1));
 				try {
-					Registry registry = LocateRegistry.getRegistry("localhost");
+					Registry registry = LocateRegistry.getRegistry(host,port);
 					remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 					//		this.chattingArea.setText(newText);
 					remoteHub.removeFromDisplay(this.username);
 					remoteHub.deleteUser(this.username);
-				} 
+				}
 				catch (ConnectException e5) {
 //					System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
 					JOptionPane.showMessageDialog(null, "Seems like someone's program get terminated by accident/RMI crashed. So you failed to remove your name from their list and then leave");
@@ -979,11 +992,11 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 					a.getStackTrace();
 				}
 			}
-			
+
 			try {
-				Registry registry1 = LocateRegistry.getRegistry("localhost");
+				Registry registry1 = this.getUserRegistry(this.username);
 				registry1.unbind(this.username);
-			} 
+			}
 			catch (ConnectException e5) {
 //				System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
 				JOptionPane.showMessageDialog(null, "RMI crashed. So you failed to unbind your name");
@@ -996,8 +1009,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			catch (Exception a) {
 				a.getStackTrace();
 			}
-			
-			
+
+
 			System.exit(0);
 		}
 	}
@@ -1013,7 +1026,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		// TODO Auto-generated method stub
 		this.listModel.removeElement(username);
 	}
-	
+
 	// save current edit history of picture into a local path
 	public void savePict(String path) {
 		FileOutputStream file;
@@ -1022,8 +1035,8 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			ObjectOutputStream writer = new ObjectOutputStream(file);
 			writer.writeObject(this.shapes);
 			JOptionPane.showMessageDialog(this.frame, "Saved!");
-			
-		} 
+
+		}
 		catch(FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(this.frame, "File Not Found!");
 			e1.printStackTrace();
@@ -1034,7 +1047,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public ArrayList<Graph> importPict(String path) {
 		FileInputStream file;
 		ArrayList<Graph> shapes = null;
@@ -1047,7 +1060,7 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} 
+		}
 		catch(FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(this.frame, "File Not Found!");
 			e1.printStackTrace();
@@ -1059,22 +1072,24 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		}
 		return shapes;
 	}
-	
+
 	@Override
 	public void newPicture() {
 		this.canvas.repaint();
 		this.shapes.clear();
 	}
-	
+
 	public void remoteNewPicture() {
-		for(String user:users_List) {
+		for(String user:users_List.keySet()) {
 			RemoteSharedCanvas remoteHub;
+			String host = users_List.get(user).get(0);
+			int port = Integer.parseInt(users_List.get(user).get(1));
 			try {
-				Registry registry = LocateRegistry.getRegistry("localhost");
+				Registry registry = LocateRegistry.getRegistry(host,port);
 				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 				//		this.chattingArea.setText(newText);
 				remoteHub.newPicture();
-			} 
+			}
 			catch (ConnectException e5) {
 				System.out.println("connection error occured, please leave and restart");
 			}
@@ -1083,14 +1098,14 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 			}
 		}
 	}
-	
+
 	public boolean checkManager() {
 		if(this.username.contentEquals("SharedCanvasManager")) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void repaintPicture(ArrayList<Graph> shapes) {
 		for(Graph graph:shapes) {
@@ -1193,14 +1208,16 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 		this.ChatInput.setText("");
 
 
-		for(String user:users_List) {
+		for(String user:users_List.keySet()) {
 			RemoteSharedCanvas remoteHub;
+			String host = users_List.get(user).get(0);
+			int port = Integer.parseInt(users_List.get(user).get(1));
 			try {
-				Registry registry = LocateRegistry.getRegistry("localhost");
+				Registry registry = LocateRegistry.getRegistry(host,port);
 				remoteHub = (RemoteSharedCanvas) registry.lookup(user);
 				//		this.chattingArea.setText(newText);
 				remoteHub.setChattingArea(newText);
-			} 
+			}
 			catch (ConnectException e5) {
 				System.out.println("Seems like there is a connection problem");
 			}
@@ -1225,5 +1242,12 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 	       return false;
 	        }
 		return false;
+	}
+
+	@Override
+	public void setUserList(HashMap<String, ArrayList<String>> temp) throws RemoteException {
+		// TODO Auto-generated method stub
+		this.users_List = temp;
+
 	}
 }
