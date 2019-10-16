@@ -21,8 +21,9 @@ public class User {
 			remoteport = args[2];
 		}
 		System.out.println("remoteip: "+remoteip+" remoteport: "+remoteport);
-		int pt = Integer.parseInt(remoteport);
+//		int pt = Integer.parseInt(remoteport);
 		try {
+			int pt = Integer.parseInt(remoteport);
 			Registry registry = LocateRegistry.getRegistry(remoteip,pt);
 			registry.lookup(username);
 			System.out.print("the name you entered is already bounded");
@@ -33,10 +34,16 @@ public class User {
 			
 			Registry registry;
 			try {
+				int pt = Integer.parseInt(remoteport);
 				registry = LocateRegistry.getRegistry(remoteip,pt);
 				RemoteSharedCanvas manager = (RemoteSharedCanvas)registry.lookup("SharedCanvasManager");
 				
 				boolean flag = manager.getApproval(username);
+				
+				if(manager.getUserList().containsKey(username)) {
+					System.out.println("the user is alrady exist");
+					System.exit(0);
+				}
 				
 				/*
 				 * where I place the check approval, only execute pictub if receives approval
