@@ -872,10 +872,21 @@ public class PictHub extends UnicastRemoteObject implements RemoteSharedCanvas{
 				String prompt = "Please enter the username of the user you want to kick";
 		        String input = JOptionPane.showInputDialog(canvas, prompt);
 		        System.out.println(input);
-		        Registry registry = this.getUserRegistry(input);
-				RemoteSharedCanvas remoteHub = (RemoteSharedCanvas) registry.lookup(input);
+		        
+		        if(input.equals("SharedCanvasManager")) {
+		        	JOptionPane.showMessageDialog(this.frame, "you cannot kick yourself");
+		        }
+		        else {
+		        	Registry registry = this.getUserRegistry(input);
+					RemoteSharedCanvas remoteHub = (RemoteSharedCanvas) registry.lookup(input);
 
-				remoteHub.leave();
+					remoteHub.leave();
+		        }
+		        
+//		        Registry registry = this.getUserRegistry(input);
+//				RemoteSharedCanvas remoteHub = (RemoteSharedCanvas) registry.lookup(input);
+//
+//				remoteHub.leave();
 			}
 			catch (ConnectException e5) {
 //				System.out.println("Seems like someone's program get terminated by accident. So you failed to draw");
